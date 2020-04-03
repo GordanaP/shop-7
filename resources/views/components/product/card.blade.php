@@ -1,14 +1,28 @@
-<div>
-    <div class="card mb-4 box-shadow">
-        <img class="card-img-top" src="{{ $product->image }}" alt="Card image cap">
+<div class="col-md-4">
+    <div class="card mb-3 box-shadow">
+        <img src="http://lorempixel.com/200/120/food/3/" class="card-img-top"
+        alt="Card image cap">
         <div class="card-body">
-            <p class="card-text">{{ $product->description }}</p>
+            <h5 class="font-semibold mb-3">
+                <a href="#">
+                    {{ $product->title }}
+                </a>
+            </h5>
+            <p class="card-text text-muted mb-3">
+                {{ $product->subtitle }}
+            </p>
             <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                    <button type="submit" class="btn btn-sm btn-outline-secondary">View</button>
-                    <button type="aubmit" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    <form action="#" method="POST">
+
+                        @csrf
+
+                        <button type="submit" class="btn btn-sm btn-success">
+                            <i class="fas fa-shopping-cart fa-sm"></i> Add to cart
+                        </button>
+                    </form>
                 </div>
-                <small class="text-muted">9 mins</small>
+                <div>{{ $product->price }}</div>
             </div>
         </div>
     </div>
