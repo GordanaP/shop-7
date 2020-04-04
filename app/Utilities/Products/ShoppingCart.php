@@ -61,6 +61,14 @@ class ShoppingCart extends Collection
     }
 
     /**
+     * Determine if there is any item in the cart.
+     */
+    public function isNotEmpty(): bool
+    {
+        return $this->itemsCount() > 0;
+    }
+
+    /**
      * Get the # number of cart items.
      */
     public function itemsCount(): int

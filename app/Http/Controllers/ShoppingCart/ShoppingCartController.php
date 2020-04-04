@@ -48,6 +48,18 @@ class ShoppingCartController extends Controller
     }
 
     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Product  $product
+     */
+    public function destroy(Product $product): RedirectResponse
+    {
+        ShoppingCart::remove($product->id);
+
+        return back();
+    }
+
+    /**
      * Remove all specified resources from storage.
      */
     public function empty(): RedirectResponse

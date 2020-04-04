@@ -26,4 +26,4 @@ Route::post('shopping-cart/products/{product}', 'ShoppingCart\ShoppingCartContro
 Route::patch('shopping-cart/products/{product}', 'ShoppingCart\ShoppingCartController@update')
     ->name('shopping.cart.update');
 Route::delete('shopping-cart/products/{product}', 'ShoppingCart\ShoppingCartController@destroy')
-    ->name('shopping.cart.destroy');
+    ->name('shopping.cart.remove');
