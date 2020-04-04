@@ -4,7 +4,7 @@
         alt="Card image cap">
         <div class="card-body">
             <h5 class="font-semibold mb-3">
-                <a href="#">
+                <a href="{{ route('products.show', $product) }}">
                     {{ $product->title }}
                 </a>
             </h5>
