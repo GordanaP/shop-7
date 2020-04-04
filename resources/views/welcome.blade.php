@@ -15,8 +15,22 @@
             <div class="container">
                 <div class="row">
 
+
                     <div class="col-md-3">
-                        <!-- Categories -->
+
+                        {{-- {{ Calculator::test() }} --}}
+
+                        {{ ShoppingCart::content() }}
+
+                        <form action="{{ route('shopping.cart.empty') }}" method="POST">
+
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit" class="btn btn-secondary" >
+                                Empty cart
+                            </button>
+                        </form>
                     </div>
 
                     <div class="col-md-9">

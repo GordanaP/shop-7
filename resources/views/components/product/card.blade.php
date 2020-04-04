@@ -13,7 +13,7 @@
             </p>
             <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                    <form action="#" method="POST">
+                    <form action="{{ route('shopping.cart.store', $product) }}" method="POST">
 
                         @csrf
 
