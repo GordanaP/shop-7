@@ -24,7 +24,9 @@ class MacroServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Str::macro('withCurrency', function ($price, $currency="$") {
+        Str::macro('withCurrency', function ($price) {
+            $currency = config('cart.currency');
+
             return Str::of($price)->prepend($currency);
         });
     }

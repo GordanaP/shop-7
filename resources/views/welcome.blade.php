@@ -1,5 +1,8 @@
 <x-layouts.app>
     <div>
+
+        <x-alert-message />
+
         <section class="jumbotron text-center">
             <div class="container text-white">
                 <h1 class="jumbotron-heading">Album example</h1>

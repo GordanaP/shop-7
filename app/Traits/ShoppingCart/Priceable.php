@@ -2,7 +2,6 @@
 
 namespace App\Traits\ShoppingCart;
 
-use Illuminate\Support\Str;
 use App\Facades\ShoppingCart;
 
 trait Priceable

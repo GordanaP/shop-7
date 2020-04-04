@@ -1,7 +1,8 @@
 <x-layouts.app>
 
-    @if (ShoppingCart::isNotEmpty())
+    <x-alert-message />
 
+    @if (ShoppingCart::isNotEmpty())
         <div class="float-right mb-2">
             <x-product.go-shopping-btn />
         </div>
@@ -36,7 +37,6 @@
                 Checkout
             </a>
         </div>
-
     @else
         <h2 class="text-center mb-4">Your cart is empty at present.</h2>
         <div class="text-center">

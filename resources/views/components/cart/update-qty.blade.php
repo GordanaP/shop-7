@@ -8,8 +8,8 @@
         <div class="mx-auto flex">
             <div class="form-group">
                 <input type="text" name="quantity" id="quantity"
-                    class="form-control text-center"
-                    value="{{ $item->quantity }}">
+                class="form-control text-center"
+                value="{{ $item->quantity }}">
             </div>
 
             <div class="form-group">

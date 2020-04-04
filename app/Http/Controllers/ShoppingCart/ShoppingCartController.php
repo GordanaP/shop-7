@@ -4,13 +4,14 @@ namespace App\Http\Controllers\ShoppingCart;
 
 use App\Product;
 use Illuminate\View\View;
-use Illuminate\Http\Request;
 use App\Facades\ShoppingCart;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\QuantityRequest;
 
 class ShoppingCartController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -24,27 +25,27 @@ class ShoppingCartController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\Request $request
+     * @return \App\Http\Requests\QuantityRequest $request
      * @param  \App\Product  $product
      */
-    public function store(Request $request, Product $product): RedirectResponse
+    public function store(QuantityRequest $request, Product $product): RedirectResponse
     {
-        ShoppingCart::add($product, $request->quantity ?? 1);
+        ShoppingCart::add($product, $request->validated()['quantity'] ?? 1);
 
-        return back();
+        return back()->with('success', 'The product has been added to cart.');
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @return \Illuminate\Http\Request $request
+     * @return \App\Http\Requests\QuantityRequest $request
      * @param  \App\Product  $product
      */
-    public function update(Request $request, Product $product): RedirectResponse
+    public function update(QuantityRequest $request, Product $product)
     {
-        ShoppingCart::update($product, $request->quantity);
+        ShoppingCart::update($product, $request->validated()['quantity']);
 
-        return back();
+        return back()->with('success', 'The cart has been updated.');
     }
 
     /**
@@ -56,7 +57,7 @@ class ShoppingCartController extends Controller
     {
         ShoppingCart::remove($product->id);
 
-        return back();
+        return back()->with('success', 'The product has been removed from cart.');
     }
 
     /**
