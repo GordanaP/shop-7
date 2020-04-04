@@ -29,4 +29,12 @@ class Product extends Model
 
         return number_format($this->price_in_cents/100, 2);
     }
+
+    // /**
+    //  * Get the route key for the model.
+    //  */
+    // public function getRouteKeyName(): string
+    // {
+    //     return 'slug';
+    // }
 }

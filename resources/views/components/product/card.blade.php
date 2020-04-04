@@ -1,10 +1,11 @@
 <div class="col-md-4">
     <div class="card mb-3 box-shadow">
-        <img src="http://lorempixel.com/200/120/food/3/" class="card-img-top"
+        <img src="http://lorempixel.com/200/120/food/3/"
+        class="card-img-top"
         alt="Card image cap">
         <div class="card-body">
             <h5 class="font-semibold mb-3">
-                <a href="#">
+                <a href="{{ route('products.show', $product) }}">
                     {{ $product->title }}
                 </a>
             </h5>
@@ -13,7 +14,8 @@
             </p>
             <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                    <x-cart.add-item :product="$product" />
+                    <x-cart.add-item :product="$product"
+                    class="btn btn-success rounded-full" />
                 </div>
 
                 <div>{{ $product->price }}</div>

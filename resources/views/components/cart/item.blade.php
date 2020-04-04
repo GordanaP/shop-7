@@ -6,7 +6,8 @@
     </td>
     <td width="35%">
         <p class="text-uppercase mb-2">
-            <a href="#" class="font-semibold tracking-wide">
+            <a href="{{ route('products.show', $item) }}"
+            class="font-semibold tracking-wide">
                 {{ $item->title }}
             </a>
         </p>
