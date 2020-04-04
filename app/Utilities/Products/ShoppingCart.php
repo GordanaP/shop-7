@@ -5,9 +5,12 @@ namespace App\Utilities\Products;
 use App\Product;
 use Illuminate\Support\Collection;
 use App\Utilities\Products\CartItem;
+use App\Traits\ShoppingCart\Priceable;
 
 class ShoppingCart extends Collection
 {
+    use Priceable;
+
     /**
      * Add the item to the cart.
      *
@@ -112,5 +115,4 @@ class ShoppingCart extends Collection
     {
         return optional($this->get($product->id))->quantity ?? 0;
     }
-
 }
