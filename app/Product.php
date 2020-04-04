@@ -15,7 +15,7 @@ class Product extends Model
      */
     public function getPriceAttribute(): string
     {
-        return Str::price_in_dollars($this->price_in_dollars);
+        return Str::withCurrency($this->price_in_dollars);
     }
 
     /**
