@@ -12,11 +12,13 @@ class CartItem
      * @param  \App\Product $product
      * @param  integer $quantity
      */
-    public function createFrom($product, $quantity): Product
+    public function from($product, $quantity): Product
     {
         $product->quantity = $quantity;
 
         $product->subtotal_in_cents = $product->price_in_cents * $product->quantity;
+
+        $product->subtotal_in_dollars = number_format($product->subtotal_in_cents/100, 2);
 
         return $product;
     }

@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Utilities\Products\CartItem;
 use Illuminate\Support\ServiceProvider;
 use App\Utilities\Products\ShoppingCart;
 

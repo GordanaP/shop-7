@@ -16,6 +16,18 @@ border-b border-yellow-300">
 
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item">
+                    <a href="{{ route('shopping.cart.index') }}" class="nav-link">
+                        <div class="relative">
+                            <i class="fas fa-shopping-cart fa-lg"></i>
+                            <span class="custom-badge bg-yellow-300 absolute
+                            transform translate-x-0 -translate-y-2" style="left: 50%;">
+                                {{ ShoppingCart::itemsCount() }}
+                            </span>
+                        </div>
+                    </a>
+                </li>
                 <!-- Authentication Links -->
                 @guest
                     <li class="nav-item">

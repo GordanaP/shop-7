@@ -18,7 +18,7 @@ class ShoppingCart extends Collection
     {
         $totalQty = $this->totalQuantity($product, $qty);
 
-        $item = $this->cartItem($product, $totalQty);
+        $item = (new CartItem)->from($product, $totalQty);
 
         $this->put($product->id, $item);
 
@@ -33,7 +33,7 @@ class ShoppingCart extends Collection
      */
     public function update($product, $qty)
     {
-        $item = $this->cartItem($product, $qty);
+        $item = (new CartItem)->from($product, $qty);
 
         $this->put($product->id, $item);
 
@@ -58,6 +58,14 @@ class ShoppingCart extends Collection
     public function empty()
     {
         session()->forget('cart');
+    }
+
+    /**
+     * Get the # number of cart items.
+     */
+    public function itemsCount(): int
+    {
+        return $this->sum('quantity');
     }
 
     /**
@@ -97,14 +105,4 @@ class ShoppingCart extends Collection
         return optional($this->get($product->id))->quantity ?? 0;
     }
 
-    /**
-     * The cart item.
-     *
-     * @param  \App\Product $product
-     * @param  integer $qty
-     */
-    protected function cartItem($product, $qty): Product
-    {
-        return (new CartItem)->createFrom($product, $qty);
-    }
 }

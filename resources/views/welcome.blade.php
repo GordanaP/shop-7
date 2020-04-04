@@ -18,8 +18,6 @@
 
                     <div class="col-md-3">
 
-                        {{-- {{ Calculator::test() }} --}}
-
                         {{ ShoppingCart::content() }}
 
                         <form action="{{ route('shopping.cart.empty') }}" method="POST">

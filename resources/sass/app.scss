@@ -17,6 +17,7 @@ h4 { @apply text-xl; }
 h5 { @apply text-lg; }
 h6 { @apply text-sm; }
 .a-blue { @apply text-blue-600; }
+.custom-badge { @apply  font-semibold rounded-full text-xs px-2; }
 .form-inline { @apply inline; }
 
 @tailwind components;

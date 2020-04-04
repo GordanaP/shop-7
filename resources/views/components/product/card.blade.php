@@ -22,6 +22,7 @@
                         </button>
                     </form>
                 </div>
+
                 <div>{{ $product->price }}</div>
             </div>
         </div>
