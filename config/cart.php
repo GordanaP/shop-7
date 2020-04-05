@@ -2,8 +2,5 @@
 
 return [
     'tax_rate' => 0.2,
-    'currency' => [
-        'app' => '$',
-        'stripe' => 'usd',
-    ]
+    'currency' => '$'
 ];

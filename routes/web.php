@@ -18,6 +18,7 @@ Route::resource('products', 'Product\ProductController')->except('index');
  * ShoppingCart
  */
 Route::get('shopping-cart/items', 'ShoppingCart\ShoppingCartController@index')
+    ->middleware('cart.exists')
     ->name('shopping.cart.index');
 Route::delete('shopping-cart/empty', 'ShoppingCart\ShoppingCartController@empty')
     ->name('shopping.cart.empty');
@@ -30,4 +31,5 @@ Route::delete('shopping-cart/products/{product}', 'ShoppingCart\ShoppingCartCont
 
 
 Route::get('checkout', 'Checkout\CheckoutController@index')
+    ->middleware('cart.exists')
     ->name('checkouts.index');

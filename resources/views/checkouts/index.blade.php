@@ -13,7 +13,7 @@
             <div id="card-errors" role="alert"></div>
 
             <button id="submit" class="btn btn-primary rounded-full mt-2 btn-block">
-                Proceed to payment
+                Pay {{ Str::withCurrency(ShoppingCart::total()) }}
             </button>
         </form>
     </div>
@@ -76,10 +76,21 @@
                         // payment_intent.succeeded event that handles any business critical
                         // post-payment actions.
                         console.log(result.paymentIntent);
+
+                        var productAlbumUrl =@json(route('welcome'));
+
+                        @json(ShoppingCart::empty());
+
+                        redirectTo(productAlbumUrl);
                     }
                 }
             });
         });
+
+        function redirectTo(location)
+        {
+            window.location.href = location;
+        }
     </script>
 @endsection
 

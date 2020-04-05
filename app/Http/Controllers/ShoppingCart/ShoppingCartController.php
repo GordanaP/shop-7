@@ -67,6 +67,7 @@ class ShoppingCartController extends Controller
     {
         ShoppingCart::empty();
 
-        return back();
+        return redirect()->route('welcome')
+            ->with('success', 'Your cart is empty.');
     }
 }

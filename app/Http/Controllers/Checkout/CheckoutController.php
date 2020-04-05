@@ -20,7 +20,7 @@ class CheckoutController extends Controller
 
         $intent = PaymentIntent::create([
           'amount' => ShoppingCart::totalInCents(),
-          'currency' => config('cart.currency.stripe'),
+          'currency' => config('services.stripe.currency'),
         ]);
 
         return view('checkouts.index', [

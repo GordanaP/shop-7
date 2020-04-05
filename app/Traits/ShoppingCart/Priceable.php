@@ -21,11 +21,13 @@ trait Priceable
      */
     public function total()
     {
-        return collect([
+        $total = collect([
             $this->subtotal(),
             $this->taxAmount(),
             $this->shippingCosts(),
         ])->sum();
+
+        return number_format($total, 2);
     }
 
     /**
