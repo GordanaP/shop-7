@@ -4,7 +4,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <form id="payment-form" class="w-1/2">
+        <form id="payment-form" class="w-full lg:w-1/2">
             <div id="card-element">
                 <!-- Elements will create input elements here -->
             </div>
@@ -27,7 +27,7 @@
     <script src="https://js.stripe.com/v3/"></script>
 
     <script>
-        var stripe = Stripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+        var stripe = Stripe(@json(config('services.stripe.key')));
         var elements = stripe.elements();
 
         var style = {
@@ -53,6 +53,32 @@
                 displayError.classList.remove('text-danger', 'text-xs');
                 displayError.textContent = '';
             }
+        });
+
+        var form = document.getElementById('payment-form');
+
+        form.addEventListener('submit', function(ev) {
+            ev.preventDefault();
+            stripe.confirmCardPayment(@json($clientSecret), {
+                payment_method: {
+                    card: card,
+                }
+            }).then(function(result) {
+                if (result.error) {
+                    // Show error to your customer (e.g., insufficient funds)
+                    console.log(result.error.message);
+                } else {
+                    // The payment has been processed!
+                    if (result.paymentIntent.status === 'succeeded') {
+                        // Show a success message to your customer
+                        // There's a risk of the customer closing the window before callback
+                        // execution. Set up a webhook or plugin to listen for the
+                        // payment_intent.succeeded event that handles any business critical
+                        // post-payment actions.
+                        console.log(result.paymentIntent);
+                    }
+                }
+            });
         });
     </script>
 @endsection

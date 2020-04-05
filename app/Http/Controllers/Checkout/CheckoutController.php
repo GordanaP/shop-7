@@ -16,17 +16,15 @@ class CheckoutController extends Controller
      */
     public function index()
     {
-        Stripe::setApiKey('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+        Stripe::setApiKey(config('services.stripe.secret'));
 
         $intent = PaymentIntent::create([
           'amount' => ShoppingCart::totalInCents(),
           'currency' => config('cart.currency.stripe'),
         ]);
 
-        $client_secret = $intent->client_secret;
-
         return view('checkouts.index', [
-            'clentSecret' => $client_secret
+            'clientSecret' => $intent->client_secret
         ]);
     }
 
