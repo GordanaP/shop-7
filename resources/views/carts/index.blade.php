@@ -34,7 +34,7 @@
         <div class="float-right mb-2">
             <x-cart.empty />
             <a href="#" class="btn btn-primary rounded-full">
-                Checkout
+                Proceed to checkout
             </a>
         </div>
     @else

@@ -4,6 +4,7 @@
         src="{{ asset('images/demo_product.jpg') }}"
         alt="Item image">
     </td>
+
     <td width="35%">
         <p class="text-uppercase mb-2">
             <a href="{{ route('products.show', $item) }}"

@@ -14,7 +14,7 @@
 
             <div class="form-group">
                 <button type="submit" class="btn">
-                    <i class="fas fa-sync-alt"></i>
+                    <i class="fas fa-sync-alt text-gray-700"></i>
                 </button>
             </div>
         </div>
