@@ -27,3 +27,7 @@ Route::patch('shopping-cart/products/{product}', 'ShoppingCart\ShoppingCartContr
     ->name('shopping.cart.update');
 Route::delete('shopping-cart/products/{product}', 'ShoppingCart\ShoppingCartController@destroy')
     ->name('shopping.cart.remove');
+
+
+Route::get('checkout', 'Checkout\CheckoutController@index')
+    ->name('checkouts.index');

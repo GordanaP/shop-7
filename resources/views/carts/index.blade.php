@@ -33,7 +33,7 @@
 
         <div class="float-right mb-2">
             <x-cart.empty />
-            <a href="#" class="btn btn-primary rounded-full">
+            <a href="{{ route('checkouts.index') }}" class="btn btn-primary rounded-full">
                 Proceed to checkout
             </a>
         </div>

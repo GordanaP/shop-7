@@ -7,6 +7,14 @@ use App\Facades\ShoppingCart;
 trait Priceable
 {
     /**
+     * The total in cents.
+     */
+    public function totalInCents(): int
+    {
+        return $this->total() * 100;
+    }
+
+    /**
      * The total in dollars.
      *
      * @return float
