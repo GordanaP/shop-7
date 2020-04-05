@@ -1,7 +1,7 @@
 <x-layouts.app>
     <div>
 
-        <x-alert-message />
+        <x-alert.success />
 
         <section class="jumbotron text-center">
             <div class="container text-white">

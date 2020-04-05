@@ -1,7 +1,7 @@
 <tr>
     <td>
         <img class="img-fluid rounded w-4/5 mt-2"
-        src="http://lorempixel.com/200/120/food/3/"
+        src="{{ asset('images/demo_product.jpg') }}"
         alt="Item image">
     </td>
     <td width="35%">

@@ -1,6 +1,6 @@
 <x-layouts.app>
 
-    <x-alert-message />
+    <x-alert.message />
 
     @if (ShoppingCart::isNotEmpty())
         <div class="float-right mb-2">
