@@ -4,7 +4,8 @@
 
 <div class="row">
     <div class="col-md-6">
-        <form id="payment-form" class="w-full lg:w-1/2">
+        <form id="paymentForm" action="{{ route('checkouts.store') }}" method="POST"
+         class="w-full lg:w-1/2" >
             <div id="card-element">
                 <!-- Elements will create input elements here -->
             </div>
@@ -12,7 +13,7 @@
             <!-- We'll put the error messages in this element -->
             <div id="card-errors" role="alert"></div>
 
-            <button id="submit" class="btn btn-primary rounded-full mt-2 btn-block">
+            <button id="submitPaymentButton" class="btn btn-primary rounded-full mt-2 btn-block">
                 Pay {{ Str::withCurrency(ShoppingCart::total()) }}
             </button>
         </form>
@@ -55,42 +56,58 @@
             }
         });
 
-        var form = document.getElementById('payment-form');
+        var form = document.getElementById('paymentForm');
+        var submitButton = document.getElementById('submitPaymentButton');
 
         form.addEventListener('submit', function(ev) {
             ev.preventDefault();
+            submitButton.disabled = true;
+
             stripe.confirmCardPayment(@json($clientSecret), {
                 payment_method: {
                     card: card,
                 }
             }).then(function(result) {
                 if (result.error) {
-                    // Show error to your customer (e.g., insufficient funds)
+                    submitButton.disabled = false;
                     console.log(result.error.message);
                 } else {
                     // The payment has been processed!
                     if (result.paymentIntent.status === 'succeeded') {
-                        // Show a success message to your customer
-                        // There's a risk of the customer closing the window before callback
-                        // execution. Set up a webhook or plugin to listen for the
-                        // payment_intent.succeeded event that handles any business critical
-                        // post-payment actions.
-                        console.log(result.paymentIntent);
 
-                        var productAlbumUrl =@json(route('welcome'));
+                        var paymentIntent = result.paymentIntent;
+                        var token = document.querySelector('meta[name="csrf-token"]')
+                            .getAttribute('content');
+                        var submitUrl = form.action;
+                        var submitMethod = form.method;
+                        var redirectSuccessUrl = @json(route('checkouts.success'));
+                        var redirectErrorUrl = @json(route('checkouts.error'));
 
-                        @json(ShoppingCart::empty());
-
-                        redirectTo(productAlbumUrl);
+                        fetch (
+                            submitUrl,
+                            {
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "Accept" : "application/json, text-plain, */*",
+                                    "X-Requested-With" : "XMLHttpRequest",
+                                    'X-CSRF-TOKEN': token
+                                },
+                                method: submitMethod,
+                                body: JSON.stringify({
+                                    paymentIntent: paymentIntent
+                                })
+                            }
+                        ).then((data) => {
+                                console.log(data)
+                                redirectTo(redirectSuccessUrl);
+                        }).catch((error) => {
+                                console.log(error)
+                                // redirectTo(redirectErrorUrl);
+                        });
                     }
                 }
             });
         });
-
-        function redirectTo(location)
-        {
-            window.location.href = location;
-        }
     </script>
 @endsection
 

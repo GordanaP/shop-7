@@ -14,7 +14,7 @@ class CheckoutController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
@@ -46,7 +46,10 @@ class CheckoutController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        ShoppingCart::empty();
+
+        return $request->paymentIntent;
+
     }
 
     /**
