@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Checkout;
 
 use App\Order;
+use App\Customer;
 use Carbon\Carbon;
 use Stripe\Stripe;
 use Illuminate\View\View;
 use Stripe\PaymentIntent;
+use Stripe\PaymentMethod;
 use Illuminate\Http\Request;
 use App\Facades\ShoppingCart;
 use App\Http\Controllers\Controller;
@@ -49,20 +51,47 @@ class CheckoutController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->paymentIntent;
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        $payment = $request->paymentIntent;
+
+        $method = PaymentMethod::retrieve(
+            $payment['payment_method']
+        );
+
+        $billing = $method['billing_details'];
+        $address = $billing['address'];
+
+        $name = $billing['name'];
+        $street_address = $address['line1'];
+        $city = $address['city'];
+        $postal_code = $address['postal_code'];
+        $country = $address['country'];
+        $email = $billing['email'];
+        $phone = $billing['phone'];
 
         try {
+            $customer = Customer::create([
+                'name' => $name,
+                'street_address' => $street_address,
+                'city' => $city,
+                'postal_code' => $postal_code,
+                'country' => $country,
+                'email' => $email,
+                'phone' => $phone,
+            ]);
 
             Order::create([
-                'stripe_payment_id' => $data['id'],
-                'total_in_cents' => $data['amount'],
-                'payment_created_at' => Carbon::createFromTimestamp($data['created'])
+                'stripe_payment_id' => $payment['id'],
+                'total_in_cents' => $payment['amount'],
+                'payment_created_at' => Carbon::createFromTimestamp($payment['created'])
                     ->toDateTimeString(),
-                'user_id' => 1
+                'customer_id' => $customer->id
             ]);
 
             ShoppingCart::empty();
 
+            // return $payment;
             return response([
                 'success' => route('checkouts.success')
             ]);

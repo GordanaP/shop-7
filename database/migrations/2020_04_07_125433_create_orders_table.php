@@ -15,7 +15,9 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('user_id');
+
+            $table->unsignedInteger('customer_id');
+
             $table->string('stripe_payment_id')->unique();
             $table->unsignedInteger('total_in_cents');
             $table->datetime('payment_created_at');

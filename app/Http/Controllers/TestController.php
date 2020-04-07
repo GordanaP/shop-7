@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Order;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TestController extends Controller
 {
-    //
+    public function store(Request $request)
+    {
+        return $request->all();
+    }
 }

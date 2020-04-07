@@ -6,6 +6,42 @@
     <div class="col-md-6">
         <form id="paymentForm" action="{{ route('checkouts.store') }}" method="POST"
          class="w-full lg:w-1/2" >
+
+            <div class="form-group">
+                <input type="text" id="billingName" placeholder="Name"
+                class="form-control">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="billingStreetAddress" placeholder="Street"
+                class="form-control">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="billingPostalCode" placeholder="Postal_code"
+                class="form-control">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="billingCity" placeholder="City"
+                class="form-control">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="billingCountry" placeholder="Country"
+                class="form-control">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="billingPhone" placeholder="Phone Number"
+                class="form-control">
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="billingEmail" placeholder="E-mail address"
+                class="form-control">
+            </div>
+
             <div id="card-element">
                 <!-- Elements will create input elements here -->
             </div>
@@ -13,7 +49,8 @@
             <!-- We'll put the error messages in this element -->
             <div id="card-errors" role="alert"></div>
 
-            <button id="submitPaymentButton" class="btn btn-primary rounded-full mt-2 btn-block">
+            <button id="submitPaymentButton" class="btn btn-primary rounded-full
+            mt-2 btn-block">
                 Pay {{ Str::withCurrency(ShoppingCart::total()) }}
             </button>
         </form>
@@ -67,6 +104,18 @@
             stripe.confirmCardPayment(@json($clientSecret), {
                 payment_method: {
                     card: card,
+                    billing_details : {
+                        name : getById('billingName').value,
+                        address : {
+                            line1 : getById('billingStreetAddress').value,
+                            line2 : ' ',
+                            city : getById('billingCity').value,
+                            postal_code : getById('billingPostalCode').value,
+                            country : getById('billingCountry').value,
+                        },
+                        phone: getById('billingPhone').value,
+                        email: getById('billingEmail').value
+                    }
                 }
             }).then(function(result) {
                 var error = result.error;
@@ -88,11 +137,13 @@
                         },
                     })
                     .done(function(response) {
+                        // console.log(response);
                         redirectTo(response.success)
                     });
                 }
             });
         });
+
     </script>
 @endsection
 
