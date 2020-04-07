@@ -69,8 +69,12 @@
                     card: card,
                 }
             }).then(function(result) {
-                if (result.error) {
+                var error = result.error;
+
+                if (error) {
+                    $('#card-errors').text(error.message).addClass('text-danger');
                     submitButton.disabled = false;
+
                 } else {
                     var paymentIntent = result.paymentIntent;
                     var submitUrl = form.action;
@@ -84,10 +88,7 @@
                         },
                     })
                     .done(function(response) {
-                        console.log(response)
-                    })
-                    .fail(function(response) {
-                        console.log(response)
+                        redirectTo(response.success)
                     });
                 }
             });

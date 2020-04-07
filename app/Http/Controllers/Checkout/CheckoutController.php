@@ -10,13 +10,14 @@ use Stripe\PaymentIntent;
 use Illuminate\Http\Request;
 use App\Facades\ShoppingCart;
 use App\Http\Controllers\Controller;
+use Stripe\Exception\ApiErrorException;
 
 class CheckoutController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index()
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
@@ -26,7 +27,7 @@ class CheckoutController extends Controller
         ]);
 
         return view('checkouts.index', [
-            'clientSecret' => $intent->client_secret
+            'clientSecret' => $intent->client_secret,
         ]);
     }
 
@@ -50,8 +51,8 @@ class CheckoutController extends Controller
     {
         $data = $request->paymentIntent;
 
-        if($data['status'] == 'succeeded')
-        {
+        try {
+
             Order::create([
                 'stripe_payment_id' => $data['id'],
                 'total_in_cents' => $data['amount'],
@@ -62,13 +63,14 @@ class CheckoutController extends Controller
 
             ShoppingCart::empty();
 
-            $response = 'success';
-        }
-        else {
-            $response = 'fail';
-        }
+            return response([
+                'success' => route('checkouts.success')
+            ]);
 
-        return $response;
+        } catch (ApiErrorException $e) {
+
+            return redirect()->route('checkouts.error');
+        }
     }
 
     /**

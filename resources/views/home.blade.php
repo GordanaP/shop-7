@@ -21,3 +21,36 @@
     </div>
 </div>
 @endsection
+
+{{-- form.addEventListener('submit', function(ev) {
+    ev.preventDefault();
+    submitButton.disabled = true;
+
+    stripe.confirmCardPayment(@json($clientSecret), {
+        payment_method: {
+            card: card,
+        }
+    }).then(function(result) {
+        if (result.error) {
+            submitButton.disabled = false;
+        } else {
+            var paymentIntent = result.paymentIntent;
+            var submitUrl = form.action;
+            var submitMethod = form.method;
+
+            $.ajax({
+                url: submitUrl,
+                type: submitMethod,
+                data: {
+                    paymentIntent: paymentIntent
+                },
+            })
+            .done(function(response) {
+                console.log(response)
+            })
+            .fail(function(response) {
+                console.log(response)
+            });
+        }
+    });
+}); --}}
