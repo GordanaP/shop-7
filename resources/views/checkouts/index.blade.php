@@ -28,6 +28,7 @@
     <script src="https://js.stripe.com/v3/"></script>
 
     <script>
+
         var stripe = Stripe(@json(config('services.stripe.key')));
         var elements = stripe.elements();
 
@@ -70,41 +71,24 @@
             }).then(function(result) {
                 if (result.error) {
                     submitButton.disabled = false;
-                    console.log(result.error.message);
                 } else {
-                    // The payment has been processed!
-                    if (result.paymentIntent.status === 'succeeded') {
+                    var paymentIntent = result.paymentIntent;
+                    var submitUrl = form.action;
+                    var submitMethod = form.method;
 
-                        var paymentIntent = result.paymentIntent;
-                        var token = document.querySelector('meta[name="csrf-token"]')
-                            .getAttribute('content');
-                        var submitUrl = form.action;
-                        var submitMethod = form.method;
-                        var redirectSuccessUrl = @json(route('checkouts.success'));
-                        var redirectErrorUrl = @json(route('checkouts.error'));
-
-                        fetch (
-                            submitUrl,
-                            {
-                                headers: {
-                                    "Content-Type": "application/json",
-                                    "Accept" : "application/json, text-plain, */*",
-                                    "X-Requested-With" : "XMLHttpRequest",
-                                    'X-CSRF-TOKEN': token
-                                },
-                                method: submitMethod,
-                                body: JSON.stringify({
-                                    paymentIntent: paymentIntent
-                                })
-                            }
-                        ).then((data) => {
-                                console.log(data)
-                                redirectTo(redirectSuccessUrl);
-                        }).catch((error) => {
-                                console.log(error)
-                                // redirectTo(redirectErrorUrl);
-                        });
-                    }
+                    $.ajax({
+                        url: submitUrl,
+                        type: submitMethod,
+                        data: {
+                            paymentIntent: paymentIntent
+                        },
+                    })
+                    .done(function(response) {
+                        console.log(response)
+                    })
+                    .fail(function(response) {
+                        console.log(response)
+                    });
                 }
             });
         });

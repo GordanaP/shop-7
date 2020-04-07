@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'Product\ProductController@index')->name('welcome');
 
+Route::view('/test', 'test');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -49,3 +51,5 @@ Route::get('checkout/payment/success','Checkout\CheckoutSuccessController')
  */
 Route::get('checkout/payment/error','Checkout\CheckoutErrorController')
     ->name('checkouts.error');
+
+Route::post('/test', 'TestController@store')->name('tests.store');

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Checkout;
 
+use App\Order;
+use Carbon\Carbon;
 use Stripe\Stripe;
 use Illuminate\View\View;
 use Stripe\PaymentIntent;
@@ -46,10 +48,27 @@ class CheckoutController extends Controller
      */
     public function store(Request $request)
     {
-        ShoppingCart::empty();
+        $data = $request->paymentIntent;
 
-        return $request->paymentIntent;
+        if($data['status'] == 'succeeded')
+        {
+            Order::create([
+                'stripe_payment_id' => $data['id'],
+                'total_in_cents' => $data['amount'],
+                'payment_created_at' => Carbon::createFromTimestamp($data['created'])
+                    ->toDateTimeString(),
+                'user_id' => 1
+            ]);
 
+            ShoppingCart::empty();
+
+            $response = 'success';
+        }
+        else {
+            $response = 'fail';
+        }
+
+        return $response;
     }
 
     /**
