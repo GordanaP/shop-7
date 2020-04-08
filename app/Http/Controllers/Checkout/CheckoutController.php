@@ -12,6 +12,7 @@ use Stripe\PaymentMethod;
 use Illuminate\Http\Request;
 use App\Facades\ShoppingCart;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Stripe\Exception\ApiErrorException;
 
 class CheckoutController extends Controller
@@ -21,16 +22,21 @@ class CheckoutController extends Controller
      */
     public function index()
     {
-        Stripe::setApiKey(config('services.stripe.secret'));
+        try {
+            Stripe::setApiKey(config('services.stripe.secret'));
 
-        $intent = PaymentIntent::create([
-          'amount' => ShoppingCart::totalInCents(),
-          'currency' => config('services.stripe.currency'),
-        ]);
+            $intent = PaymentIntent::create([
+                'amount' => ShoppingCart::totalInCents(),
+                'currency' => config('services.stripe.currency'),
+            ]);
 
-        return view('checkouts.index', [
-            'clientSecret' => $intent->client_secret,
-        ]);
+            return view('checkouts.index', [
+                'clientSecret' => $intent->client_secret,
+            ]);
+
+        } catch (ApiErrorException $e) {
+            return $e->getMessage();
+        }
     }
 
     /**
@@ -53,24 +59,29 @@ class CheckoutController extends Controller
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
-        $payment = $request->paymentIntent;
+        $order = $request->paymentIntent;
 
-        $method = PaymentMethod::retrieve(
-            $payment['payment_method']
+        $payment_method = PaymentMethod::retrieve(
+            $order['payment_method']
         );
 
-        $billing = $method['billing_details'];
-        $address = $billing['address'];
+        if($registered = optional(Auth::user())->customer) {
 
-        $name = $billing['name'];
-        $street_address = $address['line1'];
-        $city = $address['city'];
-        $postal_code = $address['postal_code'];
-        $country = $address['country'];
-        $email = $billing['email'];
-        $phone = $billing['phone'];
+            $customer = Customer::find($registered->id);
 
-        try {
+        } else {
+
+            $billing = $payment_method['billing_details'];
+            $address = $billing['address'];
+
+            $name = $billing['name'];
+            $street_address = $address['line1'];
+            $city = $address['city'];
+            $postal_code = $address['postal_code'];
+            $country = $address['country'];
+            $email = $billing['email'];
+            $phone = $billing['phone'];
+
             $customer = Customer::create([
                 'name' => $name,
                 'street_address' => $street_address,
@@ -79,27 +90,17 @@ class CheckoutController extends Controller
                 'country' => $country,
                 'email' => $email,
                 'phone' => $phone,
+                'user_id' => \Auth::id() ?? null
             ]);
-
-            Order::create([
-                'stripe_payment_id' => $payment['id'],
-                'total_in_cents' => $payment['amount'],
-                'payment_created_at' => Carbon::createFromTimestamp($payment['created'])
-                    ->toDateTimeString(),
-                'customer_id' => $customer->id
-            ]);
-
-            ShoppingCart::empty();
-
-            // return $payment;
-            return response([
-                'success' => route('checkouts.success')
-            ]);
-
-        } catch (ApiErrorException $e) {
-
-            return redirect()->route('checkouts.error');
         }
+
+        $customer->placeOrder($order);
+
+        ShoppingCart::empty();
+
+        return response([
+            'success' => route('checkouts.success')
+        ]);
     }
 
     /**
@@ -113,16 +114,6 @@ class CheckoutController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -145,5 +136,10 @@ class CheckoutController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    private function orderCustomer()
+    {
+
     }
 }

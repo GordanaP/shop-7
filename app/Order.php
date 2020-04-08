@@ -17,10 +17,20 @@ class Order extends Model
     ];
 
     /**
-     * The user who placed the order.
+     * The customer who placed the order.
      */
-    public function user(): BelongsTo
+    public function customer(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function prefill($payment)
+    {
+        return static::create([
+            'stripe_payment_id' => $payment['id'],
+            'total_in_cents' => $payment['amount'],
+            'payment_created_at' => Carbon::createFromTimeStamp($payment['created'], config('app.timezone')),
+        ]);
+
     }
 }

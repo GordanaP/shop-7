@@ -4,8 +4,9 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class User extends Authenticatable
 {
@@ -39,10 +40,18 @@ class User extends Authenticatable
     ];
 
     /**
+     * The user's customer profile.
+     */
+    public function customer(): HasOne
+    {
+        return $this->hasOne(Customer::class);
+    }
+
+    /**
      * The user's orders.
      */
-    public function orders():HasMany
+    public function orders(): HasManyThrough
     {
-        return $this->hasMany(Order::class);
+        return $this->hasManyThrough('App\Order', 'App\Customer');
     }
 }
