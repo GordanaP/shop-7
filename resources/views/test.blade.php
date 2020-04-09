@@ -2,6 +2,8 @@
 
     <h1>Test</h1>
 
+    <span></span>
+
     <div class="col-md-3">
 
         <form action="{{ route('tests.store') }}" method = "POST" id="testForm">

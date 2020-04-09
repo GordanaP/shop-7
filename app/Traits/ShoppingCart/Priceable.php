@@ -35,9 +35,9 @@ trait Priceable
      *
      * @return float
      */
-    public function shippingCosts($percentage = 0.1)
+    public function shippingCosts()
     {
-        $shipping_costs = ($this->subtotalInCents() * $percentage)/100;
+        $shipping_costs = $this->shippingCostsInCents()/100;
 
         return number_format($shipping_costs, 2);
     }
@@ -49,9 +49,7 @@ trait Priceable
      */
     public function taxAmount()
     {
-        $tax_rate = config('cart.tax_rate');
-
-        $tax_amount = ($this->subtotalInCents() * $tax_rate)/100;
+        $tax_amount = $this->taxAmountInCents()/100;
 
         return number_format($tax_amount, 2);
     }
@@ -68,12 +66,24 @@ trait Priceable
         return number_format($subtotal, 2);
     }
 
+    public function shippingCostsInCents($percentage = 0.1)
+    {
+        return $this->subtotalInCents() * $percentage;
+    }
+
+    public function taxAmountInCents()
+    {
+        $tax_rate = config('cart.tax_rate');
+
+        return $this->subtotalInCents() * $tax_rate;
+    }
+
     /**
      * The subtotal in cents.
      *
      * @return integer
      */
-    private function subtotalInCents()
+    public function subtotalInCents()
     {
         return ShoppingCart::sum('subtotal_in_cents');
     }

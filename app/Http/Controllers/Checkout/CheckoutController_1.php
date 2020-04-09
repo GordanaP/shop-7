@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Checkout;
 
-use App\User;
 use App\Order;
 use App\Customer;
 use Stripe\Stripe;
@@ -28,13 +27,6 @@ class CheckoutController extends Controller
             $intent = PaymentIntent::create([
                 'amount' => ShoppingCart::totalInCents(),
                 'currency' => config('services.stripe.currency'),
-                'metadata' => [
-                    'user_id' => Auth::id() ?? null,
-                    'order_number' => random_int(5000, 10000),
-                    'subtotal' => ShoppingCart::subtotalInCents(),
-                    'tax_amount' => ShoppingCart::taxAmountInCents(),
-                    'shipping_costs' => ShoppingCart::shippingCostsInCents(),
-                ]
             ]);
 
             return view('checkouts.index', [
@@ -68,30 +60,21 @@ class CheckoutController extends Controller
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
-        $payment_intent = PaymentIntent::retrieve($request->paymentIntentId);
+        $order = $request->paymentIntent;
 
-        if($payment_intent->status == "succeeded")
-        {
-            Order::place($payment_intent);
+        $payment = PaymentMethod::retrieve(
+            $order['payment_method']
+        );
 
-            $user_id = $payment_intent->metadata->user_id;
-            $user = User::find($user_id);
+        $customer = optional(Auth::user())->customer ?? Customer::new($payment);
 
-            if($user && ! $user->customer) {
+        $customer->placeOrder($order);
 
-                $billing_details = PaymentMethod::retrieve(
-                    $payment_intent->payment_method
-                )->billing_details;
+        ShoppingCart::empty();
 
-                Customer::new($billing_details, $user);
-            }
-
-            ShoppingCart::empty();
-
-            return response([
-                'success' => route('checkouts.success')
-            ]);
-        }
+        return response([
+            'success' => route('checkouts.success')
+        ]);
     }
 
     /**

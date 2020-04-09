@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'Product\ProductController@index')->name('welcome');
 
-Route::view('/test', 'test');
 
 Auth::routes();
 
@@ -52,4 +51,5 @@ Route::get('checkout/payment/success','Checkout\CheckoutSuccessController')
 Route::get('checkout/payment/error','Checkout\CheckoutErrorController')
     ->name('checkouts.error');
 
+Route::get('/test', 'TestController@index')->name('tests.index');
 Route::post('/test', 'TestController@store')->name('tests.store');

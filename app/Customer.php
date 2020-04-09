@@ -36,33 +36,21 @@ class Customer extends Model
         return $this->hasMany(Order::class);
     }
 
-    public static function new($data)
+    public static function new($data, $user)
     {
-        $billing = $data['billing_details'];
-        $address = $billing['address'];
-
         $customer = new static;
 
-        $customer->name = $billing['name'];
-        $customer->email = $billing['email'];
-        $customer->phone = $billing['phone'];
-        $customer->street_address = $address['line1'];
-        $customer->postal_code = $address['postal_code'];
-        $customer->city = $address['city'];
-        $customer->country = $address['country'];
-        $customer->user_id = Auth::id() ?? null;
+        $customer->name = $data['name'];
+        $customer->email = $data['email'];
+        $customer->phone = $data['phone'];
+        $customer->street_address = $data['address']['line1'];
+        $customer->postal_code = $data['address']['postal_code'];
+        $customer->city = $data['address']['city'];
+        $customer->country = $data['address']['country'];
+        $customer->user_id = $user->id;
 
         $customer->save();
 
         return $customer;
-    }
-
-    public function placeOrder($order)
-    {
-        $this->orders()->create([
-            'stripe_payment_id' => $order['id'],
-            'total_in_cents' => $order['amount'],
-            'payment_created_at' => Carbon::createFromTimeStamp($order['created'], config('app.timezone')),
-        ]);
     }
 }

@@ -170,7 +170,6 @@
             ev.preventDefault();
             submitButton.disabled = true;
 
-
             stripe.confirmCardPayment(@json($clientSecret), {
                 payment_method: {
                     card: card,
@@ -184,7 +183,7 @@
                     submitButton.disabled = false;
 
                 } else {
-                    var paymentIntentId = result.paymentIntent.id;
+                    var paymentIntent = result.paymentIntent;
                     var submitUrl = form.action;
                     var submitMethod = form.method;
 
@@ -192,11 +191,10 @@
                         url: submitUrl,
                         type: submitMethod,
                         data: {
-                            paymentIntentId: paymentIntentId
+                            paymentIntent: paymentIntent
                         },
                     })
                     .done(function(response) {
-                        // console.log(response)
                         redirectTo(response.success)
                     });
                 }
