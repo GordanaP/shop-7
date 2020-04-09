@@ -61,40 +61,24 @@ class CheckoutController extends Controller
 
         $order = $request->paymentIntent;
 
-        $payment_method = PaymentMethod::retrieve(
+        $payment = PaymentMethod::retrieve(
             $order['payment_method']
         );
 
-        if($registered = optional(Auth::user())->customer) {
-
-            $customer = Customer::find($registered->id);
-
-        } else {
-
-            $billing = $payment_method['billing_details'];
-            $address = $billing['address'];
-
-            $name = $billing['name'];
-            $street_address = $address['line1'];
-            $city = $address['city'];
-            $postal_code = $address['postal_code'];
-            $country = $address['country'];
-            $email = $billing['email'];
-            $phone = $billing['phone'];
-
-            $customer = Customer::create([
-                'name' => $name,
-                'street_address' => $street_address,
-                'city' => $city,
-                'postal_code' => $postal_code,
-                'country' => $country,
-                'email' => $email,
-                'phone' => $phone,
-                'user_id' => \Auth::id() ?? null
-            ]);
-        }
+        $customer = optional(Auth::user())->customer ?? Customer::new($payment);
 
         $customer->placeOrder($order);
+
+        // if($registered = optional(Auth::user())->customer) {
+
+        //     $customer = Customer::find($registered->id);
+
+        // } else {
+
+        //     $customer = Customer::new($payment_method);
+
+        // }
+
 
         ShoppingCart::empty();
 
