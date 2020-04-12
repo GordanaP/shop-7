@@ -11,16 +11,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Customer extends Model
 {
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    // protected $fillable = [
-    //     'name', 'street_address', 'postal_code', 'city', 'country', 'email',
-    //     'phone', 'user_id'
-    // ];
-
-    /**
      * The customer's user account.
      */
     public function user(): BelongsTo
@@ -36,7 +26,13 @@ class Customer extends Model
         return $this->hasMany(Order::class);
     }
 
-    public static function new($data, $user)
+    /**
+     * Create a new customer.
+     *
+     * @param  array $data
+     * @param  \App\User $user
+     */
+    public static function new($data, $user): Customer
     {
         $customer = new static;
 

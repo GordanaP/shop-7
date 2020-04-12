@@ -9,15 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Order extends Model
 {
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    // protected $fillable = [
-    //     'customer_id', 'stripe_payment_id', 'total_in_cents', 'payment_created_at'
-    // ];
-
-    /**
      * The customer who placed the order.
      */
     public function customer(): BelongsTo
@@ -25,7 +16,12 @@ class Order extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public static function place($data)
+    /**
+     * Place an order.
+     *
+     * @param  array $data
+     */
+    public static function place($data): Order
     {
         $order = new static;
 

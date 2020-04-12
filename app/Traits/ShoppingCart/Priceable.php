@@ -66,11 +66,21 @@ trait Priceable
         return number_format($subtotal, 2);
     }
 
+    /**
+     * The shipping costs in cents.
+     *
+     * @return integer
+     */
     public function shippingCostsInCents($percentage = 0.1)
     {
         return $this->subtotalInCents() * $percentage;
     }
 
+    /**
+     * The tax amount in cents.
+     *
+     * @return integer
+     */
     public function taxAmountInCents()
     {
         $tax_rate = config('cart.tax_rate');

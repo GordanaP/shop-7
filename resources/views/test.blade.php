@@ -10,47 +10,28 @@
 
             @csrf
 
-            <div class="form-group">
-                <input type="text" id="billingName"
-                placeholder="Name"
-                class="form-control">
+            <div id="billingAddress" class="mb-2">
+                <div class="card card-body">
+                    <x-checkout.address type="billing" />
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox"
+                    name="toggle_shipping_address"
+                    id="toggleShippingAddress"
+                    value="off"
+                    onclick="toggleVisibility('#shippingAddress')"
+                    >
+                    <label class="form-check-label" for="toggleShippingAddress">
+                        Different shipping address
+                    </label>
+                </div>
             </div>
 
-            <div class="form-group">
-                <input type="text" id="billingLine1"
-                placeholder="Street address"
-                class="form-control">
-            </div>
-
-            <div class="form-group">
-                <input type="text" id="billingPostal_code"
-                placeholder="Postal Code"
-                class="form-control"
-                value="11000">
-            </div>
-
-            <div class="form-group">
-                <input type="text" id="billingCity"
-                placeholder="City"
-                class="form-control">
-            </div>
-
-            <div class="form-group">
-                <input type="text" id="billingCountry"
-                placeholder="Country"
-                class="form-control">
-            </div>
-
-            <div class="form-group">
-                <input type="text" id="billingPhone"
-                placeholder="Phone Number"
-                class="form-control">
-            </div>
-
-            <div class="form-group">
-                <input type="text" id="billingEmail"
-                placeholder="E-mail address"
-                class="form-control">
+            <div id="shippingAddress" class="hidden">
+                <p>Shipping details</p>
+                <div class="card card-body">
+                    <x-checkout.address type="shipping" />
+                </div>
             </div>
 
             <button type="submit" class="btn btn-warning btn-block" id="testBtn">
@@ -66,19 +47,12 @@
         var isRegistered = @json(Auth::user());
         var hasCustomerProfile = @json(Auth::check() && Auth::user()->customer);
         var requiresBillingDetails = ! isRegistered || ! hasCustomerProfile;
+        var billingAddress = 'billing';
+        var shippingAddress = 'shipping';
 
-        var billingPostalCodeField = getById('billingPostal_code');
+        var toggleShippingAddress = $("#toggleShippingAddress");
 
-        if(billingPostalCodeField.value){
-            var postalCode = billingPostalCodeField.value;
-            console.log(postalCode)
-        } else {
-            billingPostalCodeField.addEventListener('change', function(event) {
-                var postalCode = event.target.value;
-                console.log(postalCode)
-              // card.update({value: {postalCode: event.target.value}});
-            });
-        }
+        switchToggleBtn(toggleShippingAddress);
 
         var form = document.getElementById('testForm');
 
@@ -91,15 +65,20 @@
             var paymentMethod = {
                 payment_method: {
                     card: 'strIpeCard',
-                    billing_details : customerDetails(requiresBillingDetails)
+                    billing_details : customerDetails(requiresBillingDetails, billingAddress)
                 }
             }
+
+            var shipping_details = isCheckedToggleBtn(toggleShippingAddress)
+                ? {shipping: getAddress(shippingAddress)} : '';
 
             $.ajax({
                 url: submitUrl,
                 type: submitMethod,
                 data: {
-                    paymentMethod: paymentMethod
+                    paymentMethod: paymentMethod,
+                    shippingStatus: toggleShippingAddress.val(),
+                    shipping: shipping_details,
                 },
             })
             .done(function(response) {
@@ -109,5 +88,6 @@
 
         </script>
     @endsection
+
 
 </x-layouts.app>

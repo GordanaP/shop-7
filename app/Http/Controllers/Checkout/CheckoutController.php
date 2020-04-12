@@ -22,30 +22,7 @@ class CheckoutController extends Controller
      */
     public function index(): View
     {
-        try {
-            Stripe::setApiKey(config('services.stripe.secret'));
-
-            $intent = PaymentIntent::create([
-                'amount' => ShoppingCart::totalInCents(),
-                'currency' => config('services.stripe.currency'),
-                'metadata' => [
-                    'user_id' => Auth::id() ?? null,
-                    'order_number' => random_int(5000, 10000),
-                    'subtotal' => ShoppingCart::subtotalInCents(),
-                    'tax_amount' => ShoppingCart::taxAmountInCents(),
-                    'shipping_costs' => ShoppingCart::shippingCostsInCents(),
-                ]
-            ]);
-
-            return view('checkouts.index', [
-                'clientSecret' => $intent->client_secret,
-            ]);
-
-        } catch (ApiErrorException $e) {
-            return view('checkouts.error', [
-                'error' => $e->getMessage(),
-            ]);
-        }
+        return view('checkouts.index');
     }
 
     /**
@@ -68,7 +45,21 @@ class CheckoutController extends Controller
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
-        $payment_intent = PaymentIntent::retrieve($request->paymentIntentId);
+        $payment_intent = PaymentIntent::create([
+            'payment_method' => $request->payment_method_id,
+            'amount' => ShoppingCart::totalInCents(),
+            'currency' => config('services.stripe.currency'),
+            'metadata' => [
+                'user_id' => Auth::id() ?? null,
+                'order_number' => random_int(5000, 10000),
+                'subtotal' => ShoppingCart::subtotalInCents(),
+                'tax_amount' => ShoppingCart::taxAmountInCents(),
+                'shipping_costs' => ShoppingCart::shippingCostsInCents(),
+            ],
+            'shipping' => $request->shipping
+        ]);
+
+        $payment_intent->confirm();
 
         if($payment_intent->status == "succeeded")
         {

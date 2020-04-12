@@ -1,36 +1,7 @@
 <x-layouts.app>
 
 @section('links')
-    <style type="text/css">
-
-        .StripeElement {
-          box-sizing: border-box;
-
-          height: 40px;
-
-          padding: 10px 12px;
-
-          border: 1px solid transparent;
-          border-radius: 4px;
-          background-color: white;
-
-          box-shadow: 0 1px 3px 0 #e6ebf1;
-          -webkit-transition: box-shadow 150ms ease;
-          transition: box-shadow 150ms ease;
-        }
-
-        .StripeElement--focus {
-          box-shadow: 0 1px 3px 0 #cfd7df;
-        }
-
-        .StripeElement--invalid {
-          border-color: #fa755a;
-        }
-
-        .StripeElement--webkit-autofill {
-          background-color: #fefde5 !important;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/stripe.css') }}">
 @endsection
 
 <h3 class="mb-2">Checkout</h1>
@@ -38,73 +9,45 @@
 <div class="row">
     <div class="col-md-6">
 
-        <p >Billing details</p>
-
         <form id="paymentForm" action="{{ route('checkouts.store') }}" method="POST"
          class="w-full lg:w-1/2" >
 
-            <div class="card card-body">
-                <div class="form-group">
-                    <input type="text" id="billingName"
-                    placeholder="Name"
-                    class="form-control"
-                    value="{{ Auth::check() ? optional(Auth::user()->customer)->name ?? '' : '' }}">
+            <div id="billingAddress" class="mb-2">
+                <p >Billing details</p>
+                <div class="card card-body">
+                    <x-checkout.address type="billing" />
                 </div>
-
-                <div class="form-group">
-                    <input type="text" id="billingLine1"
-                    placeholder="Street address"
-                    class="form-control"
-                    value="{{  Auth::check() ? optional(Auth::user()->customer)->street_address ?? '' : ''}}">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox"
+                    name="different_shipping_address"
+                    id="toggleShippingAddress"
+                    value="off"
+                    onclick="toggleVisibility('#shippingAddress')"
+                    >
+                    <label class="form-check-label" for="toggleShippingAddress">
+                        Different shipping address
+                    </label>
                 </div>
-
-                <div class="form-group">
-                    <input type="text" id="billingPostal_code"
-                    placeholder="Postal Code"
-                    class="form-control"
-                    value="{{ Auth::check() ? optional(Auth::user()->customer)->postal_code ?? '' : ''}}">
-                </div>
-
-                <div class="form-group">
-                    <input type="text" id="billingCity"
-                    placeholder="City"
-                    class="form-control"
-                    value="{{ Auth::check() ? optional(Auth::user()->customer)->city ?? '' : '' }}">
-                </div>
-
-                <div class="form-group">
-                    <input type="text" id="billingCountry"
-                    placeholder="Country"
-                    class="form-control"
-                    value="{{ Auth::check() ? optional(Auth::user()->customer)->country ?? '' : '' }}">
-                </div>
-
-                <div class="form-group">
-                    <input type="text" id="billingPhone"
-                    placeholder="Phone Number"
-                    class="form-control"
-                    value="{{ Auth::check() ? optional(Auth::user()->customer)->phone ?? '' : '' }}">
-                </div>
-
-                <div class="form-group">
-                    <input type="text" id="billingEmail"
-                    placeholder="E-mail address"
-                    class="form-control"
-                    value="{{ Auth::check() ? optional(Auth::user()->customer)->email ?? '' : '' }}">
-                </div>
-
-                <div id="card-element">
-                    <!-- Elements will create input elements here -->
-                </div>
-
-                <!-- We'll put the error messages in this element -->
-                <div id="card-errors" role="alert"></div>
-
-                <button id="submitPaymentButton" class="btn bg-warning rounded-full
-                mt-2 btn-block">
-                    Pay {{ Str::withCurrency(ShoppingCart::total()) }}
-                </button>
             </div>
+
+            <div id="shippingAddress" class="hidden">
+                <p>Shipping details</p>
+                <div class="card card-body">
+                    <x-checkout.address type="shipping" />
+                </div>
+            </div>
+
+            <div id="card-element" class="mt-4">
+                <!-- Elements will create input elements here -->
+            </div>
+
+            <!-- We'll put the error messages in this element -->
+            <div id="card-errors" role="alert"></div>
+
+            <button id="submitPaymentButton" class="btn bg-warning rounded-full
+            mt-2 btn-block">
+                Pay {{ Str::withCurrency(ShoppingCart::total()) }}
+            </button>
         </form>
     </div>
 
@@ -120,6 +63,12 @@
         var isRegistered = @json(Auth::user());
         var hasCustomerProfile = @json(Auth::check() && Auth::user()->customer);
         var requiresBillingDetails = ! isRegistered || ! hasCustomerProfile;
+        var billingAddress = 'billing';
+        var shippingAddress = 'shipping';
+
+        var toggleShippingAddress = $("#toggleShippingAddress");
+
+        switchToggleBtn(toggleShippingAddress);
 
         var stripe = Stripe(@json(config('services.stripe.key')));
         var elements = stripe.elements();
@@ -170,38 +119,40 @@
             ev.preventDefault();
             submitButton.disabled = true;
 
-
-            stripe.confirmCardPayment(@json($clientSecret), {
-                payment_method: {
-                    card: card,
-                    billing_details : customerDetails(requiresBillingDetails)
-                }
-            }).then(function(result) {
-                var error = result.error;
-
-                if (error) {
-                    $('#card-errors').text(error.message).addClass('text-danger');
-                    submitButton.disabled = false;
-
+            stripe.createPaymentMethod({
+                type: 'card',
+                card: card,
+                billing_details: getAddress(billingAddress),
+            }).then(function(result){
+                if (result.error) {
+                    // Show error in payment form
                 } else {
-                    var paymentIntentId = result.paymentIntent.id;
+                    var paymentMetodId = result.paymentMethod.id;
                     var submitUrl = form.action;
                     var submitMethod = form.method;
+
+                    // var shippingDetails = isCheckedToggleBtn(toggleShippingAddress)
+                    //     ? getAddress(shippingAddress) : '';
 
                     $.ajax({
                         url: submitUrl,
                         type: submitMethod,
                         data: {
-                            paymentIntentId: paymentIntentId
+                            payment_method_id: paymentMetodId,
+                            shipping: myShipping(shippingAddress)
                         },
-                    })
-                    .done(function(response) {
-                        // console.log(response)
-                        redirectTo(response.success)
+                        error: function(response) {
+                            // var errors = response.responseJSON.errors;
+                            // displayServerSideErrors(errors)
+                        }
+                    }).then(function(result) {
+                        redirectTo(result.success);
                     });
                 }
             });
+
         });
+
 
     </script>
 @endsection
