@@ -62,23 +62,22 @@
             var submitUrl = form.action;
             var submitMethod = form.method;
 
+            console.log(requiresBillingDetails)
             var paymentMethod = {
                 payment_method: {
                     card: 'strIpeCard',
-                    billing_details : customerDetails(requiresBillingDetails, billingAddress)
+                    billing_details : requiresBillingDetails
+                        ? getAddress(billingAddress) : null
                 }
             }
-
-            var shipping_details = isCheckedToggleBtn(toggleShippingAddress)
-                ? {shipping: getAddress(shippingAddress)} : '';
 
             $.ajax({
                 url: submitUrl,
                 type: submitMethod,
                 data: {
                     paymentMethod: paymentMethod,
-                    shippingStatus: toggleShippingAddress.val(),
-                    shipping: shipping_details,
+                    // shippingStatus: toggleShippingAddress.val(),
+                    shipping: shippingDetails(toggleShippingAddress, shippingAddress),
                 },
             })
             .done(function(response) {

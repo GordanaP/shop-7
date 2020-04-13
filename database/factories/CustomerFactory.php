@@ -2,6 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use App\User;
 use App\Customer;
 use Faker\Generator as Faker;
 
@@ -14,5 +15,6 @@ $factory->define(Customer::class, function (Faker $faker) {
         'country' => 'RS',
         'email' => $faker->unique()->safeEmail,
         'phone' => $faker->phoneNumber,
+        'user_id' => User::first()->id,
     ];
 });

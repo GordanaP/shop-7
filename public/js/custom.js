@@ -19,10 +19,16 @@ function getById(id)
     return document.getElementById(id);
 }
 
-function customerDetails(customer, address)
+function billingDetails(customer, address)
 {
     if(customer) {
-        return getAddress(customer, address)
+        return getAddress(address);
+    }
+}
+
+function shippingDetails(toggleBtn, address){
+    if(isCheckedToggleBtn(toggleBtn)) {
+        return myShipping(address);
     }
 }
 

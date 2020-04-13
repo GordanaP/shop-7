@@ -56,7 +56,7 @@ class CheckoutController extends Controller
                 'tax_amount' => ShoppingCart::taxAmountInCents(),
                 'shipping_costs' => ShoppingCart::shippingCostsInCents(),
             ],
-            'shipping' => $request->shipping
+            'shipping' => $request->shipping,
         ]);
 
         $payment_intent->confirm();
@@ -120,8 +120,4 @@ class CheckoutController extends Controller
         //
     }
 
-    private function orderCustomer()
-    {
-
-    }
 }

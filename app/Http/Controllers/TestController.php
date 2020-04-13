@@ -25,6 +25,13 @@ class TestController extends Controller
 
     public function store(Request $request)
     {
-        return $request->shipping;
+        return $request->paymentMethod;
+
     }
+
+    private function shippingDetails($shipping)
+    {
+        return $shipping != null ? ['shipping' => $shipping] : '';
+    }
+
 }

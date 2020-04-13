@@ -15,8 +15,10 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+
             $table->unsignedInteger('user_id')->nullable();
-            $table->string('order_number');
+
+            $table->string('order_number')->unique();
             $table->string('stripe_payment_id')->unique();
             $table->unsignedInteger('total_in_cents');
             $table->unsignedInteger('subtotal_in_cents');
