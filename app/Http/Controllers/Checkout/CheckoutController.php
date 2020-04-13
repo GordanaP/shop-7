@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Checkout;
 use App\User;
 use App\Order;
 use App\Customer;
+use App\Shipping;
 use Stripe\Stripe;
 use Illuminate\View\View;
 use Stripe\PaymentIntent;
@@ -63,18 +64,26 @@ class CheckoutController extends Controller
 
         if($payment_intent->status == "succeeded")
         {
-            Order::place($payment_intent);
+            $order = Order::place($payment_intent);
 
-            $user_id = $payment_intent->metadata->user_id;
-            $user = User::find($user_id);
+            if($user_id = $payment_intent->metadata->user_id) {
 
-            if($user && ! $user->customer) {
+                $user = User::find($user_id);
 
-                $billing_details = PaymentMethod::retrieve(
-                    $payment_intent->payment_method
-                )->billing_details;
+                if($user && ! $user->customer) {
+                    $billing_details = PaymentMethod::retrieve(
+                        $payment_intent->payment_method
+                    )->billing_details;
 
-                Customer::new($billing_details, $user);
+                    Customer::new($billing_details, $user);
+                }
+
+                if($user && $payment_intent->shipping !== null) {
+                    $shipping = Shipping::new($payment_intent);
+
+                    $order->shipping_id = $shipping->id;
+                    $order->save();
+                }
             }
 
             ShoppingCart::empty();

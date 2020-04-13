@@ -25,7 +25,8 @@ class TestController extends Controller
 
     public function store(Request $request)
     {
-        return $request->paymentMethod;
+        // return $request->paymentIntent['name'];
+        return $request->paymentIntent['address']['line1'];
 
     }
 

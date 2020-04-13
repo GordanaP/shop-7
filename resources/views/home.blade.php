@@ -20,35 +20,39 @@
     </div>
 </x-layouts.app>
 
-{{-- form.addEventListener('submit', function(ev) {
-    ev.preventDefault();
-    submitButton.disabled = true;
+{{-- if($payment_intent->status == "succeeded")
+{
+    $user_id = $payment_intent->metadata->user_id;
+    $user = User::find($user_id);
 
-    stripe.confirmCardPayment(@json($clientSecret), {
-        payment_method: {
-            card: card,
-        }
-    }).then(function(result) {
-        if (result.error) {
-            submitButton.disabled = false;
-        } else {
-            var paymentIntent = result.paymentIntent;
-            var submitUrl = form.action;
-            var submitMethod = form.method;
+    Order::place($payment_intent);
 
-            $.ajax({
-                url: submitUrl,
-                type: submitMethod,
-                data: {
-                    paymentIntent: paymentIntent
-                },
-            })
-            .done(function(response) {
-                console.log(response)
-            })
-            .fail(function(response) {
-                console.log(response)
-            });
+    if($user) {
+        if(! $user->customer) {
+            $billing_details = PaymentMethod::retrieve(
+                $payment_intent->payment_method
+            )->billing_details;
+
+            Customer::new($billing_details, $user);
         }
-    });
-}); --}}
+
+        if ($payment_intent->shipping != null) {
+            Shipping::new($payment_intent);
+        }
+    }
+
+    if($user && ! $user->customer) {
+
+        $billing_details = PaymentMethod::retrieve(
+            $payment_intent->payment_method
+        )->billing_details;
+
+        Customer::new($billing_details, $user);
+    }
+
+    ShoppingCart::empty();
+
+    return response([
+        'success' => route('checkouts.success')
+    ]);
+} --}}

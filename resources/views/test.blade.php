@@ -62,7 +62,6 @@
             var submitUrl = form.action;
             var submitMethod = form.method;
 
-            console.log(requiresBillingDetails)
             var paymentMethod = {
                 payment_method: {
                     card: 'strIpeCard',
@@ -77,7 +76,7 @@
                 data: {
                     paymentMethod: paymentMethod,
                     // shippingStatus: toggleShippingAddress.val(),
-                    shipping: shippingDetails(toggleShippingAddress, shippingAddress),
+                    paymentIntent: shippingDetails(toggleShippingAddress, shippingAddress),
                 },
             })
             .done(function(response) {

@@ -17,15 +17,24 @@ class Order extends Model
     }
 
     /**
+     * The order's shipping address.
+     */
+    public function shipping(): BelongsTo
+    {
+        return $this->belongsTo(Shipping::class);
+    }
+
+    /**
      * Place an order.
      *
-     * @param  array $data
+     * @param  Stripe\PaymentIntent $data
      */
-    public static function place($data): Order
+    public static function place($data, $shipping = null): Order
     {
         $order = new static;
 
         $order->user_id = $data->metadata->user_id ?? null;
+        $order->shipping_id = optional($shipping)->id ?? null;
         $order->order_number = $data->metadata->order_number;
         $order->stripe_payment_id = $data->id;
         $order->total_in_cents = $data->amount;

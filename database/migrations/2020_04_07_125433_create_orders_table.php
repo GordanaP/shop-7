@@ -17,6 +17,7 @@ class CreateOrdersTable extends Migration
             $table->id();
 
             $table->unsignedInteger('user_id')->nullable();
+            $table->unsignedInteger('shipping_id')->nullable();
 
             $table->string('order_number')->unique();
             $table->string('stripe_payment_id')->unique();
