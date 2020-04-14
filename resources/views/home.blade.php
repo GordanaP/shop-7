@@ -20,29 +20,28 @@
     </div>
 </x-layouts.app>
 
-{{-- if($payment_intent->status == "succeeded")
-{
-    $user_id = $payment_intent->metadata->user_id;
+
+{{-- // $payment_intent = PaymentIntent::create([
+//     'payment_method' => $request->payment_method_id,
+//     'amount' => ShoppingCart::totalInCents(),
+//     'currency' => config('services.stripe.currency'),
+//     'metadata' => [
+//         'user_id' => Auth::id() ?? null,
+//         'order_number' => random_int(5000, 10000),
+//         'subtotal' => ShoppingCart::subtotalInCents(),
+//         'tax_amount' => ShoppingCart::taxAmountInCents(),
+//         'shipping_costs' => ShoppingCart::shippingCostsInCents(),
+//     ],
+//     'shipping' => $request->shipping,
+// ]);
+
+// $payment_intent->confirm();
+ --}}
+{{-- if($user_id = $payment_intent->metadata->user_id) {
+
     $user = User::find($user_id);
 
-    Order::place($payment_intent);
-
-    if($user) {
-        if(! $user->customer) {
-            $billing_details = PaymentMethod::retrieve(
-                $payment_intent->payment_method
-            )->billing_details;
-
-            Customer::new($billing_details, $user);
-        }
-
-        if ($payment_intent->shipping != null) {
-            Shipping::new($payment_intent);
-        }
-    }
-
     if($user && ! $user->customer) {
-
         $billing_details = PaymentMethod::retrieve(
             $payment_intent->payment_method
         )->billing_details;
@@ -50,9 +49,10 @@
         Customer::new($billing_details, $user);
     }
 
-    ShoppingCart::empty();
+    if($user && $payment_intent->shipping !== null) {
+        $shipping = Shipping::new($payment_intent);
 
-    return response([
-        'success' => route('checkouts.success')
-    ]);
+        $order->shipping_id = $shipping->id;
+        $order->save();
+    }
 } --}}

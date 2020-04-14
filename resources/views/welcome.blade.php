@@ -1,6 +1,5 @@
 <x-layouts.app>
     <div>
-
         <x-alert.success />
 
         <section class="jumbotron text-center">

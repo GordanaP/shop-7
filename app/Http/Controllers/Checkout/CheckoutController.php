@@ -15,6 +15,7 @@ use App\Facades\ShoppingCart;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Stripe\Exception\ApiErrorException;
+use App\Utilities\Payments\StripeGateway;
 
 class CheckoutController extends Controller
 {
@@ -42,48 +43,33 @@ class CheckoutController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, StripeGateway $gateway)
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
-        $payment_intent = PaymentIntent::create([
-            'payment_method' => $request->payment_method_id,
-            'amount' => ShoppingCart::totalInCents(),
-            'currency' => config('services.stripe.currency'),
-            'metadata' => [
-                'user_id' => Auth::id() ?? null,
-                'order_number' => random_int(5000, 10000),
-                'subtotal' => ShoppingCart::subtotalInCents(),
-                'tax_amount' => ShoppingCart::taxAmountInCents(),
-                'shipping_costs' => ShoppingCart::shippingCostsInCents(),
-            ],
-            'shipping' => $request->shipping,
-        ]);
+        $payment = $gateway->collectPayment();
 
-        $payment_intent->confirm();
+        $payment->confirm();
 
-        if($payment_intent->status == "succeeded")
+        if($payment->status == "succeeded")
         {
-            $order = Order::place($payment_intent);
+            $order = Order::place($payment);
 
-            if($user_id = $payment_intent->metadata->user_id) {
+            $gateway->updatePayment($payment, $order);
 
-                $user = User::find($user_id);
+            if(Auth::check() && ! Auth::user()->customer) {
+                $billing_details = PaymentMethod::retrieve(
+                    $payment->payment_method
+                )->billing_details;
 
-                if($user && ! $user->customer) {
-                    $billing_details = PaymentMethod::retrieve(
-                        $payment_intent->payment_method
-                    )->billing_details;
+                Customer::new($billing_details, Auth::user());
+            }
 
-                    Customer::new($billing_details, $user);
-                }
+            if(Auth::check() && $payment->shipping !== null) {
+                $shipping = Shipping::new($payment);
 
-                if($user && $payment_intent->shipping !== null) {
-                    $shipping = Shipping::new($payment_intent);
-
-                    $order->shipping_id = $shipping->id;
-                    $order->save();
-                }
+                $order->shipping_id = $shipping->id;
+                $order->save();
             }
 
             ShoppingCart::empty();

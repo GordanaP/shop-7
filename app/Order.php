@@ -35,7 +35,7 @@ class Order extends Model
 
         $order->user_id = $data->metadata->user_id ?? null;
         $order->shipping_id = optional($shipping)->id ?? null;
-        $order->order_number = $data->metadata->order_number;
+        $order->order_number = random_int(5000, 10000);
         $order->stripe_payment_id = $data->id;
         $order->total_in_cents = $data->amount;
         $order->subtotal_in_cents = $data->metadata->subtotal;
