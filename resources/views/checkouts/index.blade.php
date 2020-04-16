@@ -22,6 +22,7 @@
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox"
+                        name="displayShipping"
                         id="displayShipping"
                         value="off"
                         onclick="toggleVisibility('#shippingAddress')"
@@ -64,17 +65,10 @@
         <script src="https://js.stripe.com/v3/"></script>
 
         <script>
-            var billingAddress = 'billing';
-            var shippingAddress = 'shipping';
-            var displayShipping = $("#displayShipping");
-
-            switchToggleBtn(displayShipping);
-
             var stripe = Stripe(@json(config('services.stripe.key')));
-            var elements = stripe.elements();
 
             var style = {
-              base: {
+                base: {
                     color: "#32325d",
                     fontSmoothing: "antialiased",
                 },
@@ -84,41 +78,27 @@
                 }
             };
 
-            var card = elements.create("card", {
-                style: style,
-                hidePostalCode: true
-            });
-
-            card.mount("#card-element");
-
-            card.addEventListener('change', ({error}) => {
-                const displayError = document.getElementById('card-errors');
-                if (error) {
-                    displayError.classList.add('text-danger', 'text-xs');
-                    displayError.textContent = error.message;
-                } else {
-                    displayError.classList.remove('text-danger', 'text-xs');
-                    displayError.textContent = '';
-                }
-            });
+            var card = mountCardElement(stripe, style);
+            displayCardErrors(card);
 
             var billingPostalCodeField = getById('billingPostal_code');
+            updateCardBillingPostalCodeField(card, billingPostalCodeField);
 
-            if(billingPostalCodeField.value) {
-                card.update({value: {postalCode: billingPostalCodeField.value}});
-            } else {
-                billingPostalCodeField.addEventListener('change', function(event) {
-                    card.update({value: {postalCode: event.target.value}});
-                });
-            }
+            var displayShipping = $("#displayShipping");
+            switchToggleBtn(displayShipping);
+
+            clearErrorOnTriggeringAnEvent();
 
             var form = document.getElementById('paymentForm');
-            var submitUrl = form.action;
-            var submitMethod = form.method;
-            var submitButton = document.getElementById('submitPaymentButton');
 
             form.addEventListener('submit', function(ev) {
                 ev.preventDefault();
+
+                var billingAddress = 'billing';
+                var shippingAddress = 'shipping';
+                var submitUrl = form.action;
+                var submitMethod = form.method;
+                var submitButton = document.getElementById('submitPaymentButton');
                 submitButton.disabled = true;
 
                 $.ajax({
@@ -132,43 +112,13 @@
                     error : function(response) {
                         var errors = response.responseJSON.errors;
                         if(errors) {
-                            displayErrors(errors)
+                            displayErrors(errors);
+                            submitButton.disabled = false;
                         }
                     }
                 })
                 .then(function(response){
-                    var clientSecret = response.client_secret;
-                    var billingAd = response.billing
-                    var shippingAd = response.shipping;
-
-                    stripe.confirmCardPayment(clientSecret, {
-                        payment_method: {
-                            card: card,
-                            billing_details: billingAd
-                        },
-                        shipping: shippingAd
-                    })
-                    .then(function(result) {
-                        if (result.error) {
-                            $('.alert-danger').show().text(result.error.message)
-                        } else {
-                            if (result.paymentIntent.status === 'succeeded') {
-
-                                var paymentIntentId = result.paymentIntent.id;
-
-                                $.ajax({
-                                    url: '/orders',
-                                    type: 'POST',
-                                    data: {
-                                        payment_intent_id: paymentIntentId
-                                    },
-                                })
-                                .then(function(result) {
-                                    redirectTo(result.success)
-                                });
-                            }
-                        }
-                    });
+                    handlePaymentResponse(response)
                 });
             });
 

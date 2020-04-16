@@ -35,7 +35,8 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-warning btn-block" id="testBtn">
+            <button type="submit" class="btn btn-warning btn-block"
+            id="submitPaymentButton">
                 Submit
             </button>
 
@@ -63,14 +64,8 @@
 
             var submitFormUrl = form.action;
             var submitFormMethod = form.method;
-
-            var paymentMethod = {
-                payment_method: {
-                    card: 'stripeCard',
-                    billing_details : requiresBillingDetails
-                        ? getAddress(billingAddress) : null
-                }
-            }
+            var submitButton = document.getElementById('submitPaymentButton');
+            submitButton.disabled = true;
 
             $.ajax({
                 url: submitFormUrl,
@@ -84,6 +79,7 @@
                     var errors = response.responseJSON.errors;
                     if(errors) {
                         displayErrors(errors);
+                        submitButton.disabled = false;
                     }
                 }
             })

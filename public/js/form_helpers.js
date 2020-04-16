@@ -4,9 +4,9 @@
 function clearErrorOnTriggeringAnEvent()
 {
     $("input, textarea").on('focus', function () {
-        var inputName = $(this).attr('name')
-
-        clearError($(this).attr('name'));
+        if($(this).attr('name')) {
+            clearError($(this).attr('name'));
+        }
     });
 
     $("select").on('change', function () {
