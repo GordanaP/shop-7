@@ -20,11 +20,11 @@
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox"
                         name="different_shipping_address"
-                        id="toggleShipping"
+                        id="displayShipping"
                         value="off"
                         onclick="toggleVisibility('#shippingAddress')"
                         >
-                        <label class="form-check-label" for="toggleShipping">
+                        <label class="form-check-label" for="displayShipping">
                             Different shipping address
                         </label>
                     </div>
@@ -60,15 +60,15 @@
         <script src="https://js.stripe.com/v3/"></script>
 
         <script>
-            var isRegistered = @json(Auth::user());
-            var hasCustomerProfile = @json(Auth::check() && Auth::user()->customer);
-            var requiresBilling = (! isRegistered || ! hasCustomerProfile) ? true : false;
+            // var isRegistered = @json(Auth::user());
+            // var hasCustomerProfile = @json(Auth::check() && Auth::user()->customer);
+            // var requiresBilling = (! isRegistered || ! hasCustomerProfile) ? true : false;
             var billingAddress = 'billing';
             var shippingAddress = 'shipping';
 
-            var toggleShipping = $("#toggleShipping");
+            var displayShipping = $("#displayShipping");
 
-            switchToggleBtn(toggleShipping);
+            switchToggleBtn(displayShipping);
 
             var stripe = Stripe(@json(config('services.stripe.key')));
             var elements = stripe.elements();
@@ -113,40 +113,51 @@
             }
 
             var form = document.getElementById('paymentForm');
+            var submitUrl = form.action;
+            var submitMethod = form.method;
             var submitButton = document.getElementById('submitPaymentButton');
 
             form.addEventListener('submit', function(ev) {
                 ev.preventDefault();
-                submitButton.disabled = true;
+                // submitButton.disabled = true;
 
-                stripe.createPaymentMethod({
-                    type: 'card',
-                    card: card,
-                    billing_details: getAddress(billingAddress),
-                }).then(function(result){
-                    if (result.error) {
-                        // Show error in payment form
-                    } else {
-                        var paymentMetodId = result.paymentMethod.id;
-                        var submitUrl = form.action;
-                        var submitMethod = form.method;
-
-                        $.ajax({
-                            url: submitUrl,
-                            type: submitMethod,
-                            data: {
-                                payment_method_id: paymentMetodId,
-                                shipping: shippingDetails(toggleShipping, shippingAddress),
-                            },
-                            error: function(response) {
-                                // var errors = response.responseJSON.errors;
-                                // displayServerSideErrors(errors)
-                            }
-                        }).then(function(result) {
-                            redirectTo(result.success);
-                        });
+                $.ajax({
+                    url: submitUrl,
+                    type: submitMethod,
+                    data: {
+                        display_shipping: displayShipping.val(),
+                        shipping: getAddress(shippingAddress),
+                        billing: getAddress(billingAddress),
+                    },
+                    error : function(response) {
+                        var errors = response.responseJSON.errors;
+                        if(errors) {
+                            displayErrors(errors)
+                        }
                     }
-                });
+                })
+                .then(function(response){
+                    var clientSecret = response.client_secret;
+                    var billingAd = response.billing
+                    var shippingAd = response.shipping;
+
+                    stripe.confirmCardPayment(clientSecret, {
+                        payment_method: {
+                            card: card,
+                            billing_details: billingAd
+                        },
+                        shipping: shippingAd
+                    })
+                    .then(function(result) {
+                        if (result.error) {
+                            console.log(result.error);
+                        } else {
+                            if (result.paymentIntent.status === 'succeeded') {
+                                console.log('success')
+                            }
+                        }
+                    });
+                })
 
             });
 

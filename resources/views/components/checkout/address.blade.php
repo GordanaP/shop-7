@@ -4,6 +4,8 @@
     name="{{ $type }}_name"
     placeholder="Name"
     value="{{ $type == 'billing' && Auth::check() ? optional(Auth::user()->customer)->name ?? '' : '' }}">
+
+    <p class="{{ $type }}_name text-xs text-red-500"></p>
 </div>
 
 <div class="form-group">

@@ -17,11 +17,11 @@
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="checkbox"
                     name="toggle_shipping_address"
-                    id="toggleShippingAddress"
+                    id="displayShipping"
                     value="off"
                     onclick="toggleVisibility('#shippingAddress')"
                     >
-                    <label class="form-check-label" for="toggleShippingAddress">
+                    <label class="form-check-label" for="displayShipping">
                         Different shipping address
                     </label>
                 </div>
@@ -50,37 +50,45 @@
         var billingAddress = 'billing';
         var shippingAddress = 'shipping';
 
-        var toggleShippingAddress = $("#toggleShippingAddress");
+        var displayShipping = $("#displayShipping");
 
-        switchToggleBtn(toggleShippingAddress);
+        switchToggleBtn(displayShipping);
 
         var form = document.getElementById('testForm');
 
         form.addEventListener('submit', function(e){
+
             e.preventDefault();
 
-            var submitUrl = form.action;
-            var submitMethod = form.method;
+            var submitFormUrl = form.action;
+            var submitFormMethod = form.method;
 
             var paymentMethod = {
                 payment_method: {
-                    card: 'strIpeCard',
+                    card: 'stripeCard',
                     billing_details : requiresBillingDetails
                         ? getAddress(billingAddress) : null
                 }
             }
 
             $.ajax({
-                url: submitUrl,
-                type: submitMethod,
+                url: submitFormUrl,
+                type: submitFormMethod,
                 data: {
-                    paymentMethod: paymentMethod,
-                    // shippingStatus: toggleShippingAddress.val(),
-                    paymentIntent: shippingDetails(toggleShippingAddress, shippingAddress),
+                    display_shipping: displayShipping.val(),
+                    shipping: getAddress(shippingAddress),
+                    billing: getAddress(billingAddress),
                 },
+                error : function(response) {
+                    var errors = response.responseJSON.errors;
+                    if(errors) {
+                        displayErrors(errors);
+                    }
+                }
             })
-            .done(function(response) {
-                console.log(response)
+            .then(function(result){
+                var billing = response.billing;
+                var shipping = response.shipping;
             });
         });
 

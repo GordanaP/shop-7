@@ -11,28 +11,22 @@ use Stripe\PaymentIntent;
 use Stripe\PaymentMethod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use App\Http\Requests\CheckoutRequest;
 
 class TestController extends Controller
 {
     public function index()
     {
-        Stripe::setApiKey(config('services.stripe.secret'));
-
-        $data = PaymentIntent::retrieve('pi_1GVsMhKu08hlX7zikhN9Yzr7');
-
         return view('test');
     }
 
-    public function store(Request $request)
+    public function store(CheckoutRequest $request)
     {
-        // return $request->paymentIntent['name'];
-        return $request->paymentIntent['address']['line1'];
-
-    }
-
-    private function shippingDetails($shipping)
-    {
-        return $shipping != null ? ['shipping' => $shipping] : '';
+        return response([
+            'client_secret' => '12345',
+            'billing' => $request->billing,
+            'shipping' => $request->shipping
+        ]);
     }
 
 }

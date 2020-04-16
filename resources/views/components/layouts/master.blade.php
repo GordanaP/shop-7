@@ -35,6 +35,7 @@
     <!-- Fontawesome -->
     <script src="{{ asset('vendor/fontawesome-free-5.13.0-web/js/all.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
+    <script src="{{ asset('js/form_helpers.js') }}"></script>
 
     <script>
         $.ajaxSetup({

@@ -8,30 +8,45 @@ use App\Utilities\Payments\AmountCollected;
 
 class StripeGateway
 {
+    /**
+     * The stripe currency.
+     *
+     * @var string
+     */
     private $currency;
 
-    private $payment_method_id;
-
-    private $shipping;
-
+    /**
+     * The user id.
+     *
+     * @var int
+     */
     private $user_id;
 
+    /**
+     * The amount collected for payment.
+     *
+     * @var \App\Utilities\Payments\AmountCollected
+     */
     protected $amount;
 
-
+    /**
+     * Create a new class instance.
+     *
+     * @param \App\Utilities\Payments\AmountCollected $amount
+     */
     public function __construct(AmountCollected $amount)
     {
         $this->currency = config('services.stripe.currency');
-        $this->payment_method_id = request('payment_method_id');
-        $this->shipping = request('shipping');
         $this->user_id = Auth::id() ?? null;
         $this->amount = $amount;
     }
 
-    public function collectPayment()
+    /**
+     * Collect the payment info.
+     */
+    public function collectPayment(): PaymentIntent
     {
         return PaymentIntent::create([
-            'payment_method' => $this->payment_method_id,
             'amount' => $this->amount->inCents()['total'],
             'currency' => $this->currency,
             'metadata' => [
@@ -40,18 +55,6 @@ class StripeGateway
                 'tax_amount' => $this->amount->inCents()['tax'],
                 'shipping_costs' => $this->amount->inCents()['shipping_costs'],
             ],
-            'shipping' => $this->shipping,
         ]);
-    }
-
-    public function updatePayment($payment, $order)
-    {
-        PaymentIntent::update(
-            $payment->id, [
-                'metadata' => [
-                    'order_id' => $order->order_number,
-                ]
-            ]
-        );
     }
 }

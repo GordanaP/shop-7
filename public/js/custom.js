@@ -100,3 +100,37 @@ function isCheckedToggleBtn(toggleBtn)
 {
     return toggleBtn.val() == 'on';
 }
+
+/**
+ * Handle server response upon stripe payment.
+ */
+function handleServerResponse(response) {
+    if (response.error) {
+        console.log(response.error)
+    } else if (response.requires_action) {
+        // Create paymentIntent id
+        stripe.handleCardAction(
+            response.payment_intent_client_secret
+        )
+        .then(function(result) {
+            if (result.error) {
+                console.log(result.error)
+            } else {
+                // Send paymentIntent id back to server
+                $.ajax({
+                    url: payOrderUrl,
+                    type: 'POST',
+                    data: {
+                        payment_intent_id: result.paymentIntent.id
+                    }
+                })
+                .then(function(confirmResult) {
+                    return confirmResult;
+                });
+            }
+        });
+    } else {
+        clearForm();
+        window.location.replace(response.success);
+    }
+}

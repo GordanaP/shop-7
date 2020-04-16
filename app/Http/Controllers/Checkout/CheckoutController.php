@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Facades\ShoppingCart;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\CheckoutRequest;
 use Stripe\Exception\ApiErrorException;
 use App\Utilities\Payments\StripeGateway;
 
@@ -28,91 +29,50 @@ class CheckoutController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, StripeGateway $gateway)
+    public function store(CheckoutRequest $request, StripeGateway $gateway)
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
-        $payment = $gateway->collectPayment();
+        $billing = $request->billing;
+        $shipping = $request->shipping;
 
-        $payment->confirm();
-
-        if($payment->status == "succeeded")
-        {
-            $order = Order::place($payment);
-
-            $gateway->updatePayment($payment, $order);
-
-            if(Auth::check() && ! Auth::user()->customer) {
-                $billing_details = PaymentMethod::retrieve(
-                    $payment->payment_method
-                )->billing_details;
-
-                Customer::new($billing_details, Auth::user());
-            }
-
-            if(Auth::check() && $payment->shipping !== null) {
-                $shipping = Shipping::new($payment);
-
-                $order->shipping_id = $shipping->id;
-                $order->save();
-            }
-
-            ShoppingCart::empty();
-
-            return response([
-                'success' => route('checkouts.success')
-            ]);
-        }
+        return response([
+            'client_secret' => $gateway->collectPayment()->client_secret,
+            'billing' => $billing,
+            'shipping' => $shipping
+        ]);
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
 }
+
+// if($payment->status == "succeeded")
+// {
+//     $order = Order::place($payment);
+
+//     $gateway->updatePayment($payment, $order);
+
+//     if(Auth::check() && ! Auth::user()->customer) {
+//         $billing_details = PaymentMethod::retrieve(
+//             $payment->payment_method
+//         )->billing_details;
+
+//         Customer::new($billing_details, Auth::user());
+//     }
+
+//     if(Auth::check() && $payment->shipping !== null) {
+//         $shipping = Shipping::new($payment);
+
+//         $order->shipping_id = $shipping->id;
+//         $order->save();
+//     }
+
+//     ShoppingCart::empty();
+
+//     return response([
+//         'success' => route('checkouts.success')
+//     ]);
+// }
