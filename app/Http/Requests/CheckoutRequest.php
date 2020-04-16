@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CheckoutRequest extends FormRequest
@@ -24,8 +25,23 @@ class CheckoutRequest extends FormRequest
     public function rules()
     {
         return [
-            'display_shipping' => 'required',
-            'shipping.name' => 'required_if:display_shipping,on'
+            'billing.name' => 'required',
+            'billing.email' => 'required|email',
+            'billing.phone' => 'required',
+            'billing.address.line1' => 'required',
+            'billing.address.city' => 'required',
+            'billing.address.country' => 'required',
+            'billing.address.postal_code' => 'required',
+            'displayShipping' => [
+                'required',
+                Rule::in(['on', 'off'])
+            ],
+            'shipping.name' => 'required_if:displayShipping,on',
+            'shipping.phone' => 'required_if:displayShipping,on',
+            'shipping.address.line1' => 'required_if:displayShipping,on',
+            'shipping.address.city' => 'required_if:displayShipping,on',
+            'shipping.address.country' => 'required_if:displayShipping,on',
+            'shipping.address.postal_code' => 'required_if:displayShipping,on',
         ];
     }
 }

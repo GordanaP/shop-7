@@ -53,3 +53,8 @@ Route::get('checkout/payment/error','Checkout\CheckoutErrorController')
 
 Route::get('/test', 'TestController@index')->name('tests.index');
 Route::post('/test', 'TestController@store')->name('tests.store');
+
+/**
+ * Product
+ */
+Route::resource('orders', 'Order\OrderController');

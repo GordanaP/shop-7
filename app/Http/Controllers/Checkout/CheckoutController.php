@@ -38,41 +38,14 @@ class CheckoutController extends Controller
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
-        $billing = $request->billing;
-        $shipping = $request->shipping;
+        $billing = $request->validated()['billing'];
+        $shipping = $request->validated()['shipping'];
 
         return response([
             'client_secret' => $gateway->collectPayment()->client_secret,
+            // 'payment_intent_id' => $gateway->collectPayment()->id,
             'billing' => $billing,
             'shipping' => $shipping
         ]);
     }
 }
-
-// if($payment->status == "succeeded")
-// {
-//     $order = Order::place($payment);
-
-//     $gateway->updatePayment($payment, $order);
-
-//     if(Auth::check() && ! Auth::user()->customer) {
-//         $billing_details = PaymentMethod::retrieve(
-//             $payment->payment_method
-//         )->billing_details;
-
-//         Customer::new($billing_details, Auth::user());
-//     }
-
-//     if(Auth::check() && $payment->shipping !== null) {
-//         $shipping = Shipping::new($payment);
-
-//         $order->shipping_id = $shipping->id;
-//         $order->save();
-//     }
-
-//     ShoppingCart::empty();
-
-//     return response([
-//         'success' => route('checkouts.success')
-//     ]);
-// }

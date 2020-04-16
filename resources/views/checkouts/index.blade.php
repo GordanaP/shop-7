@@ -6,6 +6,9 @@
 
     <h3 class="mb-2">Checkout</h1>
 
+    .<div class="alert alert-danger text-center hidden">
+    </div>
+
     <div class="row">
         <div class="col-md-6">
 
@@ -19,7 +22,6 @@
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox"
-                        name="different_shipping_address"
                         id="displayShipping"
                         value="off"
                         onclick="toggleVisibility('#shippingAddress')"
@@ -28,6 +30,8 @@
                             Different shipping address
                         </label>
                     </div>
+
+                    <p class="displayShipping text-xs text-red-500"></p>
                 </div>
 
                 <div id="shippingAddress" class="hidden">
@@ -60,12 +64,8 @@
         <script src="https://js.stripe.com/v3/"></script>
 
         <script>
-            // var isRegistered = @json(Auth::user());
-            // var hasCustomerProfile = @json(Auth::check() && Auth::user()->customer);
-            // var requiresBilling = (! isRegistered || ! hasCustomerProfile) ? true : false;
             var billingAddress = 'billing';
             var shippingAddress = 'shipping';
-
             var displayShipping = $("#displayShipping");
 
             switchToggleBtn(displayShipping);
@@ -119,13 +119,13 @@
 
             form.addEventListener('submit', function(ev) {
                 ev.preventDefault();
-                // submitButton.disabled = true;
+                submitButton.disabled = true;
 
                 $.ajax({
                     url: submitUrl,
                     type: submitMethod,
                     data: {
-                        display_shipping: displayShipping.val(),
+                        displayShipping: displayShipping.val(),
                         shipping: getAddress(shippingAddress),
                         billing: getAddress(billingAddress),
                     },
@@ -150,15 +150,26 @@
                     })
                     .then(function(result) {
                         if (result.error) {
-                            console.log(result.error);
+                            $('.alert-danger').show().text(result.error.message)
                         } else {
                             if (result.paymentIntent.status === 'succeeded') {
-                                console.log('success')
+
+                                var paymentIntentId = result.paymentIntent.id;
+
+                                $.ajax({
+                                    url: '/orders',
+                                    type: 'POST',
+                                    data: {
+                                        payment_intent_id: paymentIntentId
+                                    },
+                                })
+                                .then(function(result) {
+                                    redirectTo(result.success)
+                                });
                             }
                         }
                     });
-                })
-
+                });
             });
 
         </script>

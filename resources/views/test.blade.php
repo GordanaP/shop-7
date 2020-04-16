@@ -16,7 +16,6 @@
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="checkbox"
-                    name="toggle_shipping_address"
                     id="displayShipping"
                     value="off"
                     onclick="toggleVisibility('#shippingAddress')"
@@ -25,6 +24,8 @@
                         Different shipping address
                     </label>
                 </div>
+
+                <p class="displayShipping text-xs text-red-500"></p>
             </div>
 
             <div id="shippingAddress" class="hidden">
@@ -75,7 +76,7 @@
                 url: submitFormUrl,
                 type: submitFormMethod,
                 data: {
-                    display_shipping: displayShipping.val(),
+                    displayShipping: displayShipping.val(),
                     shipping: getAddress(shippingAddress),
                     billing: getAddress(billingAddress),
                 },
@@ -87,8 +88,23 @@
                 }
             })
             .then(function(result){
-                var billing = response.billing;
-                var shipping = response.shipping;
+                var clientSecret = result.client_secret;
+                var paymentIntentId = result.payment_intent_id;
+                var billing = result.billing;
+                var shipping = result.shipping;
+                var storeOrderUrl = @json(route('orders.store'));
+
+                $.ajax({
+                    url: storeOrderUrl,
+                    type: 'POST',
+                    data: {
+                        payment_intent_id: paymentIntentId
+                    },
+                })
+                .then(function(result) {
+                    console.log(result)
+                    // redirectTo(result.success)
+                });
             });
         });
 
