@@ -25,7 +25,8 @@
                     </label>
                 </div>
 
-                <p class="displayShipping text-xs text-red-500"></p>
+                <div class="displayShipping invalid-feedback text-xs text-red-500"></div>
+
             </div>
 
             <div id="shippingAddress" class="hidden">
@@ -36,7 +37,7 @@
             </div>
 
             <button type="submit" class="btn btn-warning btn-block"
-            id="submitPaymentButton">
+            id="submitPaymentBtn">
                 Submit
             </button>
 
@@ -46,30 +47,31 @@
     @section('scripts')
         <script>
 
-        var isRegistered = @json(Auth::user());
-        var hasCustomerProfile = @json(Auth::check() && Auth::user()->customer);
-        var requiresBillingDetails = ! isRegistered || ! hasCustomerProfile;
-        var billingAddress = 'billing';
-        var shippingAddress = 'shipping';
+        // var isRegistered = @json(Auth::user());
+        // var hasCustomerProfile = @json(Auth::check() && Auth::user()->customer);
+        // var requiresBillingDetails = ! isRegistered || ! hasCustomerProfile;
 
         var displayShipping = $("#displayShipping");
+        var hiddenField = $('#shippingAddress');
+        displayShipping.switchStatus();
+        displayShipping.clearHiddenFieldContent(hiddenField);
 
-        switchToggleBtn(displayShipping);
+        var form = $('#testForm');
+        var field = $('#billingPostal_code');
 
-        var form = document.getElementById('testForm');
-
-        form.addEventListener('submit', function(e){
+        form.on('submit', function(e) {
 
             e.preventDefault();
 
-            var submitFormUrl = form.action;
-            var submitFormMethod = form.method;
-            var submitButton = document.getElementById('submitPaymentButton');
-            submitButton.disabled = true;
+            var billingAddress = 'billing';
+            var shippingAddress = 'shipping';
+            var submitUrl = $(this).attr("action");
+            var submitMethod = $(this).attr("method");
+            var submitButton = $(this).find("button").attr("disabled", true);
 
             $.ajax({
-                url: submitFormUrl,
-                type: submitFormMethod,
+                url: submitUrl,
+                type: submitMethod,
                 data: {
                     displayShipping: displayShipping.val(),
                     shipping: getAddress(shippingAddress),
@@ -79,13 +81,13 @@
                     var errors = response.responseJSON.errors;
                     if(errors) {
                         displayErrors(errors);
-                        submitButton.disabled = false;
+                        submitButton.removeAttr("disabled");
                     }
                 }
             })
             .then(function(result){
                 var clientSecret = result.client_secret;
-                var paymentIntentId = result.payment_intent_id;
+                var paymentIntentId = 'pi_123';
                 var billing = result.billing;
                 var shipping = result.shipping;
                 var storeOrderUrl = @json(route('orders.store'));
@@ -103,6 +105,8 @@
                 });
             });
         });
+
+        clearErrorOnTriggeringAnEvent();
 
         </script>
     @endsection

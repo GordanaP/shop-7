@@ -1,40 +1,39 @@
 /**
+ * Clear hidden errors.
+ *
+ * @param  JQ\Object hiddenField
+ */
+$.fn.clearHiddenFieldContent = function(hiddenField)
+{
+    $(this).on('click', function() {
+        if($(this).is(':checked')) {
+            hiddenField.find('.invalid-feedback').empty().hide();
+            hiddenField.find('input, select').val('');
+        }
+    });
+}
+
+/**
  * Remove the error upon triggering an event on a given element.
  */
 function clearErrorOnTriggeringAnEvent()
 {
     $("input, textarea").on('focus', function () {
-        if($(this).attr('name')) {
-            clearError($(this).attr('name'));
-        }
+        $(this).next('.invalid-feedback').empty();
     });
 
     $("select").on('change', function () {
-         clearError($(this).attr('name'));
+         $(this).next('.invalid-feedback').empty();
     });
 
     $("input[type=radio]").on('click', function() {
-         clearError($(this).attr('name'));
+        $(this).parent().siblings('.invalid-feedback').empty();
     });
 
     $("input[type=checkbox]").on('click', function() {
-        var name = $(this).attr('name').slice(0,-2);
-        clearError($(this).attr('name'));
+        $(this).parent().siblings('.invalid-feedback').empty();
     });
 }
-
-/**
- * Remove the error.
- *
- * @param  string error
- */
-function clearError(error)
-{
-    var className = error.replace(/\./g, "-");
-
-    errorContainer(error).empty().hide();
-}
-
 
 /**
  * Display errors.

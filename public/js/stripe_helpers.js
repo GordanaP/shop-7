@@ -42,15 +42,15 @@ function displayCardErrors(card)
  * Update Stripe card postal code field.
  *
  * @param  Stripe\Elements card
- * @param  JS\Object field
+ * @param  JQ\Object field
  */
 function updateCardBillingPostalCodeField(card, field)
 {
-    if(field.value) {
-        card.update({value: {postalCode: field.value}});
+    if(field.val()) {
+        card.update({value: {postalCode: field.val()}});
     } else {
-        field.addEventListener('change', function(event) {
-            card.update({value: {postalCode: event.target.value}});
+        field.on('change', function() {
+            card.update({value: {postalCode: $(this).val()}});
         });
     }
 }

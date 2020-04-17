@@ -32,7 +32,7 @@
                         </label>
                     </div>
 
-                    <p class="displayShipping text-xs text-red-500"></p>
+                    <p class="displayShipping invalid-feedback text-xs text-red-500"></p>
                 </div>
 
                 <div id="shippingAddress" class="hidden">
@@ -49,8 +49,7 @@
                 <!-- We'll put the error messages in this element -->
                 <div id="card-errors" role="alert"></div>
 
-                <button id="submitPaymentButton" class="btn bg-warning rounded-full
-                mt-2 btn-block">
+                <button class="btn bg-warning rounded-full mt-2 btn-block">
                     Pay {{ Str::withCurrency(ShoppingCart::total()) }}
                 </button>
             </form>
@@ -81,25 +80,24 @@
             var card = mountCardElement(stripe, style);
             displayCardErrors(card);
 
-            var billingPostalCodeField = getById('billingPostal_code');
+            var billingPostalCodeField = $('#billingPostal_code');
             updateCardBillingPostalCodeField(card, billingPostalCodeField);
 
             var displayShipping = $("#displayShipping");
-            switchToggleBtn(displayShipping);
+            var hiddenField = $('#shippingAddress');
+            displayShipping.switchStatus();
+            displayShipping.clearHiddenFieldContent(hiddenField);
 
-            clearErrorOnTriggeringAnEvent();
+            var form = $('#paymentForm');
 
-            var form = document.getElementById('paymentForm');
-
-            form.addEventListener('submit', function(ev) {
+            form.on('submit', function(ev) {
                 ev.preventDefault();
 
                 var billingAddress = 'billing';
                 var shippingAddress = 'shipping';
-                var submitUrl = form.action;
-                var submitMethod = form.method;
-                var submitButton = document.getElementById('submitPaymentButton');
-                submitButton.disabled = true;
+                var submitUrl = $(this).attr("action");
+                var submitMethod = $(this).attr("method");
+                var submitButton = $(this).find("button").attr("disabled", true);
 
                 $.ajax({
                     url: submitUrl,
@@ -113,14 +111,16 @@
                         var errors = response.responseJSON.errors;
                         if(errors) {
                             displayErrors(errors);
-                            submitButton.disabled = false;
+                            submitButton.removeAttr("disabled");
                         }
                     }
                 })
-                .then(function(response){
+                .then(function(response) {
                     handlePaymentResponse(response)
                 });
             });
+
+            clearErrorOnTriggeringAnEvent();
 
         </script>
     @endsection

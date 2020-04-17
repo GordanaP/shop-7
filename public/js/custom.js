@@ -12,14 +12,19 @@ function redirectTo(location)
  * Get the element by it's id.
  *
  * @param  string id
- * @return JS ElementsObject
+ * @return JS\Object
  */
 function getById(id)
 {
     return document.getElementById(id);
 }
 
-
+/**
+ * Get the customer's address.
+ *
+ * @param  string address
+ * @return JS\Object
+ */
 function getAddress(address)
 {
     return {
@@ -39,22 +44,19 @@ function getAddress(address)
 /**
  * Toggle hidden field visibility.
  *
- * @param  {string} fieldId
- * @return void
+ * @param  string field
  */
 function toggleVisibility(field)
 {
-    return $(field).toggle();
+    $(field).toggle();
 }
 
 /**
  * Switch the toggle button's status.
- *
- * @param  JQuery\Object toggleBtn
  */
-function switchToggleBtn(toggleBtn)
+$.fn.switchStatus = function()
 {
-    toggleBtn.click( function() {
+    $(this).click( function() {
         if($(this).is(':checked')) {
             $(this).val('on');
         } else {
@@ -62,42 +64,3 @@ function switchToggleBtn(toggleBtn)
         }
     });
 }
-
-// function billingDetails(customer, address)
-// {
-//     if(customer) {
-//         return getAddress(address);
-//     }
-// }
-
-// function shippingDetails(toggleBtn, address){
-//     if(isCheckedToggleBtn(toggleBtn)) {
-//         return myShipping(address);
-//     }
-// }
-
-// function myShipping(address)
-// {
-//     return {
-//         name : $('#'+address + 'Name').val(),
-//         address : {
-//             line1 : $('#'+address + 'Line1').val(),
-//             line2 : ' ',
-//             city : $('#'+address + 'City').val(),
-//             postal_code : $('#'+address + 'Postal_code').val(),
-//             country : $('#'+address + 'Country').val(),
-//         },
-//         phone: $('#'+address + 'Phone').val(),
-//     }
-// }
-
-/**
- * Detemine if the toggle button is checked.
- *
- * @param  JQuery\Object  toggleBtn
- * @return boolean
- */
-// function isCheckedToggleBtn(toggleBtn)
-// {
-//     return toggleBtn.val() == 'on';
-// }
