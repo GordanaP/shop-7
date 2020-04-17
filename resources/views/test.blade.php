@@ -86,14 +86,15 @@
                 }
             })
             .then(function(result){
-                var clientSecret = result.client_secret;
-                var paymentIntentId = 'pi_123';
+                console.log(result)
+                // var paymentIntentId = 'pi_1GYwmsKu08hlX7zidIq5kWhG'; // reg && shipp
+                // var paymentIntentId = 'pi_1GYs43Ku08hlX7ziWrJyNz0T'; // reg && non ship
+                var paymentIntentId = 'pi_1GYqc8Ku08hlX7ziTABUnjq1'; // non reg
                 var billing = result.billing;
                 var shipping = result.shipping;
-                var storeOrderUrl = @json(route('orders.store'));
 
                 $.ajax({
-                    url: storeOrderUrl,
+                    url: '/orders',
                     type: 'POST',
                     data: {
                         payment_intent_id: paymentIntentId

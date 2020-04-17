@@ -6,12 +6,18 @@ use Illuminate\Support\Facades\App;
 
 class AmountCollected
 {
+    /**
+     * Create a new class instance.
+     */
     public function __construct()
     {
         $this->shopping_cart = App::make('shopping-cart');
     }
 
-    public function inCents()
+    /**
+     * Amount collected in cents.
+     */
+    public function inCents(): array
     {
         return [
             'total' => $this->shopping_cart->totalInCents(),

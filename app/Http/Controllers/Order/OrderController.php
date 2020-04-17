@@ -2,16 +2,10 @@
 
 namespace App\Http\Controllers\Order;
 
-use App\User;
 use App\Order;
-use App\Customer;
-use App\Shipping;
-use Stripe\Stripe;
-use Stripe\PaymentIntent;
-use Stripe\PaymentMethod;
 use Illuminate\Http\Request;
-use App\Facades\ShoppingCart;
 use App\Http\Controllers\Controller;
+use App\Utilities\Orders\OrderCompleted;
 
 class OrderController extends Controller
 {
@@ -41,35 +35,9 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, OrderCompleted $order)
     {
-        Stripe::setApiKey(config('services.stripe.secret'));
-
-        $payment = PaymentIntent::retrieve(
-            $request->payment_intent_id
-        );
-
-        $order = Order::place($payment);
-
-        $user_id = $payment->metadata->user_id;
-        $user = User::find($user_id);
-
-        if($user && ! $user->customer) {
-            $billing_details = PaymentMethod::retrieve(
-                $payment->payment_method
-            )->billing_details;
-
-            Customer::new($billing_details, $user);
-        }
-
-        if($user && $payment->shipping !== null) {
-            $shipping = Shipping::new($payment);
-
-            $order->shipping_id = $shipping->id;
-            $order->save();
-        }
-
-        ShoppingCart::empty();
+        $order->handleInfo();
 
         return response([
             'success' => route('checkouts.success')

@@ -2,7 +2,9 @@
 
 namespace App\Utilities\Payments;
 
+use Stripe\Stripe;
 use Stripe\PaymentIntent;
+use Stripe\PaymentMethod;
 use Illuminate\Support\Facades\Auth;
 use App\Utilities\Payments\AmountCollected;
 
@@ -30,6 +32,13 @@ class StripeGateway
     protected $amount;
 
     /**
+     * The unique Stripe PaymentIntent identifier.
+     *
+     * @var string
+     */
+    protected $payment_intent_id;
+
+    /**
      * Create a new class instance.
      *
      * @param \App\Utilities\Payments\AmountCollected $amount
@@ -39,6 +48,7 @@ class StripeGateway
         $this->currency = config('services.stripe.currency');
         $this->user_id = Auth::id() ?? null;
         $this->amount = $amount;
+        $this->payment_intent_id = request('payment_intent_id');
     }
 
     /**
@@ -56,5 +66,29 @@ class StripeGateway
                 'shipping_costs' => $this->amount->inCents()['shipping_costs'],
             ],
         ]);
+    }
+
+    /**
+     * Retrieve the payment info.
+     */
+    public function retrievePayment(): PaymentIntent
+    {
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        return PaymentIntent::retrieve(
+            $this->payment_intent_id
+        );
+    }
+
+    /**
+     * Retrieve the payment method.
+     */
+    public function retrievePaymentMethod(): PaymentMethod
+    {
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        return PaymentMethod::retrieve(
+            $this->retrievePayment()->payment_method
+        );
     }
 }
