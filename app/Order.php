@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Order extends Model
 {
@@ -22,6 +23,16 @@ class Order extends Model
     public function shipping(): BelongsTo
     {
         return $this->belongsTo(Shipping::class);
+    }
+
+    /**
+     * The order's products.
+     */
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class)
+            ->as('ordered')
+            ->withPivot('quantity', 'price_in_cents');
     }
 
     /**

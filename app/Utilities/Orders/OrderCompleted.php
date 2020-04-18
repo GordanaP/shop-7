@@ -14,30 +14,37 @@ class OrderCompleted
     /**
      * The payment.
      *
-     * @var Stripe\PaymentIntent
+     * @var \Stripe\PaymentIntent
      */
     public $payment;
 
     /**
      * The billing details.
      *
-     * @var Stripe\PaymentIntent
+     * @var \Stripe\PaymentIntent
      */
     public $billing;
 
     /**
      * The shipping details.
      *
-     * @var Stripe\PaymentIntent
+     * @var \Stripe\PaymentIntent
      */
     public $shipping;
 
     /**
      * The registered user.
      *
-     * @var App\User
+     * @var \App\User
      */
     public $billable;
+
+    /**
+     * The purchased items.
+     *
+     * @var \Illuminate\Support\Collection
+     */
+    public $items;
 
     /**
      * Create a new class istance.
@@ -50,6 +57,7 @@ class OrderCompleted
         $this->billing = $gateway->retrievePaymentMethod()->billing_details;
         $this->shipping = $this->payment->shipping;
         $this->billable = User::find($this->payment->metadata->user_id) ?? null;
+        $this->items = ShoppingCart::content();
     }
 
     /**
@@ -67,8 +75,23 @@ class OrderCompleted
             $shipping = Shipping::new($this->payment);
         }
 
-        Order::place($this->payment, $shipping ?? null);
+        $order = Order::place($this->payment, $shipping ?? null);
+
+        $this->attachItemsToOrder($this->items, $order);
 
         ShoppingCart::empty();
+    }
+
+    /**
+     * Attach the purchased items to the order.
+     */
+    private function attachItemsToOrder($items, $order)
+    {
+        $items->map(function($item, $key) use($order) {
+            $order->products()->attach($item->id, [
+                'quantity' => $item->quantity,
+                'price_in_cents' => $item->price_in_cents
+            ]);
+        });
     }
 }

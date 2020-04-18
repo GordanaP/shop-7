@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
 {
@@ -28,6 +29,16 @@ class Product extends Model
         $price_in_dollars = $this->price_in_cents/100;
 
         return number_format($this->price_in_cents/100, 2);
+    }
+
+    /**
+     * The order's containing the product.
+     */
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class)
+            ->as('ordered')
+            ->withPivot('quantity', 'price_in_cents');
     }
 
     // /**
