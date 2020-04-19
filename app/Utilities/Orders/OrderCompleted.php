@@ -6,38 +6,19 @@ use App\User;
 use App\Order;
 use App\Customer;
 use App\Shipping;
+use Stripe\StripeObject;
+use Stripe\PaymentIntent;
 use App\Facades\ShoppingCart;
 use App\Utilities\Payments\StripeGateway;
 
 class OrderCompleted
 {
     /**
-     * The payment.
+     * The payment gateway.
      *
-     * @var \Stripe\PaymentIntent
+     * @var \App\Utilities\Payments\StripeGateway
      */
-    public $payment;
-
-    /**
-     * The billing details.
-     *
-     * @var \Stripe\PaymentIntent
-     */
-    public $billing;
-
-    /**
-     * The shipping details.
-     *
-     * @var \Stripe\PaymentIntent
-     */
-    public $shipping;
-
-    /**
-     * The registered user.
-     *
-     * @var \App\User
-     */
-    public $billable;
+    public $gateway;
 
     /**
      * The purchased items.
@@ -53,29 +34,28 @@ class OrderCompleted
      */
     public function __construct(StripeGateway $gateway)
     {
-        $this->payment = $gateway->retrievePayment();
-        $this->billing = $gateway->retrievePaymentMethod()->billing_details;
-        $this->shipping = $this->payment->shipping;
-        $this->billable = User::find($this->payment->metadata->user_id) ?? null;
+        $this->gateway = $gateway;
         $this->items = ShoppingCart::content();
     }
 
     /**
-     * Handle order info once the payment has been completed.
+     * Handle the payment once it has been completed.
+     *
+     * @param  string $pi [Stripe PaymentIntent id]
      */
-    public function handleInfo()
+    public function handlePayment($pi)
     {
-        if($this->billable && ! $this->billable->customer) {
+        if($this->billable($pi) && ! $this->billable($pi)->customer) {
 
-            Customer::new($this->billing, $this->billable);
+            Customer::new($this->billing($pi), $this->billable($pi));
         }
 
-        if($this->billable && $this->shipping !== null) {
+        if($this->billable($pi) && $this->shipping(($pi))) {
 
-            $shipping = Shipping::new($this->payment);
+            $shipping = Shipping::new($this->payment($pi));
         }
 
-        $order = Order::place($this->payment, $shipping ?? null);
+        $order = Order::place($this->payment($pi), $shipping ?? null);
 
         $this->attachItemsToOrder($this->items, $order);
 
@@ -84,6 +64,9 @@ class OrderCompleted
 
     /**
      * Attach the purchased items to the order.
+     *
+     * @param  \Illuminate\Support\Collection $items
+     * @param  \App\Order $order
      */
     private function attachItemsToOrder($items, $order)
     {
@@ -93,5 +76,48 @@ class OrderCompleted
                 'price_in_cents' => $item->price_in_cents
             ]);
         });
+    }
+
+    /**
+     * The registered billable user.
+     *
+     * @param  string $pi
+     */
+    private function billable($pi): ?User
+    {
+        return User::find($this->payment($pi)->metadata->user_id) ?? null;
+
+    }
+
+    /**
+     * The shipping details.
+     *
+     * @param  string $pi
+     */
+    private function shipping($pi): bool
+    {
+        return $this->payment($pi)->shipping !== null;
+
+    }
+
+    /**
+     * The billing details.
+     *
+     * @param  string $pi
+     */
+    private function billing($pi): StripeObject
+    {
+        return $this->gateway->retrievePaymentMethod($pi)->billing_details;
+
+    }
+
+    /**
+     * The payment.
+     *
+     * @param  string $pi
+     */
+    private function payment($pi): PaymentIntent
+    {
+        return $this->gateway->retrievePayment($pi);
     }
 }

@@ -2,63 +2,114 @@
 
     @section('links')
         <link rel="stylesheet" href="{{ asset('css/stripe.css') }}">
+
+        <style type="text/css">
+
+            #paymentForm input[type="text"], #paymentForm textarea,
+            #paymentForm select {
+                outline: none;
+                box-shadow:none !important;
+            }
+            #paymentForm .form-group { border-bottom: 1px solid #f0f5fa; }
+
+            p.instruction {
+                top: 68px;
+                left: 38%;
+                background: #f8fbfd;
+            }
+
+            .checkout-cart-table td { border-top: none }
+
+        </style>
     @endsection
 
-    <h3 class="mb-2">Checkout</h1>
-
-    .<div class="alert alert-danger text-center hidden">
-    </div>
-
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-7">
 
-            <form id="paymentForm" action="{{ route('checkouts.store') }}" method="POST"
-             class="w-full lg:w-1/2" >
+            <div class="lg:w-3/4 mx-auto mt-20">
+                <p class="text-center instruction px-2 absolute">
+                    Complete your details below
+                </p>
 
-                <div id="billingAddress" class="mb-2">
-                    <p >Billing details</p>
-                    <div class="card card-body">
-                        <x-checkout.address type="billing" />
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox"
-                        name="displayShipping"
-                        id="displayShipping"
-                        value="off"
-                        onclick="toggleVisibility('#shippingAddress')"
-                        >
-                        <label class="form-check-label" for="displayShipping">
-                            Different shipping address
-                        </label>
-                    </div>
+                <x-checkout.payment-form
+                    :route="route('checkouts.store')"
+                    :total="ShoppingCart::total()"
+                />
+            </div>
 
-                    <p class="displayShipping invalid-feedback text-xs text-red-500"></p>
-                </div>
-
-                <div id="shippingAddress" class="hidden">
-                    <p>Shipping details</p>
-                    <div class="card card-body">
-                        <x-checkout.address type="shipping" />
-                    </div>
-                </div>
-
-                <div id="card-element" class="mt-4">
-                    <!-- Elements will create input elements here -->
-                </div>
-
-                <!-- We'll put the error messages in this element -->
-                <div id="card-errors" role="alert"></div>
-
-                <button class="btn bg-warning rounded-full mt-2 btn-block">
-                    Pay {{ Str::withCurrency(ShoppingCart::total()) }}
-                </button>
-            </form>
+            <div class="alert alert-danger text-center hidden mx-auto
+            lg:w-3/4 mt-2"></div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-5 lg:pr-0">
+            <div class="bg-white p-4 border-b border-b-gray-100 text-2xl"
+            style="margin-top: 3px">
+                <p class="my-2">Order Summary</p>
+            </div>
 
+            <x-checkout.order-summary
+                :items="ShoppingCart::content()"
+                :subtotal="ShoppingCart::subtotal()"
+                :taxAmount="ShoppingCart::taxAmount()"
+                :shippingCosts="ShoppingCart::shippingCosts()"
+                :total="ShoppingCart::total()"
+            />
         </div>
     </div>
+
+
+
+{{--     <div class="row">
+            <div class="col-md-6">
+
+                <form id="paymentForm" action="{{ route('checkouts.store') }}" method="POST"
+                 class="w-full lg:w-1/2" >
+
+                    <div id="billingAddress" class="mb-2">
+                        <p >Billing details</p>
+                        <div class="card card-body">
+                            <x-checkout.address type="billing" />
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox"
+                            name="displayShipping"
+                            id="displayShipping"
+                            value="off"
+                            onclick="toggleVisibility('#shippingAddress')"
+                            >
+                            <label class="form-check-label" for="displayShipping">
+                                Different shipping address
+                            </label>
+                        </div>
+
+                        <p class="displayShipping invalid-feedback text-xs text-red-500"></p>
+                    </div>
+
+                    <div id="shippingAddress" class="hidden">
+                        <p>Shipping details</p>
+                        <div class="card card-body">
+                            <x-checkout.address type="shipping" />
+                        </div>
+                    </div>
+
+                    <div id="card-element" class="mt-4">
+                        <!-- Elements will create input elements here -->
+                    </div>
+
+                    <!-- We'll put the error messages in this element -->
+                    <div id="card-errors" role="alert"></div>
+
+                    <button class="btn bg-warning rounded-full mt-2 btn-block">
+                        Pay {{ Str::withCurrency(ShoppingCart::total()) }}
+                    </button>
+                </form>
+            </div>
+
+            <div class="col-md-6">
+
+            </div>
+        </div> --}}
+
 
     @section('scripts')
         <script src="https://js.stripe.com/v3/"></script>

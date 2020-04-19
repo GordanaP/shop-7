@@ -19,6 +19,8 @@ h6 { @apply text-sm; }
 .a-blue { @apply text-blue-600; }
 .custom-badge { @apply  font-semibold rounded-full text-xs px-2; }
 .form-inline { @apply inline; }
+.uppercase-semibold { @apply uppercase font-semibold tracking-wide; }
+.text-error { @apply text-xs text-red-500; }
 
 @tailwind components;
 

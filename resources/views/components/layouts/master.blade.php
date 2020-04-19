@@ -27,7 +27,7 @@
 
         <x-nav />
 
-        <main class="py-4 container">
+        <main class="pb-4 container-fluid">
             {{ $slot }}
         </main>
     </div>

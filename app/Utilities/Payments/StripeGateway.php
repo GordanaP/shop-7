@@ -5,11 +5,18 @@ namespace App\Utilities\Payments;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
 use Stripe\PaymentMethod;
+use App\Facades\ShoppingCart;
 use Illuminate\Support\Facades\Auth;
-use App\Utilities\Payments\AmountCollected;
 
 class StripeGateway
 {
+    /**
+     * The Stripe secret key.
+     *
+     * @var string
+     */
+    private $stripe_secret_key;
+
     /**
      * The stripe currency.
      *
@@ -27,28 +34,19 @@ class StripeGateway
     /**
      * The amount collected for payment.
      *
-     * @var \App\Utilities\Payments\AmountCollected
+     * @var array
      */
     protected $amount;
 
     /**
-     * The unique Stripe PaymentIntent identifier.
-     *
-     * @var string
-     */
-    protected $payment_intent_id;
-
-    /**
      * Create a new class instance.
-     *
-     * @param \App\Utilities\Payments\AmountCollected $amount
      */
-    public function __construct(AmountCollected $amount)
+    public function __construct()
     {
+        $this->stripe_secret_key = Stripe::setApiKey(config('services.stripe.secret'));
         $this->currency = config('services.stripe.currency');
         $this->user_id = Auth::id() ?? null;
-        $this->amount = $amount;
-        $this->payment_intent_id = request('payment_intent_id');
+        $this->amount = ShoppingCart::summaryInCents();
     }
 
     /**
@@ -56,39 +54,39 @@ class StripeGateway
      */
     public function collectPayment(): PaymentIntent
     {
+        $this->stripe_secret_key;
+
         return PaymentIntent::create([
-            'amount' => $this->amount->inCents()['total'],
+            'amount' => $this->amount['total'],
             'currency' => $this->currency,
             'metadata' => [
                 'user_id' => $this->user_id,
-                'subtotal' => $this->amount->inCents()['subtotal'],
-                'tax_amount' => $this->amount->inCents()['tax'],
-                'shipping_costs' => $this->amount->inCents()['shipping_costs'],
+                'subtotal' => $this->amount['subtotal'],
+                'tax_amount' => $this->amount['tax'],
+                'shipping_costs' => $this->amount['shipping_costs'],
             ],
         ]);
     }
 
     /**
-     * Retrieve the payment info.
+     * Retrieve the payment method.
      */
-    public function retrievePayment(): PaymentIntent
+    public function retrievePaymentMethod($pi): PaymentMethod
     {
-        Stripe::setApiKey(config('services.stripe.secret'));
+        $this->stripe_secret_key;
 
-        return PaymentIntent::retrieve(
-            $this->payment_intent_id
+        return PaymentMethod::retrieve(
+            $this->retrievePayment($pi)->payment_method
         );
     }
 
     /**
-     * Retrieve the payment method.
+     * Retrieve the payment.
      */
-    public function retrievePaymentMethod(): PaymentMethod
+    public function retrievePayment($pi): PaymentIntent
     {
-        Stripe::setApiKey(config('services.stripe.secret'));
+        $this->stripe_secret_key;
 
-        return PaymentMethod::retrieve(
-            $this->retrievePayment()->payment_method
-        );
+        return PaymentIntent::retrieve($pi);
     }
 }

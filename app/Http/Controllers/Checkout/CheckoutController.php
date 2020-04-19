@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Checkout;
 
-use Stripe\Stripe;
 use Illuminate\View\View;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
@@ -27,8 +26,6 @@ class CheckoutController extends Controller
      */
     public function store(CheckoutRequest $request, StripeGateway $gateway): Response
     {
-        Stripe::setApiKey(config('services.stripe.secret'));
-
         try {
             $billing = $request->validated()['billing'];
             $shipping = $request->validated()['shipping'];

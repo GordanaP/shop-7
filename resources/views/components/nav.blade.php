@@ -1,8 +1,11 @@
 <nav class="navbar navbar-expand-md navbar-light shadow-sm
 border-b border-yellow-300">
-    <div class="container">
+    <div class="container-fluid">
         <a class="navbar-brand" href="{{ url('/') }}">
-            {{ config('app.name', 'Laravel') }}
+            <div class="flex">
+                <img src="{{ asset('images/logo.svg') }}" width="30" class="mr-2">
+                {{ config('app.name', 'Laravel') }}
+            </div>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse"
         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"

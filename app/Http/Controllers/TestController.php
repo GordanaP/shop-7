@@ -13,6 +13,8 @@ class TestController extends Controller
 
     public function store(CheckoutRequest $request)
     {
+        return $request->all();
+
         $billing = $request->validated()['billing'];
         $shipping = $request->validated()['shipping'];
 

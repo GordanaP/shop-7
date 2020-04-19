@@ -1,6 +1,6 @@
 <x-layouts.app>
 
-    <div  class="text-center">
+    <div  class="text-center my-4">
 
         <h2 class="mb-4">Thank you for shopping with us!</h1>
 

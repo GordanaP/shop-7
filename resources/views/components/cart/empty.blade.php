@@ -1,4 +1,4 @@
-<form action="{{ route('shopping.cart.empty') }}" method="POST" class="inline">
+<form action="{{ $route }}" method="POST" class="inline">
 
     @csrf
     @method('DELETE')

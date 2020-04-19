@@ -7,6 +7,19 @@ use App\Facades\ShoppingCart;
 trait Priceable
 {
     /**
+     * The price's summary in cents.
+     */
+    public function summaryInCents(): array
+    {
+        return [
+            'total' => $this->totalInCents(),
+            'subtotal' => $this->subtotalInCents(),
+            'tax' => $this->taxAmountInCents(),
+            'shipping_costs' => $this->shippingCostsInCents(),
+        ];
+    }
+
+    /**
      * The total in cents.
      */
     public function totalInCents(): int

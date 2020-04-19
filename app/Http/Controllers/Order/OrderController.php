@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Order;
 
 use App\Order;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Utilities\Orders\OrderCompleted;
 
@@ -33,11 +34,11 @@ class OrderController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Utilities\Orders\OrderCompleted  $order
      */
-    public function store(Request $request, OrderCompleted $order)
+    public function store(Request $request, OrderCompleted $order):Response
     {
-        $order->handleInfo();
+        $order->handlePayment($request->payment_intent_id);
 
         return response([
             'success' => route('checkouts.success')
