@@ -78,8 +78,16 @@
                     id="{{ $type }}Country"
                 >
                     <option value="">Select a country</option>
-                    <option value="RS" >Serbia</option>
-                    <option value="ME">Montenegro</option>
+                    @foreach (App::make("country-list")->all as $name => $code)
+                        <option value="{{ $code }}"
+                            {{ select($code, Auth::check()
+                                ? optional(Auth::user()->customer)->country
+                                : '')
+                            }}
+                        >
+                            {{ $name }}
+                        </option>
+                    @endforeach
                 </select>
 
                 <p class="{{ $type }}-address-country invalid-feedback text-error"></p>

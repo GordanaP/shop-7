@@ -1,3 +1,19 @@
+$.fn.switchColor = function(placeholderColor, optionColor)
+{
+    if ($(this).val()) {
+        $(this).css('color', optionColor);
+    }
+
+    $(this).on('change', function(){
+        if ($(this).val()) {
+            $(this).css('color', optionColor)
+        }
+        else {
+            $(this).css('color', placeholderColor)
+        }
+    });
+}
+
 /**
  * Clear hidden errors.
  *

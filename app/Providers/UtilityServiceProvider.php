@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Utilities\General\CountryList;
 use Illuminate\Support\ServiceProvider;
 use App\Utilities\Products\ShoppingCart;
 use App\Utilities\Payments\StripeGateway;
@@ -16,7 +17,7 @@ class UtilityServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->instance('shopping-cart', new ShoppingCart);
+        $this->app->instance('country-list', new CountryList);
     }
 
     /**

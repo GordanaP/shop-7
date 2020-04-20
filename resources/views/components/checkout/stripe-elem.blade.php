@@ -1,4 +1,4 @@
-<div id="card-element">
+<div id="card-element" class="shadow-sm">
     <!-- Elements will create input elements here -->
 </div>
 

@@ -3,13 +3,14 @@
     @section('links')
         <link rel="stylesheet" href="{{ asset('css/stripe.css') }}">
 
-        <style type="text/css">
+        <style>
 
             #paymentForm input[type="text"], #paymentForm textarea,
             #paymentForm select {
                 outline: none;
                 box-shadow:none !important;
             }
+
             #paymentForm .form-group { border-bottom: 1px solid #f0f5fa; }
 
             p.instruction {
@@ -25,7 +26,6 @@
 
     <div class="row">
         <div class="col-md-7">
-
             <div class="lg:w-3/4 mx-auto mt-20">
                 <p class="text-center instruction px-2 absolute">
                     Complete your details below
@@ -57,60 +57,6 @@
         </div>
     </div>
 
-
-
-{{--     <div class="row">
-            <div class="col-md-6">
-
-                <form id="paymentForm" action="{{ route('checkouts.store') }}" method="POST"
-                 class="w-full lg:w-1/2" >
-
-                    <div id="billingAddress" class="mb-2">
-                        <p >Billing details</p>
-                        <div class="card card-body">
-                            <x-checkout.address type="billing" />
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox"
-                            name="displayShipping"
-                            id="displayShipping"
-                            value="off"
-                            onclick="toggleVisibility('#shippingAddress')"
-                            >
-                            <label class="form-check-label" for="displayShipping">
-                                Different shipping address
-                            </label>
-                        </div>
-
-                        <p class="displayShipping invalid-feedback text-xs text-red-500"></p>
-                    </div>
-
-                    <div id="shippingAddress" class="hidden">
-                        <p>Shipping details</p>
-                        <div class="card card-body">
-                            <x-checkout.address type="shipping" />
-                        </div>
-                    </div>
-
-                    <div id="card-element" class="mt-4">
-                        <!-- Elements will create input elements here -->
-                    </div>
-
-                    <!-- We'll put the error messages in this element -->
-                    <div id="card-errors" role="alert"></div>
-
-                    <button class="btn bg-warning rounded-full mt-2 btn-block">
-                        Pay {{ Str::withCurrency(ShoppingCart::total()) }}
-                    </button>
-                </form>
-            </div>
-
-            <div class="col-md-6">
-
-            </div>
-        </div> --}}
-
-
     @section('scripts')
         <script src="https://js.stripe.com/v3/"></script>
 
@@ -138,6 +84,9 @@
             var hiddenField = $('#shippingAddress');
             displayShipping.switchStatus();
             displayShipping.clearHiddenFieldContent(hiddenField);
+            var tw_gray_500 = '#a0aec0';
+            var tw_gray_800 = '#2d3748';
+            $('select').switchColor(tw_gray_500, tw_gray_800);
 
             var form = $('#paymentForm');
 
