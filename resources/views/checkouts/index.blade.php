@@ -2,26 +2,7 @@
 
     @section('links')
         <link rel="stylesheet" href="{{ asset('css/stripe.css') }}">
-
-        <style>
-
-            #paymentForm input[type="text"], #paymentForm textarea,
-            #paymentForm select {
-                outline: none;
-                box-shadow:none !important;
-            }
-
-            #paymentForm .form-group { border-bottom: 1px solid #f0f5fa; }
-
-            p.instruction {
-                top: 68px;
-                left: 38%;
-                background: #f8fbfd;
-            }
-
-            .checkout-cart-table td { border-top: none }
-
-        </style>
+        <link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
     @endsection
 
     <div class="row">

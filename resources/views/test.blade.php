@@ -2,28 +2,11 @@
 
     @section('links')
         <link rel="stylesheet" href="{{ asset('css/stripe.css') }}">
-
-        <style type="text/css">
-
-            #paymentForm input[type="text"], #paymentForm textarea,
-            #paymentForm select {
-                outline: none;
-                box-shadow:none !important;
-            }
-            #paymentForm .form-group { border-bottom: 1px solid #f0f5fa; }
-
-            p.instruction {
-                top: 68px;
-                left: 38%;
-                background: #f8fbfd;
-            }
-
-            .checkout-cart-table td { border-top: none }
-
-        </style>
+        <link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
     @endsection
 
     <div class="row">
+
         <div class="col-md-7">
             <div class="lg:w-3/4 mx-auto mt-20">
                 <p class="text-center instruction px-2 absolute">
@@ -31,6 +14,7 @@
                 </p>
 
                 <x-checkout.payment-form
+                    :route="route('tests.store')"
                     :total="ShoppingCart::total()"
                 />
             </div>

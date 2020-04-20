@@ -47,7 +47,7 @@ function clearErrorOnTriggeringAnEvent()
     });
 
     $("input[type=checkbox]").on('click', function() {
-        $(this).parent().siblings('.invalid-feedback').empty();
+        $(this).parents().eq(1).siblings('.invalid-feedback').empty();
     });
 }
 

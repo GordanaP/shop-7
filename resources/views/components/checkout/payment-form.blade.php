@@ -11,7 +11,7 @@
             <x-checkout.address type="billing" />
 
             <div class="mt-2">
-                <div class="form-check form-check-inline">
+                <div class="form-check form-check-inline mt-2">
                     <input class="form-check-input" type="checkbox"
                     id="displayShipping"
                     value="off"

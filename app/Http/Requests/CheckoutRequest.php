@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\App;
 use Illuminate\Foundation\Http\FormRequest;
@@ -20,10 +21,8 @@ class CheckoutRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'billing.name' => 'required',
@@ -31,11 +30,11 @@ class CheckoutRequest extends FormRequest
             'billing.phone' => 'required',
             'billing.address.line1' => 'required',
             'billing.address.city' => 'required',
+            'billing.address.postal_code' => 'required',
             'billing.address.country' => [
                 'required',
                 Rule::in(App::make('country-list')->values())
             ],
-            'billing.address.postal_code' => 'required',
             'displayShipping' => [
                 'required',
                 Rule::in(['on', 'off'])
@@ -44,11 +43,41 @@ class CheckoutRequest extends FormRequest
             'shipping.phone' => 'required_if:displayShipping,on',
             'shipping.address.line1' => 'required_if:displayShipping,on',
             'shipping.address.city' => 'required_if:displayShipping,on',
+            'shipping.address.postal_code' => 'required_if:displayShipping,on',
             'shipping.address.country' => [
                 'required_if:displayShipping,on',
                 Rule::in(App::make('country-list')->values())
             ],
-            'shipping.address.postal_code' => 'required_if:displayShipping,on',
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     */
+    public function messages(): array
+    {
+        $required_field = 'The value is required.';
+        $invalid_field = 'The value is invalid.';
+
+        return [
+            'billing.name.required'  => $required_field,
+            'billing.email.required'  => $required_field,
+            'billing.email.email'  => $invalid_field,
+            'billing.phone.required'  => $required_field,
+            'billing.address.line1.required'  => $required_field,
+            'billing.address.city.required'  => $required_field,
+            'billing.address.postal_code.required'  => $required_field,
+            'billing.address.country.required'  => $required_field,
+            'billing.address.country.in'  => $invalid_field,
+            'displayShipping.required'  => $required_field,
+            'displayShipping.in'  => $invalid_field,
+            'shipping.name.required_if'  => $required_field,
+            'shipping.phone.required_if'  => $required_field,
+            'shipping.address.line1.required_if'  => $required_field,
+            'shipping.address.city.required_if'  => $required_field,
+            'shipping.address.postal_code.required_if'  => $required_field,
+            'shipping.address.country.required_if'  => $required_field,
+            'shipping.address.country.in'  => $invalid_field,
         ];
     }
 }
