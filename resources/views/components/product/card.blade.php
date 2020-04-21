@@ -1,3 +1,5 @@
+@props(['product'])
+
 <div class="col-md-4">
     <div class="card mb-3 box-shadow">
 
@@ -18,7 +20,10 @@
             </p>
             <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                    <x-cart.add-item :product="$product" class="btn-sm" />
+                    <x-cart.add-item
+                        :product="$product"
+                        class="btn-sm"
+                    />
                 </div>
 
                 <div>{{ $product->price }}</div>

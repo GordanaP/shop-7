@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <x-error class="displayShipping" />
+            <p class="displayShipping invalid-feedback text-error"></p>
         </div>
 
         <div id="shippingAddress" class="hidden mb-6">

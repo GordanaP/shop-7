@@ -80,10 +80,9 @@
                     <option value="">Select a country</option>
                     @foreach (App::make("country-list")->all as $name => $code)
                         <option value="{{ $code }}"
-                            {{ select($code, Auth::check()
-                                ? optional(Auth::user()->customer)->country
-                                : '')
-                            }}
+                            @if ($type == 'billing' && Auth:: check())
+                                {{ select($code, strtolower(optional(Auth::user()->customer)->country)) }}
+                            @endif
                         >
                             {{ $name }}
                         </option>

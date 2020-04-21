@@ -69,6 +69,8 @@
             var tw_gray_800 = '#2d3748';
             $('select').switchColor(tw_gray_500, tw_gray_800);
 
+            console.log($('select').attr('id'))
+
             var form = $('#paymentForm');
 
             form.on('submit', function(ev) {
@@ -84,9 +86,9 @@
                     url: submitUrl,
                     type: submitMethod,
                     data: {
+                        billing: getAddress(billingAddress),
                         displayShipping: displayShipping.val(),
                         shipping: getAddress(shippingAddress),
-                        billing: getAddress(billingAddress),
                     },
                     error : function(response) {
                         var errors = response.responseJSON.errors;

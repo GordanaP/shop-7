@@ -6,7 +6,7 @@
     @endsection
 
     <div class="row">
-
+    {{-- {{ print_r(App::make('country-list')->values()) }} --}}
         <div class="col-md-7">
             <div class="lg:w-3/4 mx-auto mt-20">
                 <p class="text-center instruction px-2 absolute">

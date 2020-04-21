@@ -24,7 +24,7 @@ class CheckoutController extends Controller
      *
      * @param  \App\Http\Requests\CheckoutRequest  $request
      */
-    public function store(CheckoutRequest $request, StripeGateway $gateway): Response
+    public function store(CheckoutRequest $request, StripeGateway $gateway)
     {
         try {
             $billing = $request->validated()['billing'];

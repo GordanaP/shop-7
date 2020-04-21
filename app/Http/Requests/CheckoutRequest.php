@@ -44,9 +44,11 @@ class CheckoutRequest extends FormRequest
             'shipping.address.line1' => 'required_if:displayShipping,on',
             'shipping.address.city' => 'required_if:displayShipping,on',
             'shipping.address.postal_code' => 'required_if:displayShipping,on',
+            'shipping.address.country' => 'required_if:displayShipping,on',
             'shipping.address.country' => [
                 'required_if:displayShipping,on',
-                Rule::in(App::make('country-list')->values())
+                ($this->shipping['address']['country'] !== null && $this->displayShipping == 'on')
+                ? Rule::in(App::make('country-list')->values()) : ''
             ],
         ];
     }
