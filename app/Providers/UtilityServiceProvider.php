@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Utilities\General\CountryList;
+use App\Utilities\General\QueryManager;
 use Illuminate\Support\ServiceProvider;
 use App\Utilities\Products\ShoppingCart;
 use App\Utilities\Payments\StripeGateway;
@@ -18,6 +19,14 @@ class UtilityServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->instance('country-list', new CountryList);
+
+        $this->app->bind('QueryManager', function($app) {
+            return new QueryManager;
+        });
+
+        $this->app->bind('ShoppingCart', function($app){
+            return session('cart', new ShoppingCart);
+        });
     }
 
     /**
@@ -27,9 +36,6 @@ class UtilityServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind('ShoppingCart', function($app){
-            return session('cart', new ShoppingCart);
-        });
-
+        //
     }
 }

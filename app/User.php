@@ -56,7 +56,7 @@ class User extends Authenticatable
     }
 
     /**
-     * The user's shipping addresse's.
+     * The user's shipping addresses.
      */
     public function shippings(): HasMany
     {

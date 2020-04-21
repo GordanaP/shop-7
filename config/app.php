@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\MacroServiceProvider::class,
         App\Providers\UtilityServiceProvider::class,
+        App\Providers\ViewComposerServiceProvider::class,
 
     ],
 
@@ -229,6 +230,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'ShoppingCart' => App\Facades\ShoppingCart::class,
+        'QueryManager' => App\Facades\QueryManager::class,
 
     ],
 

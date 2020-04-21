@@ -8,8 +8,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
 {
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
     protected $appends = ['price_in_dollars'];
-
 
     /**
      * Get the product price together with currency.
@@ -47,6 +51,11 @@ class Product extends Model
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class);
+    }
+
+    public function scopeFilter($query, $articleFilterService)
+    {
+        return $articleFilterService->apply($query);
     }
 
     // /**

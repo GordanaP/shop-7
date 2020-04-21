@@ -7,6 +7,9 @@
   padding-bottom: var(--jumbotron-padding-y);
   margin-bottom: 0;
   background-color: #fff;
+  background-image: url(http://placehold.jp/24/319795/38b2ac/150x100.png);
+    background-size: cover;
+    height: 100%;
 }
 @media (min-width: 768px) {
   .jumbotron {

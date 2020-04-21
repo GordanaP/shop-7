@@ -1,4 +1,16 @@
 <x-layouts.app>
+
+    @section('links')
+        <style type="text/css">
+            .page-item.active .page-link{
+                background: #38b2ac;
+                border: 1px solid #38b2ac;
+            }
+
+            #filtersList li.active { color: #38b2ac; font-weight: 500;}
+        </style>
+    @endsection
+
     <div class="my-4">
         <x-alert.success />
 
@@ -20,22 +32,18 @@
                 <div class="row">
 
                     <div class="col-md-3">
-                        <p class="uppercase font-medium text-base tracking-wide mb-2">
-                            Categories
-                        </p>
-                        <ol class="list-disc list-inside">
-                            @foreach (App\Category::all() as $category)
-                                <li class="leading-relaxed font-light text-lg">
-                                    {{ $category->name }}
-                                </li>
-                            @endforeach
-                        </ol>
+
+                        <x-filters.all :filters="$filters" />
+
                     </div>
 
                     <div class="col-md-9">
 
                         <x-product.album :products="$products" />
 
+                        <div class="float-right mt-4">
+                            {{ $products->appends(Request::query())->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
