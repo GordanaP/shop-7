@@ -32,13 +32,21 @@ class Product extends Model
     }
 
     /**
-     * The order's containing the product.
+     * The orders containing the product.
      */
     public function orders(): BelongsToMany
     {
         return $this->belongsToMany(Order::class)
             ->as('ordered')
             ->withPivot('quantity', 'price_in_cents');
+    }
+
+    /**
+     * The categories containing the product.
+     */
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class);
     }
 
     // /**

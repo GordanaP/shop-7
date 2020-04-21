@@ -20,7 +20,16 @@
                 <div class="row">
 
                     <div class="col-md-3">
-                        <!-- Categories -->
+                        <p class="uppercase font-medium text-base tracking-wide mb-2">
+                            Categories
+                        </p>
+                        <ol class="list-disc list-inside">
+                            @foreach (App\Category::all() as $category)
+                                <li class="leading-relaxed font-light text-lg">
+                                    {{ $category->name }}
+                                </li>
+                            @endforeach
+                        </ol>
                     </div>
 
                     <div class="col-md-9">
