@@ -29,5 +29,19 @@ class MacroServiceProvider extends ServiceProvider
 
             return Str::of($price)->prepend($currency);
         });
+
+        Str::macro('reverseSlug', function ($slug) {
+            return Str::of($slug)
+                ->replace('-', ' ')
+                ->ucfirst();
+        });
+
+        Str::macro('toList', function ($item, $loop) {
+            $punctuation_mark = ',';
+
+            return Str::of($item)
+                ->ucfirst()
+                ->append(! $loop->last ? $punctuation_mark : '');
+        });
     }
 }

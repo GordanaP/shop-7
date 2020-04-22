@@ -17,7 +17,7 @@ class CategoriesTableSeeder extends Seeder
         factory('App\Category', 5)->create()
             ->map(function($category) use ($products) {
                 $category->products()
-                    ->sync($products->take(rand(1, 3)));
+                    ->sync($products->take(rand(4, 10)));
             });
     }
 }

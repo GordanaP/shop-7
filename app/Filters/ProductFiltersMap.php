@@ -12,7 +12,9 @@ class ProductFiltersMap
     public static function filters(): array
     {
         return [
-            'category' =>  Category::all()->pluck('name', 'name'),
+            'category' =>  Category::withCount('products')
+                ->orderBy('products_count', 'desc')
+                ->pluck('products_count', 'slug'),
         ];
     }
 }

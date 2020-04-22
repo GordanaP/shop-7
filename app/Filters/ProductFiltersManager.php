@@ -7,7 +7,7 @@ use App\Filters\CategoryFilter;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Database\Eloquent\Builder;
 
-class ProductFilterService
+class ProductFiltersManager
 {
     /**
      * Apply the product filters.

@@ -61,7 +61,7 @@ class QueryManager
      *
      * @param  array $filters
      */
-    public function detectsAny($filters): bool
+    public function detectsAny($filters): ?bool
     {
         return collect($this->query)->intersectByKeys($filters)->all();
     }

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
@@ -53,9 +54,15 @@ class Product extends Model
         return $this->belongsToMany(Category::class);
     }
 
-    public function scopeFilter($query, $articleFilterService)
+    /**
+     * Scope a query to only include the products fitered by a query.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \App\Filters\ProductFilterService  $productFilterSErvice
+     */
+    public function scopeFilter($query, $productFiltersManager): Builder
     {
-        return $articleFilterService->apply($query);
+        return $productFiltersManager->apply($query);
     }
 
     // /**

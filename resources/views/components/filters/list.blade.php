@@ -3,7 +3,8 @@
         <li class="{{ QueryManager::makeActiveClass($key, $filter)}} text-lg">
             <a  href="{{ route('welcome', QueryManager::build([$filter => $key])) }}"
                 class="leading-relaxed text-base">
-                {{ ucwords($value) }}
+                {{ Str::reverseSlug($key) }}
+                ({{ $value }})
             </a>
         </li>
     </ol>

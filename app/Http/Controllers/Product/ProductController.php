@@ -3,20 +3,21 @@
 namespace App\Http\Controllers\Product;
 
 use App\Product;
-use App\Category;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Filters\ProductFilterService;
+use App\Filters\ProductFiltersManager;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @param  App\Filters\ProductFiltersManager $productFiltersManager
      */
-    public function index(ProductFilterService $productFilterService): View
+    public function index(ProductFiltersManager $productFiltersManager): View
     {
-        $products = Product::filter($productFilterService)->paginate(9);
+        $products = Product::filter($productFiltersManager)->paginate(6);
 
         return view('welcome', compact('products'));
     }
