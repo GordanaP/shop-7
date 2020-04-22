@@ -4,9 +4,10 @@
     <div class="card mb-3 box-shadow">
 
         <a href="{{ route('products.show', $product) }}">
-            <img src="{{ asset('images/demo_product.jpg') }}"
-            class="card-img-top"
-            alt="Card image cap">
+            <x-product.image
+                :image="$product->getDefaultImage()"
+                class="card-img-top"
+            />
         </a>
 
         <div class="card-body">

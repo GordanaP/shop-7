@@ -15,7 +15,8 @@ class ProductFiltersManager
     public function apply(): Builder
     {
         return app(Pipeline::class)
-            ->send(Product::query())
+            ->send(Product::query()
+                ->with('images'))
             ->through([
                 CategoryFilter::class,
             ])

@@ -5,13 +5,18 @@
 
         <div class="card card-body p-12">
             <div class="row">
-                <div class="col-md-6">
-                    <div>
-                         <img class="img-fluid rounded-lg"
-                         src="{{ asset('images/demo_product_1.jpg') }}"
-                         alt="Product image">
-                    </div>
+                <div class="col-md-5">
+                    <x-product.image
+                        :image="$product->getDefaultImage()"
+                        id="mainImage"
+                        class="img-fluid rounded-lg"
+                    />
                 </div>
+
+                <div class="col-md-1">
+                    <x-product.thumbnails :product="$product" />
+                </div>
+
                 <div class="col-md-6 lg:pl-6">
                     <div class="caption">
                         <h4 class="font-light mb-2 text-2xl">
@@ -45,5 +50,15 @@
             </div>
         </div>
     </div>
+
+    @section('scripts')
+        <script>
+            var mainImage = $('#mainImage');
+            var thumbnails = $('.thumbnail');
+
+            thumbnails.switchToMainImage(mainImage);
+
+        </script>
+    @endsection
 
 </x-layouts.app>

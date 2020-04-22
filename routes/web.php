@@ -14,6 +14,12 @@ Route::get('/home', 'HomeController@index')->name('home');
  */
 Route::resource('products', 'Product\ProductController')->except('index');
 
+
+/**
+ * ProductImage
+ */
+Route::resource('products.images', 'Product\ProductImageController');
+
 /**
  * ShoppingCart
  */

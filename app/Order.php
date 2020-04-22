@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Order extends Model
 {
     /**
-     * The customer who placed the order.
+     * The customer who placed the orders.
      */
     public function user(): BelongsTo
     {
@@ -18,7 +18,7 @@ class Order extends Model
     }
 
     /**
-     * The order's shipping address.
+     * The shipping address to dispatch the orders .
      */
     public function shipping(): BelongsTo
     {
@@ -26,7 +26,7 @@ class Order extends Model
     }
 
     /**
-     * The order's products.
+     * The orders' products.
      */
     public function products(): BelongsToMany
     {

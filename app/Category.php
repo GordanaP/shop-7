@@ -16,7 +16,7 @@ class Category extends Model
     }
 
     /**
-     * The products belonging to the category.
+     * The products belonging to the categories.
      */
     public function products(): BelongsToMany
     {

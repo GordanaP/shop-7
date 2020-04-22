@@ -64,3 +64,21 @@ $.fn.switchStatus = function()
         }
     });
 }
+
+/**
+ * Switch from thumbnail to main image.
+ *
+ * @param  JQ\Object mainImage
+ */
+$.fn.switchToMainImage = function(mainImage)
+{
+    $(this).each(function(el) {
+        $(this).hover(function() {
+            $(this).css('cursor','pointer');
+        });
+
+        $(this).on('click', function(ev) {
+            mainImage.attr('src', $(this).attr('src'));
+        });
+    });
+}

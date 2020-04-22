@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Utilities\General\CountryList;
+use App\Utilities\Images\ProductImage;
 use App\Utilities\General\QueryManager;
 use Illuminate\Support\ServiceProvider;
 use App\Utilities\Products\ShoppingCart;
@@ -19,6 +20,7 @@ class UtilityServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->instance('country-list', new CountryList);
+        $this->app->instance('product-image', new ProductImage);
 
         $this->app->bind('QueryManager', function($app) {
             return new QueryManager;

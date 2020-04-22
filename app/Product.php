@@ -3,8 +3,12 @@
 namespace App;
 
 use Illuminate\Support\Str;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
@@ -37,7 +41,7 @@ class Product extends Model
     }
 
     /**
-     * The orders containing the product.
+     * The orders containing the products.
      */
     public function orders(): BelongsToMany
     {
@@ -47,7 +51,7 @@ class Product extends Model
     }
 
     /**
-     * The categories containing the product.
+     * The categories containing the products.
      */
     public function categories(): BelongsToMany
     {
@@ -55,14 +59,50 @@ class Product extends Model
     }
 
     /**
+     * The product's images.
+     */
+    public function images(): HasMany
+    {
+        return $this->hasMany(Image::class);
+    }
+
+    /**
      * Scope a query to only include the products fitered by a query.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \App\Filters\ProductFilterService  $productFilterSErvice
+     * @param  \App\Filters\ProductFiltersManager  $productFiltersManager
      */
     public function scopeFilter($query, $productFiltersManager): Builder
     {
         return $productFiltersManager->apply($query);
+    }
+
+    /**
+     * Determine if the product has any image.
+     *
+     * @return boolean
+     */
+    public function hasImage(): Collection
+    {
+        return $this->images;
+    }
+
+    /**
+     * Get the product's image.
+     */
+    public function getImage($image): string
+    {
+        return $this->hasImage()
+            ? App::make('product-image')->getUrl($image) : '';
+    }
+
+    public function getDefaultImage(): string
+    {
+        $default = $this->images->where('is_default', true)->first();
+
+        return $default
+            ? App::make('product-image')->getUrl($default)
+            : asset('images/demo_product.jpg');
     }
 
     // /**
