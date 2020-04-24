@@ -1,79 +1,71 @@
 <x-layouts.app>
 
 @php
+
   // $product =  \App\Product::first();
   // $product =  \App\Product::find(2);
   $product =  \App\Product::find(3);
+  //
+  $product->images->count();
 @endphp
 
-<h1 class="my-4">Product Image Test</h1>
+<div class="container">
+    <div class="bg-white px-12 py-8 mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <p class="mb-2 uppercase-semibold">Edit product</p>
 
-<div class="row">
-    @foreach ($product->images as $image)
-    <div class="col-md-3">
-        <div class="card mb-4 box-shadow">
-            <img src="{{ $product->thumbnailImage($image) }}">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group mx-auto">
-                        <form action="{{ route('products.images.destroy', [$product, $image]) }}"
-                            method="POST">
-
-                            @csrf
-                            @method('DELETE')
-
-                            <button type="submit" class="btn btn-sm btn-secondary rounded-none">
-                                Delete
-                            </button>
-                        </form>
-
-                        <form action="{{ route('products.images.update', [$product, $image]) }}"
-                            method = "POST">
-
-                            @csrf
-                            @method('PATCH')
-
-                            <button type="submit" name="status_key" value='main'
-                            class="btn btn-sm rounded-none
-                            {{ $image->is_main ? 'btn-info text-white' : 'btn-outline-info' }}">
-                                Main
-                            </button>
-                        </form>
-                    </div>
-                </div>
-
-                <form action="{{ route('products.images.update', [$product, $image]) }}"
-                method="POST" enctype="multipart/form-data" >
+                <form action="#" method="POST"
+                class="p-4" style="border: 1px solid #f0f5fa">
 
                     @csrf
-                    @method('PATCH')
 
                     <div class="form-group">
-                        <input type="file" name="image" />
+                        <label for="title">Title</label>
+                        <input type="text" name="title" id="title"
+                        class="form-control"
+                        placeholder="Enter name"
+                        value="{{ old('name', $product->title) }}" />
                     </div>
 
-                    <button type="submit" class="btn btn-warning">
-                        Submit
-                    </button>
+                    <div class="form-group">
+                        <label for="subtitle">Subtitle</label>
+                        <input type="text" name="subtitle" id="subtitle"
+                        class="form-control"
+                        placeholder="Enter name"
+                        value="{{ old('subtitle', $product->subtitle) }}" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea name="description" id="description"
+                        class="form-control" rows="3"
+                        placeholder="Enter description"
+                        >{{ old('description', $product->description) }}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price">Price ({{ config('cart.currency') }})</label>
+                        <input type="text" name="price_in_cents" id="priceInCents"
+                        class="form-control"
+                        placeholder="00.00"
+                        value="{{ old('price_in_cents', $product->price_in_cents) }}" />
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-block bg-teal-400 text-white">
+                            Save changes
+                        </button>
+                    </div>
                 </form>
+            </div>
+            <div class="col-md-6">
+                <p class="mb-2 uppercase-semibold">Manage images</p>
+
+                <x-product.album.manage :product="$product" />
             </div>
         </div>
     </div>
-    @endforeach
 </div>
 
-<form action="{{ route('products.images.store', $product) }}"
-method="POST" enctype="multipart/form-data"
-class="border border-gray-500 p-4">
-
-    @csrf
-
-    <div class="form-group">
-        <input type="file" name="images[]" multiple="" />
-    </div>
-
-    <button type="submit" class="btn btn-warning">
-        Submit
-    </button>
-</form>
 </x-layouts.app>

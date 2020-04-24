@@ -36,7 +36,7 @@
                     </div>
 
                     <div class="col-md-9">
-                        <x-product.album :products="$products" />
+                        <x-product.album.display :products="$products" />
 
                         <div class="float-right mt-4">
                             {{ $products->appends(Request::query())->links() }}
