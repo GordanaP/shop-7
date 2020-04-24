@@ -3,9 +3,10 @@
         <div class="1/4 mb-2">
 
             <x-product.image
-                :image="$product->getImage($image)"
+                :image="$product->thumbnailImage($image)"
                 class="rounded-sm thumbnail"
             />
+
         </div>
     </div>
 @endforeach

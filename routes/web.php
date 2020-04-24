@@ -18,6 +18,8 @@ Route::resource('products', 'Product\ProductController')->except('index');
 /**
  * ProductImage
  */
+// Route::delete('products/{product}/images', 'Product\ProductImageController@destroy')
+//     ->name('products.images.destroy');
 Route::resource('products.images', 'Product\ProductImageController');
 
 /**

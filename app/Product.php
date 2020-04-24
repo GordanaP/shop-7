@@ -3,22 +3,27 @@
 namespace App;
 
 use Illuminate\Support\Str;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\App;
+use App\Traits\Product\Imageable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
 {
+    use Imageable;
+
     /**
      * The accessors to append to the model's array form.
      *
      * @var array
      */
     protected $appends = ['price_in_dollars'];
+
+    /**
+     * The number of models to return for pagination.
+     *
+     * @var  int
+     */
+    protected $perPage = 9;
 
     /**
      * Get the product price together with currency.
@@ -59,57 +64,10 @@ class Product extends Model
     }
 
     /**
-     * The product's images.
+     * Get the route key for the model.
      */
-    public function images(): HasMany
+    public function getRouteKeyName(): string
     {
-        return $this->hasMany(Image::class);
+        return 'slug';
     }
-
-    /**
-     * Scope a query to only include the products fitered by a query.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \App\Filters\ProductFiltersManager  $productFiltersManager
-     */
-    public function scopeFilter($query, $productFiltersManager): Builder
-    {
-        return $productFiltersManager->apply($query);
-    }
-
-    /**
-     * Determine if the product has any image.
-     *
-     * @return boolean
-     */
-    public function hasImage(): Collection
-    {
-        return $this->images;
-    }
-
-    /**
-     * Get the product's image.
-     */
-    public function getImage($image): string
-    {
-        return $this->hasImage()
-            ? App::make('product-image')->getUrl($image) : '';
-    }
-
-    public function getDefaultImage(): string
-    {
-        $default = $this->images->where('is_default', true)->first();
-
-        return $default
-            ? App::make('product-image')->getUrl($default)
-            : asset('images/demo_product.jpg');
-    }
-
-    // /**
-    //  * Get the route key for the model.
-    //  */
-    // public function getRouteKeyName(): string
-    // {
-    //     return 'slug';
-    // }
 }

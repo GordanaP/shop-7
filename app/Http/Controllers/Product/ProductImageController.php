@@ -2,13 +2,32 @@
 
 namespace App\Http\Controllers\Product;
 
+use App\Image;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Utilities\Images\ProductImage;
+use Illuminate\Http\RedirectResponse;
+use App\Utilities\Images\ImageManager;
 
 class ProductImageController extends Controller
 {
+    /**
+     * The image manager.
+     *
+     * @var \App\Utilities\Images\ImageManager
+     */
+    protected $imageManager;
+
+    /**
+     * Create a new class instance.
+     *
+     * @param \App\Utilities\Images\ImageManager $imageManager
+     */
+    public function __construct(ImageManager $imageManager)
+    {
+        $this->imageManager = $imageManager;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -33,13 +52,10 @@ class ProductImageController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Product $product, ProductImage $productImage)
+    public function store(Request $request, Product $product)
     {
-        collect($request->images)->map(function($image) use ($product, $productImage){
-            return $productImage->manage($product, $image);
-        });
+        $this->imageManager->addManyToProduct($request->images, $product);
 
         return back();
     }
@@ -71,11 +87,18 @@ class ProductImageController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, Product $product, Image $image)
     {
-        //
+        $this->imageManager->update($image, $product, $request->image);
+        // if($request->manage_update == 'setMain')
+        // {
+        //     $this->imageManager->switchMain($image, $product);
+        // } else {
+        //     $this->imageManager->replace($image, $request->image);
+        // }
+
+        return back();
     }
 
     /**
@@ -84,8 +107,16 @@ class ProductImageController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(Request $request, Product $product, Image $image): RedirectResponse
     {
-        //
+        $this->imageManager->remove($image);
+
+        // collect($request->delete_images)->map(function($image_id) use ($productImage){
+        //     $image = Image::find($image_id);
+        //     $productImage->removeStoragePath($image);
+        //     $image->delete();
+        // });
+
+        return back();
     }
 }

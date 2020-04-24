@@ -1,9 +1,7 @@
-@props(['productCategories'])
-
-@foreach ($productCategories as $category)
-    <a href="{{ route('welcome',
-    QueryManager::build(['category' => $category->slug])) }}"
-    class="text-gray-500">
-        {{ Str::toList($category->name, $loop) }}
-    </a>
-@endforeach
+<div class="text-teal-400 mb-1">
+    @foreach ($product->categories as $category)
+        <a href="{{ route('welcome', QueryManager::build(['category' => $category->slug])) }}">
+            {{ Str::toList($category->name, $loop) }}
+        </a>
+    @endforeach
+</div>

@@ -3,14 +3,15 @@
         @foreach ($items as $item)
             <tr>
                 <td width="30%" class="py-4">
-                    <img class="img-fluid rounded w-4/5 mt-2"
-                    src="{{ asset('images/demo_product.jpg') }}"
-                    alt="Item image">
+                    <x-product.image
+                        :image="$item->mainImage()"
+                        class="rounded-sm lg:w-4/5"
+                     />
                 </td>
                 <td class="py-4">
                     <p class="uppercase-semibold text-xs text-gray-700 mb-2">
                         <a href="{{ route('products.show', $item) }}"
-                        class="font-semibold tracking-wide">
+                        class="font-semibold tracking-wide text-teal-400">
                             {{ $item->title }}
                         </a>
                     </p>

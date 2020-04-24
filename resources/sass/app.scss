@@ -21,6 +21,7 @@ h6 { @apply text-sm; }
 .form-inline { @apply inline; }
 .uppercase-semibold { @apply uppercase font-semibold tracking-wide; }
 .text-error { @apply text-xs text-red-500; }
+.btn-teal-rounded { @apply bg-teal-400 rounded-full }
 
 @tailwind components;
 

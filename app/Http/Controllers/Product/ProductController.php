@@ -17,7 +17,7 @@ class ProductController extends Controller
      */
     public function index(ProductFiltersManager $productFiltersManager): View
     {
-        $products = Product::filter($productFiltersManager)->paginate(6);
+        $products = Product::filter($productFiltersManager)->paginate();
 
         return view('welcome', compact('products'));
     }
@@ -85,6 +85,6 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+
     }
 }

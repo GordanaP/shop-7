@@ -20,7 +20,7 @@ class CreateImagesTable extends Migration
                 ->onDelete('cascade');
 
             $table->string('path');
-            $table->boolean('is_default')->default(false);
+            $table->boolean('is_main')->default(false);
             $table->timestamps();
         });
     }

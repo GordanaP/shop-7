@@ -1,5 +1,5 @@
 <div class="border border-gray-400 px-4 pb-4 pt-8">
-    <form id="paymentForm" action="{{ $route }}" method="POST">
+    <form id="paymentForm" action="{{ route('checkouts.store') }}" method="POST">
 
         @csrf
 

@@ -32,13 +32,10 @@
                 <div class="row">
 
                     <div class="col-md-3">
-
                         <x-filters.all :filters="$filters" />
-
                     </div>
 
                     <div class="col-md-9">
-
                         <x-product.album :products="$products" />
 
                         <div class="float-right mt-4">

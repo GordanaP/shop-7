@@ -12,10 +12,7 @@
                     Complete your details below
                 </p>
 
-                <x-checkout.payment-form
-                    :route="route('checkouts.store')"
-                    :total="ShoppingCart::total()"
-                />
+                <x-checkout.payment-form :total="ShoppingCart::total()"/>
             </div>
 
             <div class="alert alert-danger text-center hidden mx-auto
@@ -68,8 +65,6 @@
             var tw_gray_500 = '#a0aec0';
             var tw_gray_800 = '#2d3748';
             $('select').switchColor(tw_gray_500, tw_gray_800);
-
-            console.log($('select').attr('id'))
 
             var form = $('#paymentForm');
 

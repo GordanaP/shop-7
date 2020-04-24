@@ -1,14 +1,15 @@
 <tr>
     <td>
-        <img class="img-fluid rounded w-4/5 mt-2"
-        src="{{ asset('images/demo_product.jpg') }}"
-        alt="Item image">
+        <x-product.image
+            :image="$item->mainImage()"
+            class="rounded-sm lg:w-4/5"
+        />
     </td>
 
     <td width="35%">
         <p class="text-uppercase mb-2">
             <a href="{{ route('products.show', $item) }}"
-            class="font-semibold tracking-wide">
+            class="font-semibold tracking-wide text-teal-500">
                 {{ $item->title }}
             </a>
         </p>

@@ -9,17 +9,13 @@
             <input type="text" name="quantity" id="quantity"
             class="form-control text-center mt-4" value="1">
 
-            <x-error
-                :errors="$errors"
-                field="quantity"
-            />
+            <x-error :errors="$errors" field="quantity" />
         </div>
     @endif
 
-    <button
-        type="submit"
-        {{ $attributes->merge(['class' => 'btn bg-teal-400 text-white w-full rounded-full']) }}
+    <button type="submit"
+        {{ $attributes->merge(['class' => 'btn btn-teal-rounded hover:bg-teal-500 text-white w-full']) }}
     >
-        <i class="fas fa-shopping-cart fa-sm"></i> Add to cart
+        <i class="fas fa-shopping-cart fa-sm mr-1"></i> Add to cart
     </button>
 </form>

@@ -11185,6 +11185,11 @@ h6 {
   color: #f56565;
 }
 
+.btn-teal-rounded {
+  background-color: #4fd1c5;
+  border-radius: 9999px;
+}
+
 .container{
   width: 100%;
 }

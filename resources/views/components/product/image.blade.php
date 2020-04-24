@@ -1,5 +1,5 @@
 <img src="{{ $image }}"
     id="{{ $id ?? null }}"
-    class="{{ $class ?? null }}"
+    {{ $attributes->merge(['class' => 'img-fluid']) }}
     alt="Product image"
 />

@@ -1,11 +1,9 @@
-@props(['product'])
-
 <div class="col-md-4">
     <div class="card mb-3 box-shadow">
 
         <a href="{{ route('products.show', $product) }}">
             <x-product.image
-                :image="$product->getDefaultImage()"
+                :image="$product->mainImage()"
                 class="card-img-top"
             />
         </a>
