@@ -1,14 +1,14 @@
 <tr>
     <td colspan="4" class="text-right">
-        <p class="font-bold">Subtotal:</p>
+        <p>Discount:</p>
         <p>Shipping & Handling:</p>
         <p>Tax ({{ config('cart.tax_rate') * 100 }}%):</p>
         <p class="uppercase font-bold mt-1">Grand Total:</p>
     </td>
 
     <td class="text-right">
-        <p class="font-bold">
-            {{ Str::withCurrency(ShoppingCart::subtotal()) }}
+        <p>
+            -$1234
         </p>
         <p>
             {{ Str::withCurrency(ShoppingCart::shippingCosts()) }}

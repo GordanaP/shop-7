@@ -18,7 +18,7 @@
                     <thead>
                         <th width="15%">Item</th>
                         <th width="25%"></th>
-                        <th class="text-center" width="20%">Price</th>
+                        <th class="text-center" width="25%">Price</th>
                         <th class="text-center" width="15%">Qty</th>
                         <th class="text-right" width="15%">Subtotal</th>
                         <th class="text-right"><i class="fa-fa-cog"></i></th>
@@ -29,9 +29,26 @@
                             <x-cart.item :item="$item" />
                         @endforeach
 
+                        <tr>
+                            <td colspan="2"></td>
+                            <td class="text-right bg-gray-200 px-4 ">
+                                <x-coupon.add />
+                            </td>
+                            <td class="text-right">
+                                <p class="font-bold">Subtotal:</p>
+                            </td>
+                            <td class="text-right">
+                                <p class="font-bold">
+                                    {{ Str::withCurrency(ShoppingCart::subtotal()) }}
+                                </p>
+                            </td>
+                            <td></td>
+                        </tr>
+
                         <x-cart.price />
 
                     </tbody>
+
                 </table>
             </div>
 

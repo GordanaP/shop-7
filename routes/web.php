@@ -4,16 +4,20 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'Product\ProductController@index')->name('welcome');
 
-
+/**
+ * Auth
+ */
 Auth::routes();
 
+/**
+ * Home
+ */
 Route::get('/home', 'HomeController@index')->name('home');
 
 /**
  * Product
  */
 Route::resource('products', 'Product\ProductController')->except('index');
-
 
 /**
  * ProductImage
@@ -59,10 +63,18 @@ Route::get('checkout/payment/success','Checkout\CheckoutSuccessController')
 Route::get('checkout/payment/error','Checkout\CheckoutErrorController')
     ->name('checkouts.error');
 
-Route::get('/test', 'TestController@index')->name('tests.index');
-Route::post('/test', 'TestController@store')->name('tests.store');
-
 /**
- * Product
+ * Order
  */
 Route::resource('orders', 'Order\OrderController');
+
+/**
+ * Coupon
+ */
+Route::resource('coupons', 'Coupon\CouponController');
+
+/**
+ * Test
+ */
+Route::get('/test', 'TestController@index')->name('tests.index');
+Route::post('/test', 'TestController@store')->name('tests.store');
