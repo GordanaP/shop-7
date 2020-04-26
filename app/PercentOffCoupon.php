@@ -13,6 +13,6 @@ class PercentOffCoupon extends Model
      */
     public function discount($amount): int
     {
-        return $amount * ($this->percent_off / 100);
+        return round($amount * ($this->percent_off / 100));
     }
 }

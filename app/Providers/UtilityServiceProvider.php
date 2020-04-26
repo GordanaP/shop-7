@@ -21,12 +21,13 @@ class UtilityServiceProvider extends ServiceProvider
     {
         $this->app->instance('country-list', new CountryList);
         $this->app->instance('image-manager', new ImageManager);
+        $this->app->instance('shopping-cart', new ShoppingCart);
 
         $this->app->bind('QueryManager', function($app) {
             return new QueryManager;
         });
 
-        $this->app->bind('ShoppingCart', function($app){
+        $this->app->singleton('ShoppingCart', function($app){
             return session('cart', new ShoppingCart);
         });
     }

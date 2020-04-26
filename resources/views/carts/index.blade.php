@@ -3,7 +3,10 @@
     <div class="my-4">
 
         <x-alert.message />
-
+        {{ Session::flush() }}
+        {{ Session::get('cart') }}
+        {{ Session::get('coupon') }}
+        {{ ShoppingCart::content() }}
         @if (ShoppingCart::isNotEmpty())
             <div class="float-right mb-2">
                 <x-product.go-shopping-btn
@@ -29,21 +32,23 @@
                             <x-cart.item :item="$item" />
                         @endforeach
 
-                        <tr>
-                            <td colspan="2"></td>
-                            <td class="text-right bg-gray-200 px-4 ">
-                                <x-coupon.add />
-                            </td>
-                            <td class="text-right">
-                                <p class="font-bold">Subtotal:</p>
-                            </td>
-                            <td class="text-right">
-                                <p class="font-bold">
-                                    {{ Str::withCurrency(ShoppingCart::subtotal()) }}
-                                </p>
-                            </td>
-                            <td></td>
-                        </tr>
+                        @if (! Session::has('coupon'))
+                            <tr>
+                                <td colspan="2"></td>
+                                <td class="text-right bg-gray-200 px-4 ">
+                                    <x-coupon.add />
+                                </td>
+                                <td class="text-right">
+                                    <p class="font-bold">Subtotal:</p>
+                                </td>
+                                <td class="text-right">
+                                    <p class="font-bold">
+                                        {{ Str::withCurrency(ShoppingCart::subtotal()) }}
+                                    </p>
+                                </td>
+                                <td></td>
+                            </tr>
+                        @endif
 
                         <x-cart.price />
 

@@ -108,6 +108,22 @@ trait Priceable
      */
     public function subtotalInCents()
     {
+        return ShoppingCart::sum('subtotal_in_cents') - $this->discount();
+    }
+
+    /**
+     * The subtotal in cents.
+     *
+     * @return integer
+     */
+    public function subtotalWithoutDiscount()
+    {
         return ShoppingCart::sum('subtotal_in_cents');
     }
+
+    public function discount()
+    {
+        return \Session::get('coupon')['discount'] ?? null;
+    }
+
 }

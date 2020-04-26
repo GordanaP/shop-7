@@ -21,7 +21,7 @@ border-b border-yellow-300">
 
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ml-auto">
-                @if (ShoppingCart::isNotEmpty())
+            {{-- @if (ShoppingCart::isNotEmpty())
                     <li>
                         <a href="{{ route('checkouts.index') }}" class="nav-link">
                             <span class="text-teal-500">Checkout</span>
@@ -39,7 +39,7 @@ border-b border-yellow-300">
                         </div>
                     </a>
                 </li>
-
+ --}}
                 <!-- Authentication Links -->
                 @guest
                     <li class="nav-item">

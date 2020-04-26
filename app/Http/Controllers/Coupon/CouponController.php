@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Coupon;
 
 use App\Coupon;
 use Illuminate\Http\Request;
+use App\Events\CouponApplied;
+use App\Facades\ShoppingCart;
 use App\Http\Controllers\Controller;
 
 class CouponController extends Controller
@@ -36,7 +38,16 @@ class CouponController extends Controller
      */
     public function store(Request $request)
     {
-        return $coupon = Coupon::findByCode($request->code);
+        $coupon = Coupon::findByCode($request->code);
+
+        // \Session::put('cart', [
+        //     'code' => $coupon->code,
+        //     'discount' => $coupon->discount(ShoppingCart::subtotalInCents()),
+        // ]);
+
+        // event(new CouponApplied($coupon->code));
+
+        return back()->with('success', 'The coupon has been applied.');
     }
 
     /**
