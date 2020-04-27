@@ -59,10 +59,16 @@ Route::get('checkout/payment/success','Checkout\CheckoutSuccessController')
 Route::get('checkout/payment/error','Checkout\CheckoutErrorController')
     ->name('checkouts.error');
 
-Route::get('/test', 'TestController@index')->name('tests.index');
-Route::post('/test', 'TestController@store')->name('tests.store');
 
 /**
- * Product
+ * Order
  */
 Route::resource('orders', 'Order\OrderController');
+
+/**
+ * Coupon
+ */
+Route::resource('coupons', 'Coupon\CouponController');
+
+Route::get('/test', 'TestController@index')->name('tests.index');
+Route::post('/test', 'TestController@store')->name('tests.store');

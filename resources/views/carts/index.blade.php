@@ -1,8 +1,9 @@
 <x-layouts.app>
 
     <div class="my-4">
-
         <x-alert.message />
+
+        {{ App\Coupon::findByCode('ABC123') }}
 
         @if (ShoppingCart::isNotEmpty())
             <div class="float-right mb-2">
@@ -29,7 +30,57 @@
                             <x-cart.item :item="$item" />
                         @endforeach
 
-                        <x-cart.price />
+                        @if (! Session::has('coupon'))
+                            <tr>
+                                <td colspan="2"></td>
+                                <td class="text-right bg-gray-200 px-4 ">
+                                    <x-coupon.add />
+                                </td>
+                                <td class="text-right">
+                                    <p class="font-bold">Subtotal:</p>
+                                </td>
+                                <td class="text-right">
+                                    <p class="font-bold">
+                                        {{ Str::withCurrency(ShoppingCart::subtotal()) }}
+                                    </p>
+                                </td>
+                                <td></td>
+                            </tr>
+                        @endif
+
+                        <tr>
+                            <td colspan="4" class="text-right">
+                                @if (Session::has('coupon'))
+                                    <p class="font-bold">Subtotal</p>
+                                    <p>Discount:</p>
+                                @endif
+                                <p>Shipping & Handling:</p>
+                                <p>Tax ({{ config('cart.tax_rate') * 100 }}%):</p>
+                                <p class="uppercase font-bold mt-1">Grand Total:</p>
+                            </td>
+
+                            <td class="text-right">
+                                @if (Session::has('coupon'))
+                                    <p class="font-bold">
+                                        {{ Str::withCurrency(ShoppingCart::subtotal()) }}
+                                    </p>
+                                    <p>
+                                        -${{ collect(Session::get('coupon'))->get('discount') /100 }}
+                                    </p>
+                                @endif
+                                <p>
+                                    {{ Str::withCurrency(ShoppingCart::shippingCosts()) }}
+                                </p>
+                                <p>
+                                    {{ Str::withCurrency(ShoppingCart::taxAmount()) }}
+                                </p>
+                                <p class="font-bold mt-1">
+                                    {{ Str::withCurrency(ShoppingCart::total()) }}
+                                </p>
+                            </td>
+
+                            <td></td>
+                        </tr>
 
                     </tbody>
                 </table>
