@@ -3,7 +3,8 @@
     <div class="my-4">
         <x-alert.message />
 
-        {{ App\Coupon::findByCode('ABC123') }}
+        {{ $discount = optional(\App\Coupon::findByCode(ShoppingCart::get('coupon')))
+            ->discount(ShoppingCart::subtotalInCents()) }}
 
         @if (ShoppingCart::isNotEmpty())
             <div class="float-right mb-2">
@@ -30,7 +31,7 @@
                             <x-cart.item :item="$item" />
                         @endforeach
 
-                        @if (! Session::has('coupon'))
+                        @if (! ShoppingCart::has('coupon'))
                             <tr>
                                 <td colspan="2"></td>
                                 <td class="text-right bg-gray-200 px-4 ">
@@ -50,7 +51,7 @@
 
                         <tr>
                             <td colspan="4" class="text-right">
-                                @if (Session::has('coupon'))
+                                @if (ShoppingCart::has('coupon'))
                                     <p class="font-bold">Subtotal</p>
                                     <p>Discount:</p>
                                 @endif
@@ -60,12 +61,13 @@
                             </td>
 
                             <td class="text-right">
-                                @if (Session::has('coupon'))
+                                @if (ShoppingCart::has('coupon'))
                                     <p class="font-bold">
                                         {{ Str::withCurrency(ShoppingCart::subtotal()) }}
                                     </p>
+                                    {{ ShoppingCart::setDiscount($discount) }}
                                     <p>
-                                        -${{ collect(Session::get('coupon'))->get('discount') /100 }}
+                                        -{{  Str::withCurrency(number_format($discount / 100, 2)) }}
                                     </p>
                                 @endif
                                 <p>

@@ -11,6 +11,18 @@ class ShoppingCart extends Collection
 {
     use Priceable;
 
+    public static $discount;
+
+    public static function setDiscount($discount)
+    {
+        static::$discount = $discount;
+    }
+
+    public static function getDiscount()
+    {
+        return static::$discount;
+    }
+
     /**
      * Add the item to the cart.
      *
@@ -84,7 +96,19 @@ class ShoppingCart extends Collection
      */
     public function content(): Collection
     {
-        return $this->values();
+        return $this->except('coupon')->values();
+    }
+
+    public function coupon()
+    {
+        return $this->only('coupon');
+    }
+
+    public function addCoupon($discount)
+    {
+        $this->put('coupon', $discount);
+
+        $this->save();
     }
 
     /**
@@ -115,4 +139,5 @@ class ShoppingCart extends Collection
     {
         return optional($this->get($product->id))->quantity ?? 0;
     }
+
 }

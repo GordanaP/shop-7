@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Coupon;
 
 use App\Coupon;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Facades\ShoppingCart;
+use App\Http\Controllers\Controller;
 
 class CouponController extends Controller
 {
@@ -36,7 +37,12 @@ class CouponController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $coupon = Coupon::findByCode($request->code);
+        // $discount = $coupon->discount(ShoppingCart::subtotalInCents());
+
+        ShoppingCart::addCoupon($request->code);
+
+        return back();
     }
 
     /**

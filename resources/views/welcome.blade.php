@@ -10,7 +10,6 @@
             #filtersList li.active { color: #38b2ac; font-weight: 500;}
         </style>
     @endsection
-
     <div class="my-4">
         <x-alert.success />
         <section class="jumbotron text-center">

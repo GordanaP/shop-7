@@ -5,6 +5,13 @@
         <link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
     @endsection
 
+    @php
+        $discount = optional(\App\Coupon::findByCode(ShoppingCart::get('coupon')))
+            ->discount(ShoppingCart::subtotalInCents());
+
+        ShoppingCart::setDiscount($discount);
+    @endphp
+
     <div class="row">
         <div class="col-md-7">
             <div class="lg:w-3/4 mx-auto mt-20">
@@ -24,13 +31,13 @@
             style="margin-top: 3px">
                 <p class="my-2">Order Summary</p>
             </div>
-
             <x-checkout.order-summary
                 :items="ShoppingCart::content()"
-                :subtotal="ShoppingCart::subtotal()"
+                :subtotal="ShoppingCart::subtotal()+$discount/100"
                 :taxAmount="ShoppingCart::taxAmount()"
                 :shippingCosts="ShoppingCart::shippingCosts()"
                 :total="ShoppingCart::total()"
+                :discount="number_format($discount/100, 2)"
             />
         </div>
     </div>

@@ -10,6 +10,17 @@
             {{ $subtotal }}
         </x-checkout.order-price>
 
+        @if (ShoppingCart::has('coupon'))
+            <div class="flex justify-between my-2">
+                <div class="text-gray-700">
+                    Discount
+                </div>
+                <div class="font-bold text-teal-500">
+                    -{{ Str::withCurrency($discount) }}
+                </div>
+            </div>
+        @endif
+
         <x-checkout.order-price title="Tax">
             {{ $taxAmount }}
         </x-checkout.order-price>

@@ -12,7 +12,7 @@ class Coupon extends Model
          *
          * @param  string $code
          */
-        public static function findByCode($code): Coupon
+        public static function findByCode($code): ?Coupon
         {
             return static::firstWhere('code', $code);
         }
