@@ -15,4 +15,14 @@ class PercentOffCoupon extends Model
     {
         return round($amount * ($this->percent_off / 100));
     }
+
+    /**
+     * The coupon value.
+     *
+     * @return string
+     */
+    public function value()
+    {
+        return $this->percent_off . '% off';
+    }
 }

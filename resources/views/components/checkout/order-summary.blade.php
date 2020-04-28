@@ -13,10 +13,10 @@
         @if (ShoppingCart::has('coupon'))
             <div class="flex justify-between my-2">
                 <div class="text-gray-700">
-                    Discount
+                    Discount ({{ ShoppingCart::coupon()['value'] }})
                 </div>
                 <div class="font-bold text-teal-500">
-                    -{{ Str::withCurrency($discount) }}
+                    -{{ Str::withCurrency(number_format($discount, 2)) }}
                 </div>
             </div>
         @endif

@@ -2,15 +2,14 @@
 
 namespace App\Utilities\Products;
 
-use App\Product;
 use Illuminate\Support\Collection;
 use App\Utilities\Products\CartItem;
-use App\Traits\ShoppingCart\HasCoupon;
 use App\Traits\ShoppingCart\Priceable;
+use App\Traits\ShoppingCart\Discountable;
 
 class ShoppingCart extends Collection
 {
-    use HasCoupon, Priceable;
+    use Discountable, Priceable;
 
     /**
      * The discount.
@@ -18,26 +17,6 @@ class ShoppingCart extends Collection
      * @var integer
      */
     public static $discount;
-
-    /**
-     * Set the discount.
-     *
-     * @param integer $discount
-     */
-    public static function setDiscount($discount)
-    {
-        static::$discount = $discount;
-    }
-
-    /**
-     * Get the discount.
-     *
-     * @return [type] [description]
-     */
-    public static function getDiscount(): ?float
-    {
-        return number_format (static::$discount / 100, 2 );
-    }
 
     /**
      * Add the item to the cart.
@@ -114,13 +93,6 @@ class ShoppingCart extends Collection
     {
         return $this->except('coupon')->values();
     }
-
-    // public function coupon()
-    // {
-    //     return $this->only('coupon');
-    // }
-
-
 
     /**
      * Update the cart's content;

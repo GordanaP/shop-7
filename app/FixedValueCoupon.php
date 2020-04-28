@@ -15,4 +15,14 @@ class FixedValueCoupon extends Model
     {
         return $this->value_in_cents;
     }
+
+    /**
+     * The coupon value.
+     *
+     * @return string
+     */
+    public function value()
+    {
+        return 'fixed value';
+    }
 }

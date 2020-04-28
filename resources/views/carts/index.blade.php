@@ -3,9 +3,6 @@
     <div class="my-4">
         <x-alert.message />
 
-        {{-- {{ $discount = optional(\App\Coupon::findByCode(ShoppingCart::get('coupon')))
-            ->discount(ShoppingCart::subtotalInCents()) }}
- --}}
         @if (ShoppingCart::isNotEmpty())
             <div class="float-right mb-2">
                 <x-product.go-shopping-btn
@@ -53,10 +50,10 @@
                             <td colspan="4" class="text-right">
                                 @if (ShoppingCart::has('coupon'))
                                     <p class="font-bold">Subtotal</p>
-                                    <p>Discount:</p>
+                                    <p>Discount ({{ $coupon_value }}):</p>
                                 @endif
                                 <p>Shipping & Handling:</p>
-                                <p>Tax ({{ config('cart.tax_rate') * 100 }}%):</p>
+                                <p>Tax ({{ $tax_rate }}%):</p>
                                 <p class="uppercase font-bold mt-1">Grand Total:</p>
                             </td>
 
@@ -65,9 +62,9 @@
                                     <p class="font-bold">
                                         {{ Str::withCurrency(ShoppingCart::subtotal()) }}
                                     </p>
-                                    {{ ShoppingCart::setDiscount(ShoppingCart::discount()) }}
+                                    {{ ShoppingCart::setDiscount($discount) }}
                                     <p>
-                                        -{{  ShoppingCart::getDiscount() }}
+                                        -{{  Str::withCurrency(number_format(ShoppingCart::getDiscount(), 2)) }}
                                     </p>
                                 @endif
                                 <p>
@@ -83,7 +80,6 @@
 
                             <td></td>
                         </tr>
-
                     </tbody>
                 </table>
             </div>

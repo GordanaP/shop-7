@@ -2,9 +2,6 @@
 
 namespace App\Traits\ShoppingCart;
 
-use App\Coupon;
-use App\Facades\ShoppingCart;
-
 trait Priceable
 {
     /**
@@ -109,6 +106,6 @@ trait Priceable
      */
     public function subtotalInCents()
     {
-        return ShoppingCart::sum('subtotal_in_cents') - static::$discount;
+        return $this->sum('subtotal_in_cents') - static::$discount;
     }
 }

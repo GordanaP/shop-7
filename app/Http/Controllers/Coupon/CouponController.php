@@ -37,9 +37,6 @@ class CouponController extends Controller
      */
     public function store(Request $request)
     {
-        // $coupon = Coupon::findByCode($request->code);
-        // $discount = $coupon->discount(ShoppingCart::subtotalInCents());
-
         ShoppingCart::addCoupon($request->code);
 
         return back();

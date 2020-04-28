@@ -5,9 +5,7 @@
         <link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
     @endsection
 
-    @php
-        ShoppingCart::setDiscount(ShoppingCart::discount());
-    @endphp
+    {{ ShoppingCart::setDiscount(ShoppingCart::coupon()['discount']) }}
 
     <div class="row">
         <div class="col-md-7">

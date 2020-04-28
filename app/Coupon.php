@@ -14,7 +14,7 @@ class Coupon extends Model
      */
     public static function findByCode($code): ?Coupon
     {
-        return static::firstWhere('code', $code);
+        return static::firstWhere('code', $code)->load('coupon');
     }
 
     /**
@@ -26,12 +26,22 @@ class Coupon extends Model
     }
 
     /**
-     * The discount.
+     * The discount calculated on the basis of the coupon value.
      *
      * @param  integer $amount
      */
     public function discount($amount): int
     {
-        return $this->load('coupon')->coupon->discount($amount);
+        return $this->coupon->discount($amount);
+    }
+
+    /**
+     * The coupon's value.
+     *
+     * @return string
+     */
+    public function value()
+    {
+        return $this->coupon->value();
     }
 }
