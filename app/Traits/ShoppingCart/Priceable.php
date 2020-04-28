@@ -2,6 +2,7 @@
 
 namespace App\Traits\ShoppingCart;
 
+use App\Coupon;
 use App\Facades\ShoppingCart;
 
 trait Priceable

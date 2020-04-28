@@ -6,10 +6,7 @@
     @endsection
 
     @php
-        $discount = optional(\App\Coupon::findByCode(ShoppingCart::get('coupon')))
-            ->discount(ShoppingCart::subtotalInCents());
-
-        ShoppingCart::setDiscount($discount);
+        ShoppingCart::setDiscount(ShoppingCart::discount());
     @endphp
 
     <div class="row">
@@ -33,11 +30,11 @@
             </div>
             <x-checkout.order-summary
                 :items="ShoppingCart::content()"
-                :subtotal="ShoppingCart::subtotal()+$discount/100"
+                :subtotal="ShoppingCart::subtotal()+ShoppingCart::getDiscount()"
                 :taxAmount="ShoppingCart::taxAmount()"
                 :shippingCosts="ShoppingCart::shippingCosts()"
                 :total="ShoppingCart::total()"
-                :discount="number_format($discount/100, 2)"
+                :discount="ShoppingCart::getDiscount()"
             />
         </div>
     </div>

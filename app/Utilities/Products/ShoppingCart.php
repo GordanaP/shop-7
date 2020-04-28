@@ -5,22 +5,38 @@ namespace App\Utilities\Products;
 use App\Product;
 use Illuminate\Support\Collection;
 use App\Utilities\Products\CartItem;
+use App\Traits\ShoppingCart\HasCoupon;
 use App\Traits\ShoppingCart\Priceable;
 
 class ShoppingCart extends Collection
 {
-    use Priceable;
+    use HasCoupon, Priceable;
 
+    /**
+     * The discount.
+     *
+     * @var integer
+     */
     public static $discount;
 
+    /**
+     * Set the discount.
+     *
+     * @param integer $discount
+     */
     public static function setDiscount($discount)
     {
         static::$discount = $discount;
     }
 
-    public static function getDiscount()
+    /**
+     * Get the discount.
+     *
+     * @return [type] [description]
+     */
+    public static function getDiscount(): ?float
     {
-        return static::$discount;
+        return number_format (static::$discount / 100, 2 );
     }
 
     /**
@@ -99,17 +115,12 @@ class ShoppingCart extends Collection
         return $this->except('coupon')->values();
     }
 
-    public function coupon()
-    {
-        return $this->only('coupon');
-    }
+    // public function coupon()
+    // {
+    //     return $this->only('coupon');
+    // }
 
-    public function addCoupon($discount)
-    {
-        $this->put('coupon', $discount);
 
-        $this->save();
-    }
 
     /**
      * Update the cart's content;

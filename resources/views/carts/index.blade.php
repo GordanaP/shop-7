@@ -3,9 +3,9 @@
     <div class="my-4">
         <x-alert.message />
 
-        {{ $discount = optional(\App\Coupon::findByCode(ShoppingCart::get('coupon')))
+        {{-- {{ $discount = optional(\App\Coupon::findByCode(ShoppingCart::get('coupon')))
             ->discount(ShoppingCart::subtotalInCents()) }}
-
+ --}}
         @if (ShoppingCart::isNotEmpty())
             <div class="float-right mb-2">
                 <x-product.go-shopping-btn
@@ -65,9 +65,9 @@
                                     <p class="font-bold">
                                         {{ Str::withCurrency(ShoppingCart::subtotal()) }}
                                     </p>
-                                    {{ ShoppingCart::setDiscount($discount) }}
+                                    {{ ShoppingCart::setDiscount(ShoppingCart::discount()) }}
                                     <p>
-                                        -{{  Str::withCurrency(number_format($discount / 100, 2)) }}
+                                        -{{  ShoppingCart::getDiscount() }}
                                     </p>
                                 @endif
                                 <p>
