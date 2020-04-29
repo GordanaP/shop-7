@@ -8,5 +8,5 @@
 <button class="btn btn-block text-lg font-bold
 text-white bg-teal-500 mt-3">
     <span class="tracking-wider mr-2">Pay</span>
-    {{ Str::withCurrency($total) }}
+    {{ $total }}
 </button>

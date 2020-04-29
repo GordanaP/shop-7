@@ -19,12 +19,7 @@ class ShoppingCartController extends Controller
     {
         $items = ShoppingCart::content();
 
-        return view('carts.index')->with([
-            'items' => $items,
-            // 'coupon_value' => ShoppingCart::coupon()['value'],
-            // 'discount' => ShoppingCart::coupon()['discount'],
-            // 'tax_rate' => config('cart.tax_rate') * 100,
-        ]);
+        return view('carts.index', compact('items'));
     }
 
     /**

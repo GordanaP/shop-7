@@ -5,7 +5,9 @@
         <link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
     @endsection
 
-    {{ ShoppingCart::setDiscount(ShoppingCart::coupon()['discount']) }}
+    <x-coupon.set-discount
+        :discount="ShoppingCart::coupon()['discount']"
+    />
 
     <div class="row">
         <div class="col-md-7">
@@ -14,7 +16,7 @@
                     Complete your details below
                 </p>
 
-                <x-checkout.payment-form :total="ShoppingCart::total()"/>
+                <x-checkout.payment-form :route="route('checkouts.store')" />
             </div>
 
             <div class="alert alert-danger text-center hidden mx-auto

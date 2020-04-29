@@ -1,0 +1,1 @@
+{{ ShoppingCart::setDiscount($discount) }}

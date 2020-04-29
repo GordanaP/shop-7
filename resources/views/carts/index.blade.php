@@ -1,13 +1,19 @@
 <x-layouts.app>
 
+    @section('links')
+        <style>
+
+            table.ordered-items tbody td.no-border { border-top: none; }
+
+        </style>
+    @endsection
+
     <div class="my-4">
         <x-alert.message />
 
         @if (ShoppingCart::isNotEmpty())
             <div class="float-right mb-2">
-                <x-product.go-shopping-btn
-                    :route="route('welcome')"
-                />
+                <x-product.go-shopping-btn :route="route('welcome')" />
             </div>
 
             <div class="clearfix"></div>
@@ -29,56 +35,40 @@
                         @endforeach
 
                         @if (! ShoppingCart::has('coupon'))
-                            <x-coupon.show />
+                            <x-coupon.show-apply-form class="pt-2 pb-0" />
                         @endif
 
-                        <tr>
-                            <td colspan="4" class="text-right">
-                                @if (ShoppingCart::has('coupon'))
-                                    <p class="font-bold mb-1">Subtotal</p>
-                                    <p>Discount:</p>
-                                    <p class="text-xs mb-1 text-gray-600">
-                                        {{ ShoppingCart::coupon()['value'] }}
-                                    </p>
-                                @endif
-                                <p class="mb-1">Tax ({{ config('cart.tax_rate') * 100 }}%):</p>
-                                <p class="mb-2">Shipping & Handling:</p>
-                                <p class="uppercase font-bold">Grand Total:</p>
-                            </td>
+                        @if (ShoppingCart::has('coupon'))
+                            <tr>
+                                <x-cart.subtotal
+                                    :subtotal="Str::withCurrency(ShoppingCart::subtotal())"
+                                    :colspan="4"
+                                    class="pb-0"
+                                />
+                            </tr>
 
-                            <td class="text-right">
-                                @if (ShoppingCart::has('coupon'))
-                                    <p class="font-bold mb-1">
-                                        {{ Str::withCurrency(ShoppingCart::subtotal()) }}
-                                    </p>
-                                    {{ ShoppingCart::setDiscount(ShoppingCart::coupon()['discount']) }}
-                                    <p>
-                                        -{{  Str::withCurrency(number_format(ShoppingCart::getDiscount(), 2)) }}
-                                    </p>
+                            <x-coupon.set-discount
+                                :discount="ShoppingCart::coupon()['discount']"
+                            />
 
-                                    <x-coupon.remove :route="route('coupons.destroy')" />
-                                @endif
-                                <p class="mb-1">
-                                    {{ Str::withCurrency(ShoppingCart::taxAmount()) }}
-                                </p>
-                                <p class="mb-2">
-                                    {{ Str::withCurrency(ShoppingCart::shippingCosts()) }}
-                                </p>
-                                <p class="font-bold">
-                                    {{ Str::withCurrency(ShoppingCart::total()) }}
-                                </p>
-                            </td>
+                            <x-coupon.show-discount
+                                :couponValue="ShoppingCart::coupon()['value']"
+                            />
+                        @endif
 
-                            <td></td>
-                        </tr>
+                        <x-cart.prices
+                            :taxRate="config('cart.tax_rate') * 100"
+                            :taxAmount="Str::withCurrency(ShoppingCart::taxAmount())"
+                            :shippingCosts="Str::withCurrency(ShoppingCart::shippingCosts())"
+                            :grandTotal="Str::withCurrency(ShoppingCart::total())"
+                        />
                     </tbody>
                 </table>
             </div>
 
             <div class="float-right mb-2">
-                <x-cart.empty
-                    :route="route('shopping.cart.empty')"
-                />
+                <x-cart.empty :route="route('shopping.cart.empty')" />
+
                 <a href="{{ route('checkouts.index') }}" class="btn
                 bg-teal-400 hover:bg-teal-500 text-white rounded-full">
                     Proceed to checkout
@@ -87,9 +77,7 @@
         @else
             <h2 class="text-center mb-4">Your cart is empty at present.</h2>
             <div class="text-center">
-                <x-product.go-shopping-btn
-                    :route="route('welcome')"
-                />
+                <x-product.go-shopping-btn :route="route('welcome')" />
             </div>
         @endif
     </div>

@@ -100,7 +100,7 @@ trait Priceable
     }
 
     /**
-     * The subtotal in cents.
+     * The subtotal in cents reduced by the discount amount.
      *
      * @return integer
      */

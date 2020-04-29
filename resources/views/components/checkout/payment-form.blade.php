@@ -1,5 +1,5 @@
 <div class="border border-gray-400 px-4 pb-4 pt-8">
-    <form id="paymentForm" action="{{ route('checkouts.store') }}" method="POST">
+    <form id="paymentForm" action="{{ $route }}" method="POST">
 
         @csrf
 
@@ -8,7 +8,10 @@
         </p>
 
         <div id="billingAddress" class="mb-4">
-            <x-checkout.address type="billing" />
+            <x-checkout.address
+                type="billing"
+                :customer="optional(optional(Auth::user())->customer)"
+            />
 
             <div class="mt-2">
                 <div class="form-check form-check-inline mt-2">
@@ -35,7 +38,9 @@
                 Payment Information
             </p>
 
-            <x-checkout.stripe-elem :total="$total" />
+            <x-checkout.stripe-elem
+                :total="Str::withCurrency(ShoppingCart::total())"
+            />
         </div>
     </form>
 </div>

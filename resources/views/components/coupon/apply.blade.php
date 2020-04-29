@@ -9,7 +9,7 @@
         aria-describedby="button-addon2">
 
         <div class="input-group-append">
-            <button  type="submit" class="btn btn-outline-secondary">
+            <button  type="submit" class="btn btn-outline-secondary bg-gray-200">
                 Apply
             </button>
         </div>

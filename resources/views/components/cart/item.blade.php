@@ -9,11 +9,13 @@
     <td width="35%">
         <p class="text-uppercase mb-2">
             <a href="{{ route('products.show', $item) }}"
-            class="font-semibold tracking-wide text-teal-500">
+            class="uppercase-semibold text-teal-500">
                 {{ $item->title }}
             </a>
         </p>
-        <p class="text-xs text-gray-500">{{ $item->subtitle }}</p>
+        <p class="text-xs text-gray-500">
+                {{ $item->subtitle }}
+        </p>
     </td>
 
     <td class="text-center">
@@ -21,7 +23,10 @@
     </td>
 
     <td class="text-center" width="10%">
-        <x-cart.update-qty :item="$item" />
+        <x-cart.update-qty
+            :item="$item"
+            :route="route('shopping.cart.update', $item)"
+        />
     </td>
 
     <td class="text-right">
