@@ -21,7 +21,7 @@ trait Discountable
      */
     public static function getDiscount(): ?float
     {
-        return static::$discount /100;
+        return static::$discount / 100;
     }
 
     /**
@@ -31,13 +31,23 @@ trait Discountable
      */
     public function coupon()
     {
-        $coupon = Coupon::findByCode($this->get('coupon'));;
+        $coupon = Coupon::findByCode($this->get('coupon'));
         $amount = $this->subtotalInCents();
 
         return [
             'discount' => optional($coupon)->discount($amount),
             'value' => optional($coupon)->value(),
         ];
+    }
+
+    /**
+     * Remove the coupon.
+     */
+    public function removeCoupon()
+    {
+        $this->forget('coupon');
+
+        $this->save();
     }
 
     /**

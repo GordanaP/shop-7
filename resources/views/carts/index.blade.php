@@ -29,51 +29,42 @@
                         @endforeach
 
                         @if (! ShoppingCart::has('coupon'))
-                            <tr>
-                                <td colspan="2"></td>
-                                <td class="text-right bg-gray-200 px-4 ">
-                                    <x-coupon.add />
-                                </td>
-                                <td class="text-right">
-                                    <p class="font-bold">Subtotal:</p>
-                                </td>
-                                <td class="text-right">
-                                    <p class="font-bold">
-                                        {{ Str::withCurrency(ShoppingCart::subtotal()) }}
-                                    </p>
-                                </td>
-                                <td></td>
-                            </tr>
+                            <x-coupon.show />
                         @endif
 
                         <tr>
                             <td colspan="4" class="text-right">
                                 @if (ShoppingCart::has('coupon'))
-                                    <p class="font-bold">Subtotal</p>
-                                    <p>Discount ({{ $coupon_value }}):</p>
+                                    <p class="font-bold mb-1">Subtotal</p>
+                                    <p>Discount:</p>
+                                    <p class="text-xs mb-1 text-gray-600">
+                                        {{ ShoppingCart::coupon()['value'] }}
+                                    </p>
                                 @endif
-                                <p>Shipping & Handling:</p>
-                                <p>Tax ({{ $tax_rate }}%):</p>
-                                <p class="uppercase font-bold mt-1">Grand Total:</p>
+                                <p class="mb-1">Tax ({{ config('cart.tax_rate') * 100 }}%):</p>
+                                <p class="mb-2">Shipping & Handling:</p>
+                                <p class="uppercase font-bold">Grand Total:</p>
                             </td>
 
                             <td class="text-right">
                                 @if (ShoppingCart::has('coupon'))
-                                    <p class="font-bold">
+                                    <p class="font-bold mb-1">
                                         {{ Str::withCurrency(ShoppingCart::subtotal()) }}
                                     </p>
-                                    {{ ShoppingCart::setDiscount($discount) }}
+                                    {{ ShoppingCart::setDiscount(ShoppingCart::coupon()['discount']) }}
                                     <p>
                                         -{{  Str::withCurrency(number_format(ShoppingCart::getDiscount(), 2)) }}
                                     </p>
+
+                                    <x-coupon.remove :route="route('coupons.destroy')" />
                                 @endif
-                                <p>
-                                    {{ Str::withCurrency(ShoppingCart::shippingCosts()) }}
-                                </p>
-                                <p>
+                                <p class="mb-1">
                                     {{ Str::withCurrency(ShoppingCart::taxAmount()) }}
                                 </p>
-                                <p class="font-bold mt-1">
+                                <p class="mb-2">
+                                    {{ Str::withCurrency(ShoppingCart::shippingCosts()) }}
+                                </p>
+                                <p class="font-bold">
                                     {{ Str::withCurrency(ShoppingCart::total()) }}
                                 </p>
                             </td>

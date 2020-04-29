@@ -14,7 +14,7 @@ class Coupon extends Model
      */
     public static function findByCode($code): ?Coupon
     {
-        return static::firstWhere('code', $code)->load('coupon');
+        return optional(static::firstWhere('code', $code))->load('coupon');
     }
 
     /**
@@ -42,6 +42,6 @@ class Coupon extends Model
      */
     public function value()
     {
-        return $this->coupon->value();
+        return $this->code . ' - ' . $this->coupon->value();
     }
 }

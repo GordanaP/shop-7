@@ -23,6 +23,6 @@ class FixedValueCoupon extends Model
      */
     public function value()
     {
-        return 'fixed value';
+        return 'value coupon';
     }
 }

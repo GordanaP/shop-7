@@ -29,6 +29,10 @@
     </td>
 
     <td class="text-right">
-        <x-cart.remove-item :item="$item" />
+        <x-cart.remove-item
+            :item="$item"
+            :route="route('shopping.cart.remove', $item)"
+            class="fa-lg"
+        />
     </td>
 </tr>

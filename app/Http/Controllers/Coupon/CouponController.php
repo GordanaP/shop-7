@@ -6,6 +6,8 @@ use App\Coupon;
 use Illuminate\Http\Request;
 use App\Facades\ShoppingCart;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CouponRequest;
+use Illuminate\Http\RedirectResponse;
 
 class CouponController extends Controller
 {
@@ -32,10 +34,9 @@ class CouponController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\CouponRequest  $request
      */
-    public function store(Request $request)
+    public function store(CouponRequest $request): RedirectResponse
     {
         ShoppingCart::addCoupon($request->code);
 
@@ -79,11 +80,12 @@ class CouponController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Coupon  $coupon
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Coupon $coupon)
+    public function destroy(): RedirectResponse
     {
-        //
+        ShoppingCart::removeCoupon();
+
+        return back();
     }
 }

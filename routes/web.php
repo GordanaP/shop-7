@@ -68,7 +68,9 @@ Route::resource('orders', 'Order\OrderController');
 /**
  * Coupon
  */
-Route::resource('coupons', 'Coupon\CouponController');
+Route::delete('coupons', 'Coupon\CouponController@destroy')
+    ->name('coupons.destroy');
+Route::resource('coupons', 'Coupon\CouponController')->except('destroy');
 
 Route::get('/test', 'TestController@index')->name('tests.index');
 Route::post('/test', 'TestController@store')->name('tests.store');

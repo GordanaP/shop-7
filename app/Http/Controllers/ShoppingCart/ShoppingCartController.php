@@ -21,9 +21,9 @@ class ShoppingCartController extends Controller
 
         return view('carts.index')->with([
             'items' => $items,
-            'coupon_value' => ShoppingCart::coupon()['value'],
-            'discount' => ShoppingCart::coupon()['discount'],
-            'tax_rate' => config('cart.tax_rate') * 100,
+            // 'coupon_value' => ShoppingCart::coupon()['value'],
+            // 'discount' => ShoppingCart::coupon()['discount'],
+            // 'tax_rate' => config('cart.tax_rate') * 100,
         ]);
     }
 

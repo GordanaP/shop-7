@@ -59,6 +59,10 @@ class ShoppingCart extends Collection
     {
         $this->forget($productId);
 
+        if ($this->isEmpty()) {
+            $this->removeCoupon();
+        }
+
         $this->save();
     }
 
@@ -76,6 +80,14 @@ class ShoppingCart extends Collection
     public function isNotEmpty(): bool
     {
         return $this->itemsCount() > 0;
+    }
+
+    /**
+     * Determine if the cart has no items.
+     */
+    public function isEmpty(): bool
+    {
+        return $this->itemsCount() == 0;
     }
 
     /**

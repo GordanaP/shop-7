@@ -1,4 +1,4 @@
-<form action="{{ route('coupons.store') }}" method="POST">
+<form action="{{ $route }}" method="POST">
 
     @csrf
 

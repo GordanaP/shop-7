@@ -1,10 +1,10 @@
-<form action="{{ route('shopping.cart.remove', $item) }}" method="POST">
+<form action="{{ $route }}" method="POST">
 
     @csrf
     @method('DELETE')
 
     <button type="submit" class="btn pt-0">
-        <i class="far fa-lg fa-trash-alt text-gray-700"></i>
+        <i {{ $attributes->merge(['class' => "far fa-trash-alt text-gray-700"]) }} ></i>
     </button>
 
 </form>
