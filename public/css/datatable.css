@@ -22,7 +22,9 @@ table.dataTable thead th, table.dataTable thead td {
     background: #81e6d9;
     border: 1px solid #4fd1c5;
 }
-
 .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
     background: #4fd1c5;
+}
+table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before {
+    background-color: #38b2ac
 }

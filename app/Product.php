@@ -45,6 +45,20 @@ class Product extends Model
         return number_format($this->price_in_cents/100, 2);
     }
 
+    public function orderPrice($price_in_cents)
+    {
+        $purchase_price = number_format($price_in_cents / 100, 2);
+
+        return Str::price($purchase_price);
+    }
+
+    public function orderSubtotal($price_in_cents, $qty)
+    {
+        $subtotal_in_dollars = number_format(($price_in_cents * $qty / 100), 2);
+
+        return Str::price($subtotal_in_dollars);
+    }
+
     /**
      * The orders containing the products.
      */

@@ -69,7 +69,7 @@ Route::resource('orders', 'Order\OrderController');
  */
 Route::get('users/{user}/orders/list',  'User\UserOrderAjaxController@index')
     ->name('users.orders.list');
-Route::resource('users.orders', 'User\UserOrderController');
+Route::middleware('auth')->resource('users.orders', 'User\UserOrderController');
 
 /**
  * Coupon

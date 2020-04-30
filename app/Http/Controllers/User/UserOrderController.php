@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
 use App\User;
-use Illuminate\Http\Request;
+use App\Order;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class UserOrderController extends Controller
 {
@@ -44,9 +45,9 @@ class UserOrderController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(User $user, Order $order)
     {
-        //
+        return view('orders.show', compact('user', 'order'));
     }
 
     /**

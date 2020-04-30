@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrderResource extends JsonResource
@@ -17,9 +16,12 @@ class OrderResource extends JsonResource
     {
         return [
             'order_number' => $this->order_number,
-            'date' => Carbon::parse($this->payment_created_at)->format('Y-m-d'),
+            'date' => $this->date(),
             'total' => number_format($this->total_in_cents / 100, 2),
-            'ship_to' => $this->shipping ?? $this->user->customer
+            'ship_to' => $this->shipping ?? $this->user->customer,
+            'links' => [
+                'show_order' => route('users.orders.show', [$this->user, $this]),
+            ]
         ];
     }
 }

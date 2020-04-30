@@ -2,14 +2,14 @@
     <td>
         <x-product.image
             :image="$item->mainImage()"
-            class="rounded-sm lg:w-4/5"
+            class="rounded-sm w-full"
         />
     </td>
 
     <td width="35%">
-        <p class="text-uppercase mb-2">
+        <p class="mb-2">
             <a href="{{ route('products.show', $item) }}"
-            class="uppercase-semibold text-teal-500">
+            class="uppercase text-xs font-semibold text-teal-500">
                 {{ $item->title }}
             </a>
         </p>
@@ -19,25 +19,35 @@
     </td>
 
     <td class="text-center">
-        {{ $item->price }}
+        {{ Request::route('order') ? $item->orderPrice($item->ordered->price_in_cents) : $item->price }}
     </td>
 
     <td class="text-center" width="10%">
-        <x-cart.update-qty
-            :item="$item"
-            :route="route('shopping.cart.update', $item)"
-        />
+        @if (Request::route('order'))
+            {{ $item->ordered->quantity }}
+        @else
+            <x-cart.update-qty
+                :item="$item"
+                :route="route('shopping.cart.update', $item)"
+            />
+        @endif
     </td>
 
     <td class="text-right">
-        {{ Str::withCurrency($item->subtotal_in_dollars) }}
+        @if (Request::route('order'))
+            {{ $item->orderSubtotal($item->ordered->price_in_cents, $item->ordered->quantity) }}
+        @else
+            {{ Str::withCurrency($item->subtotal_in_dollars) }}
+        @endif
     </td>
 
     <td class="text-right">
-        <x-cart.remove-item
-            :item="$item"
-            :route="route('shopping.cart.remove', $item)"
-            class="fa-lg"
-        />
+        @if(! Request::route('order'))
+            <x-cart.remove-item
+                :item="$item"
+                :route="route('shopping.cart.remove', $item)"
+                class="fa-lg"
+            />
+        @endif
     </td>
 </tr>

@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -59,5 +60,38 @@ class Order extends Model
         $order->save();
 
         return $order;
+    }
+
+    public function total()
+    {
+        $total = number_format($this->total_in_cents / 100, 2);
+
+        return Str::price($total);
+    }
+
+    public function subtotal()
+    {
+        $subtotal = number_format($this->subtotal_in_cents / 100, 2);
+
+        return Str::price($subtotal);
+    }
+
+    public function taxAmount()
+    {
+        $tax_amount = number_format($this->tax_amount_in_cents / 100, 2);
+
+        return Str::price($tax_amount);
+    }
+
+    public function shippingCosts()
+    {
+        $shipping_costs = number_format($this->shipping_costs_in_cents / 100, 2);
+
+        return Str::price($shipping_costs);
+    }
+
+    public function date()
+    {
+        return Carbon::parse($this->payment_created_at)->format('Y-d-m');
     }
 }

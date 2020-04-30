@@ -18,7 +18,7 @@
 
             <x-home.card
                 title="My Orders"
-                icon="fa-shopping-bag"
+                icon="fa-cubes"
                 :route="route('users.orders.index', Auth::user())"
             >
                 Lorem ipsum dolor sit amet, id quo eruditi eloquentiam.
@@ -27,7 +27,7 @@
 
             <x-home.card
                 title="Address Book"
-                icon="fa-map"
+                icon="fa-map-marked"
             >
                 Lorem ipsum dolor sit amet, id quo eruditi eloquentiam.
                 Assum decore te sed. Elitr scripta ocurreret qui ad.

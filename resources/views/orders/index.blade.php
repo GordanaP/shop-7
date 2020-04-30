@@ -4,26 +4,39 @@
         @include('partials.datatables._links')
     @endsection
 
-    <div class="container mt-4">
-        <div class="card card-body shadow-sm">
-            <table class="table bg-white text-gray-700 mb-3"
-            id="tableOrders">
-                <thead>
-                    <th>#</th>
-                    <th width="20%">Order #</th>
-                    <th width="20%">Date</th>
-                    <th width="20%">Total ($)</th>
-                    <th>Ship To</th>
-                    <th></th>
-                </thead>
+    <div class="container mt-4 border border-lightgray bg-white p-4">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="box-part text-center bg-white text-2xl py-16 px-4">
+                    <i class="fa fa-cubes fa-4x text-teal-400"
+                    aria-hidden="true"></i>
 
-                <tbody></tbody>
-            </table>
+                    <h4 class="text-2xl font-semibold mt-4">
+                        My orders
+                    </h4>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="card card-body shadow-sm">
+                    <table class="table text-gray-700 mb-3"
+                    id="tableOrders">
+                        <thead>
+                            <th>#</th>
+                            <th width="20%">Order #</th>
+                            <th width="20%">Date</th>
+                            <th width="20%">Total ($)</th>
+                            <th>Ship To</th>
+                            <th></th>
+                        </thead>
+
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
     @section('scripts')
-
         @include('partials.datatables._scripts')
 
         <script>
@@ -51,9 +64,6 @@
                     },
                     {
                         data: 'total',
-                        render: function(data, type, row, meta) {
-                            return data;
-                        },
                     },
                     {
                         data: 'ship_to',
@@ -62,8 +72,9 @@
                         },
                     },
                     {
+                        data: 'links',
                         render: function(data, type, row, meta) {
-                          return '<a href="#" class="text-teal-500">View</a>'
+                          return '<a href="' + data.show_order + '" class="text-teal-500">View</a>'
                         },
                     }
                 ],

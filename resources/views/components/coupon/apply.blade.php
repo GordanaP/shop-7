@@ -4,8 +4,8 @@
 
     <div class="input-group">
         <input type="text" name="code" class="form-control"
-        placeholder="Enter the coupon code"
-        aria-label="The coupon code"
+        placeholder="Coupon code"
+        aria-label="Coupon code"
         aria-describedby="button-addon2">
 
         <div class="input-group-append">
