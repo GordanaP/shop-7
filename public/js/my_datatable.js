@@ -25,3 +25,13 @@ $.fn.columnIndex = function(index = 1) {
 function reloadDataTable(datatable) {
     datatable.ajax.reload();
 }
+
+function counterFirstColumn (datatable) {
+    return datatable.on( 'order.dt search.dt', function () {
+            datatable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                cell.innerHTML = i+1;
+        } );
+    } ).draw();
+}
+
+
