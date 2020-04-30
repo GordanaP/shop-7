@@ -13,7 +13,7 @@
             </span>
         </div>
 
-        <a href="#" class="text-teal-500 hover:text-teal-600">
+        <a href="{{ $route ?? null }}" class="text-teal-500 hover:text-teal-600">
             View
         </a>
     </div>

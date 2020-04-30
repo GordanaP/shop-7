@@ -19,6 +19,7 @@
             <x-home.card
                 title="My Orders"
                 icon="fa-shopping-bag"
+                :route="route('users.orders.index', Auth::user())"
             >
                 Lorem ipsum dolor sit amet, id quo eruditi eloquentiam.
                 Assum decore te sed. Elitr scripta ocurreret qui ad.

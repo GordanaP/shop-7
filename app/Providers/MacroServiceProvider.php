@@ -30,6 +30,12 @@ class MacroServiceProvider extends ServiceProvider
             return Str::of($price)->prepend($currency);
         });
 
+        Str::macro('price', function ($price) {
+            $currency = config('cart.currency');
+
+            return Str::of($price)->prepend($currency);
+        });
+
         Str::macro('reverseSlug', function ($slug) {
             return Str::of($slug)
                 ->replace('-', ' ')

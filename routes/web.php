@@ -59,11 +59,17 @@ Route::get('checkout/payment/success','Checkout\CheckoutSuccessController')
 Route::get('checkout/payment/error','Checkout\CheckoutErrorController')
     ->name('checkouts.error');
 
-
 /**
  * Order
  */
 Route::resource('orders', 'Order\OrderController');
+
+/**
+ * User Order
+ */
+Route::get('users/{user}/orders/list',  'User\UserOrderAjaxController@index')
+    ->name('users.orders.list');
+Route::resource('users.orders', 'User\UserOrderController');
 
 /**
  * Coupon
