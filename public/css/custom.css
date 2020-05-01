@@ -1,0 +1,22 @@
+table.ordered-items tbody td.no-border { border-top: none; }
+table.ordered-items, table.ordered-items thead th,
+table.ordered-items tbody td {
+    border-color:  #edf2f7 !important
+}
+
+.profile-sidebar .profile-usermenu a.active {
+    color: #4fd1c5;
+    font-weight: 500;
+    background-color: #f8fafc;
+    border-left: 2px solid #4fd1c5;
+    border-bottom: 1px solid #f0f5fa;
+    border-top: 1px solid #f0f5fa;
+}
+
+.profile-sidebar .profile-usermenu a {
+    border-bottom: 1px solid #f0f5fa;
+}
+
+.profile-sidebar .profile-usermenu:hover {
+    background-color: #fafcfd;
+}

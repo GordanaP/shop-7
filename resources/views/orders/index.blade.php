@@ -1,62 +1,36 @@
 <x-layouts.master>
-
     @section('links')
         @include('partials.datatables._links')
-
-        <style>
-            table.ordered-items tbody td.no-border { border-top: none; }
-            table.ordered-items, table.ordered-items thead th,
-            table.ordered-items tbody td {
-                border-color:  #edf2f7 !important
-            }
-
-            .profile-usermenu a.active {
-                color: #4fd1c5;
-                font-weight: 500;
-                background-color: #f8fafd;
-                border-left: 2px solid #4fd1c5;
-                border-bottom: 1px solid #f0f5fa;
-                border-top: 1px solid #f0f5fa;
-            }
-
-            .profile-usermenu a {
-                border-bottom: 1px solid #f0f5fa;
-            }
-
-            .profile-usermenu:hover {
-                background-color: #fafcfd;
-            }
-
-        </style>
     @endsection
 
-    <div class="mx-4 p-4 mt-4" style="background-color: #E9ECF3;">
-        <div class="row">
-            <div class="col-md-3">
-                <x-sidebar.customer-card
-                    :customerName="Auth::user()->name"
-                    :ordersIndexRoute="route('users.orders.index', Auth::user())"
-                />
-            </div>
-            <div class="col-md-9">
-                <div class="bg-white p-4 h-full">
-                    <table class="table text-gray-700 mb-3 ordered-items"
-                    id="tableOrders">
-                        <thead class="bg-bs-gray">
-                            <th>#</th>
-                            <th width="20%">Order #</th>
-                            <th width="20%">Date</th>
-                            <th width="20%">Total ($)</th>
-                            <th>Ship To</th>
-                            <th></th>
-                        </thead>
+    <x-partials.page-header title="My orders" />
 
-                        <tbody></tbody>
-                    </table>
+    <main>
+        <div class="mx-4 p-4" style="background-color: #E9ECF3;">
+            <div class="row">
+                <div class="col-md-3">
+                    <x-sidebar.profile-card />
+                </div>
+                <div class="col-md-9">
+                    <div class="bg-white p-4 h-full">
+                        <table class="table text-gray-700 mb-3 ordered-items"
+                        id="tableOrders">
+                            <thead class="bg-bs-gray">
+                                <th>#</th>
+                                <th width="20%">Order #</th>
+                                <th width="20%">Date</th>
+                                <th width="20%">Total ($)</th>
+                                <th>Ship To</th>
+                                <th></th>
+                            </thead>
+
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
     @section('scripts')
         @include('partials.datatables._scripts')
@@ -119,5 +93,4 @@
 
         </script>
     @endsection
-
 </x-layouts.master>

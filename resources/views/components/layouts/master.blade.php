@@ -19,6 +19,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/album.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 
     @yield('links')
 </head>
@@ -27,9 +28,9 @@
 
         <x-nav />
 
-        <main class="pb-4 container-fluid">
+        <section class="pb-4 container-fluid">
             {{ $slot }}
-        </main>
+        </section>
     </div>
 
     <!-- Fontawesome -->

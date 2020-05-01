@@ -17,9 +17,7 @@ class ShoppingCartController extends Controller
      */
     public function index(): View
     {
-        $items = ShoppingCart::content();
-
-        return view('carts.index', compact('items'));
+        return view('carts.index');
     }
 
     /**
