@@ -1,7 +1,7 @@
 table.dataTable thead th, table.dataTable thead td {
     padding-left: 10px;
     border-bottom: none;
-    background-color: #f9f9f9;
+    /*background-color: #f9f9f9;*/
 }
 .dataTables_filter input {
     border: 1px solid #ebedf2 !important;

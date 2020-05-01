@@ -22,7 +22,7 @@
 
     @yield('links')
 </head>
-<body style="background: #eee">
+<body>
     <div id="app" class="font-sans antialiased">
 
         <x-nav />

@@ -26,7 +26,6 @@ Route::resource('products.images', 'Product\ProductImageController');
  * ShoppingCart
  */
 Route::get('shopping-cart/items', 'ShoppingCart\ShoppingCartController@index')
-    ->middleware('cart.exists')
     ->name('shopping.cart.index');
 Route::delete('shopping-cart/empty', 'ShoppingCart\ShoppingCartController@empty')
     ->name('shopping.cart.empty');

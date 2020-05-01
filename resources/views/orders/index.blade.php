@@ -2,25 +2,47 @@
 
     @section('links')
         @include('partials.datatables._links')
+
+        <style>
+            table.ordered-items tbody td.no-border { border-top: none; }
+            table.ordered-items, table.ordered-items thead th,
+            table.ordered-items tbody td {
+                border-color:  #edf2f7 !important
+            }
+
+            .profile-usermenu a.active {
+                color: #4fd1c5;
+                font-weight: 500;
+                background-color: #f8fafd;
+                border-left: 2px solid #4fd1c5;
+                border-bottom: 1px solid #f0f5fa;
+                border-top: 1px solid #f0f5fa;
+            }
+
+            .profile-usermenu a {
+                border-bottom: 1px solid #f0f5fa;
+            }
+
+            .profile-usermenu:hover {
+                background-color: #fafcfd;
+            }
+
+        </style>
     @endsection
 
-    <div class="container mt-4 border border-lightgray bg-white p-4">
+    <div class="mx-4 p-4 mt-4" style="background-color: #E9ECF3;">
         <div class="row">
             <div class="col-md-3">
-                <div class="box-part text-center bg-white text-2xl py-16 px-4">
-                    <i class="fa fa-cubes fa-4x text-teal-400"
-                    aria-hidden="true"></i>
-
-                    <h4 class="text-2xl font-semibold mt-4">
-                        My orders
-                    </h4>
-                </div>
+                <x-sidebar.customer-card
+                    :customerName="Auth::user()->name"
+                    :ordersIndexRoute="route('users.orders.index', Auth::user())"
+                />
             </div>
             <div class="col-md-9">
-                <div class="card card-body shadow-sm">
-                    <table class="table text-gray-700 mb-3"
+                <div class="bg-white p-4 h-full">
+                    <table class="table text-gray-700 mb-3 ordered-items"
                     id="tableOrders">
-                        <thead>
+                        <thead class="bg-bs-gray">
                             <th>#</th>
                             <th width="20%">Order #</th>
                             <th width="20%">Date</th>

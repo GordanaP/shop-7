@@ -90,17 +90,6 @@ class OrderCompleted
     }
 
     /**
-     * The shipping details.
-     *
-     * @param  string $pi
-     */
-    private function shipping($pi): bool
-    {
-        return $this->payment($pi)->shipping !== null;
-
-    }
-
-    /**
      * The billing details.
      *
      * @param  string $pi
@@ -108,6 +97,17 @@ class OrderCompleted
     private function billing($pi): StripeObject
     {
         return $this->gateway->retrievePaymentMethod($pi)->billing_details;
+
+    }
+
+    /**
+     * The shipping details.
+     *
+     * @param  string $pi
+     */
+    private function shipping($pi): bool
+    {
+        return $this->payment($pi)->shipping !== null;
 
     }
 

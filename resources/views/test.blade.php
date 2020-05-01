@@ -1,71 +1,121 @@
 <x-layouts.app>
 
-@php
+    @section('links')
+        @include('partials.datatables._links')
 
-  // $product =  \App\Product::first();
-  // $product =  \App\Product::find(2);
-  $product =  \App\Product::find(3);
-  //
-  $product->images->count();
-@endphp
+        <style>
+            .profile-usermenu a.active {
+                color: #4fd1c5;
+                font-weight: 500;
+                background-color: #f8fafc;
+                border-left: 2px solid #4fd1c5;
+                border-bottom: 1px solid #f0f5fa;
+            }
 
-<div class="container">
-    <div class="bg-white px-12 py-8 mt-4">
-        <div class="row">
-            <div class="col-md-6">
-                <p class="mb-2 uppercase-semibold">Edit product</p>
+            .profile-usermenu a {
+                border-bottom: 1px solid #f0f5fa;
+            }
 
-                <form action="#" method="POST"
-                class="p-4" style="border: 1px solid #f0f5fa">
+            .profile-usermenu:hover {
+                background-color: #fafcfd;
+            }
 
-                    @csrf
+        </style>
+    @endsection
 
-                    <div class="form-group">
-                        <label for="title">Title</label>
-                        <input type="text" name="title" id="title"
-                        class="form-control"
-                        placeholder="Enter name"
-                        value="{{ old('name', $product->title) }}" />
-                    </div>
+    <div class="mx-4 p-4 mt-4" style="background-color: #E9ECF3;">
+    <div class="row">
+        <div class="col-md-3">
+            @auth
+                <x-sidebar.customer-card
+                    :customerName="Auth::user()->name"
+                    :ordersIndexRoute="route('users.orders.index', Auth::user())"
+                />
+            @else
+                <x-sidebar.guest-card />
+            @endauth
+        </div>
 
-                    <div class="form-group">
-                        <label for="subtitle">Subtitle</label>
-                        <input type="text" name="subtitle" id="subtitle"
-                        class="form-control"
-                        placeholder="Enter name"
-                        value="{{ old('subtitle', $product->subtitle) }}" />
-                    </div>
+        <div class="col-md-9">
+            <div class="bg-white p-4 h-full">
+                <table class="table text-gray-700 mb-3"
+                id="tableOrders">
+                    <thead>
+                        <th>#</th>
+                        <th width="20%">Order #</th>
+                        <th width="20%">Date</th>
+                        <th width="20%">Total ($)</th>
+                        <th>Ship To</th>
+                        <th></th>
+                    </thead>
 
-                    <div class="form-group">
-                        <label for="description">Description</label>
-                        <textarea name="description" id="description"
-                        class="form-control" rows="3"
-                        placeholder="Enter description"
-                        >{{ old('description', $product->description) }}</textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="price">Price ({{ config('cart.currency') }})</label>
-                        <input type="text" name="price_in_cents" id="priceInCents"
-                        class="form-control"
-                        placeholder="00.00"
-                        value="{{ old('price_in_cents', $product->price_in_cents) }}" />
-                    </div>
-
-                    <div class="form-group">
-                        <button class="btn btn-block bg-teal-400 text-white">
-                            Save changes
-                        </button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-6">
-                <p class="mb-2 uppercase-semibold">Manage images</p>
-
-                <x-product.album.manage :product="$product" />
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
     </div>
-</div>
+    </div>
+
+    @section('scripts')
+        @include('partials.datatables._scripts')
+
+        <script>
+
+            var tableOrders = $('#tableOrders');
+            var customerOrdersUrl = @json(route('users.orders.list', Auth::user()));
+
+            var datatable = tableOrders.DataTable({
+                "ajax": {
+                    "url": customerOrdersUrl,
+                    "type": "GET"
+                },
+                "deferRender": true,
+                "columns": [
+                    {
+                        render: function(data, type, row, meta) {
+                            return ''
+                        },
+                    },
+                    {
+                        data: 'order_number',
+                    },
+                    {
+                        data: 'date',
+                    },
+                    {
+                        data: 'total',
+                    },
+                    {
+                        data: 'ship_to',
+                        render: function(data, type, row, meta) {
+                            return data.name;
+                        },
+                    },
+                    {
+                        data: 'links',
+                        render: function(data, type, row, meta) {
+                          return '<a href="' + data.show_order + '" class="text-teal-500">View</a>'
+                        },
+                    }
+                ],
+                responsive: true,
+                columnDefs: [
+                    {
+                        "searchable": false,
+                        "orderable": false,
+                        "targets": 0
+                    },
+                    { responsivePriority: 1, targets: 2 },
+                    { responsivePriority: 2, targets: 3 },
+                ],
+                "order": [
+                    [ 2, "desc" ]
+                ],
+            });
+
+            counterFirstColumn (datatable)
+
+        </script>
+    @endsection
 
 </x-layouts.app>

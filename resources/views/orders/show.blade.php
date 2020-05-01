@@ -22,18 +22,9 @@
                     </div>
                     <div>Ship to:</div>
                     <div class="text-gray-600">
-                        @if ($order->shipping)
-                            <p>{{ $order->shipping->name }}</p>
-                            <p>{{ $order->shipping->street_address }}</p>
-                            <p>{{ $order->shipping->street_address }}</p>
-                            <p>{{ $order->shipping->postal_code }} {{  $order->shipping->city }}</p>
-                            <p>{{ $order->shipping->country }}</p>
-                        @else
-                            <p>{{ $order->user->customer->name }}</p>
-                            <p>{{ $order->user->customer->street_address }}</p>
-                            <p>{{ $order->user->customer->postal_code }} {{  $order->user->customer->city }}</p>
-                            <p>{{ $order->user->customer->country }}</p>
-                        @endif
+                            <x-order.shipping-address
+                                :shipping="$order->shipping ?? $order->user->customer"
+                            />
                     </div>
                 </div>
             </div>
