@@ -28,7 +28,7 @@
                             </thead>
 
                             <tbody>
-                                @foreach ($order->products as $item)
+                                @foreach ($order->products->load('images') as $item)
                                     <x-cart.item :item="$item" />
                                 @endforeach
 
@@ -39,6 +39,13 @@
                                         class="pb-0"
                                     />
                                 </tr>
+
+                                @if ($order->coupon_code)
+                                    <x-coupon.show-discount
+                                        :couponValue="$order->getCoupon()['value']"
+                                        :discount="$order->getCoupon()['discount']"
+                                    />
+                                @endif
 
                                 <x-cart.prices
                                     :taxRate="config('cart.tax_rate') * 100"

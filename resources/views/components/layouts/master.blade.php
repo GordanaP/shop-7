@@ -23,6 +23,7 @@
 
     @yield('links')
 </head>
+
 <body>
     <div id="app" class="font-sans antialiased">
 

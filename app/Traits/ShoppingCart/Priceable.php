@@ -11,7 +11,6 @@ trait Priceable
     {
         return [
             'total' => $this->totalInCents(),
-            'subtotal' => $this->subtotalInCents(),
             'tax' => $this->taxAmountInCents(),
             'shipping_costs' => $this->shippingCostsInCents(),
         ];

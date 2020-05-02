@@ -35,6 +35,7 @@ trait Discountable
         $amount = $this->subtotalInCents();
 
         return [
+            'code' => $this->get('coupon'),
             'discount' => optional($coupon)->discount($amount),
             'value' => optional($coupon)->value(),
         ];

@@ -7,10 +7,11 @@
     </td>
     <td class="text-right py-0 no-border">
         <p>
-            -{{  Str::withCurrency(number_format(ShoppingCart::getDiscount(), 2)) }}
+            {{-- -{{  Str::withCurrency(number_format(ShoppingCart::getDiscount(), 2)) }} --}}
+            -{{  $discount }}
         </p>
 
-        <x-coupon.remove :route="route('coupons.destroy')" />
+        {{-- <x-coupon.remove :route="route('coupons.destroy')" /> --}}
     </td>
     <td class=" py-0 no-border"></td>
 </tr>

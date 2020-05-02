@@ -13,19 +13,25 @@
                 </div>
                 <div class="col-md-9">
                     <div class="bg-white p-4 h-full">
-                        <table class="table text-gray-700 mb-3 ordered-items"
-                        id="tableOrders">
-                            <thead class="bg-bs-gray">
-                                <th>#</th>
-                                <th width="20%">Order #</th>
-                                <th width="20%">Date</th>
-                                <th width="20%">Total ($)</th>
-                                <th>Ship To</th>
-                                <th></th>
-                            </thead>
+                        @if (Auth::user()->orders->count())
+                            <table class="table text-gray-700 mb-3 ordered-items"
+                            id="tableOrders">
+                                <thead class="bg-bs-gray">
+                                    <th>#</th>
+                                    <th width="20%">Order #</th>
+                                    <th width="20%">Date</th>
+                                    <th width="20%">Total ($)</th>
+                                    <th>Ship To</th>
+                                    <th></th>
+                                </thead>
 
-                            <tbody></tbody>
-                        </table>
+                                <tbody></tbody>
+                            </table>
+                        @else
+                            <h2 class="text-center mb-4">
+                                You have no any order at present.
+                            </h2>
+                        @endif
                     </div>
                 </div>
             </div>

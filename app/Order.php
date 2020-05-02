@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Coupon;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
@@ -53,6 +54,7 @@ class Order extends Model
         $order->subtotal_in_cents = $data->metadata->subtotal;
         $order->tax_amount_in_cents = $data->metadata->tax_amount;
         $order->shipping_costs_in_cents = $data->metadata->shipping_costs;
+        $order->coupon_code = $data->metadata->coupon_code ?? null;
         $order->payment_created_at = Carbon::createFromTimeStamp(
             $data->created, config('app.timezone')
         );
@@ -60,6 +62,19 @@ class Order extends Model
         $order->save();
 
         return $order;
+    }
+
+    public function getCoupon()
+    {
+        $coupon = Coupon::findByCode($this->coupon_code);
+
+        $value = $coupon->value();
+        $discount = $coupon->discount($this->subtotal_in_cents);
+
+        return [
+            'value' => $value,
+            'discount' => Str::price(number_format($discount/ 100, 2)),
+        ];
     }
 
     public function total()

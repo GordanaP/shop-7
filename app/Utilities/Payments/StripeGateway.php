@@ -32,6 +32,27 @@ class StripeGateway
     private $user_id;
 
     /**
+     * The order subtotal.
+     *
+     * @var integer
+     */
+    protected $subtotal;
+
+    /**
+     * The coupon code.
+     *
+     * @var string
+     */
+    protected $coupon_code;
+
+    /**
+     * The discount.
+     *
+     * @var integer
+     */
+    protected $discount;
+
+    /**
      * The amount collected for payment.
      *
      * @var array
@@ -46,6 +67,12 @@ class StripeGateway
         $this->stripe_secret_key = Stripe::setApiKey(config('services.stripe.secret'));
         $this->currency = config('services.stripe.currency');
         $this->user_id = Auth::id() ?? null;
+        $this->subtotal = ShoppingCart::subtotalInCents();
+        $this->coupon_code = ShoppingCart::coupon()['code'] ?? null;
+        $this->discount = ShoppingCart::coupon()['discount'] ?? null;
+
+        ShoppingCart::setDiscount($this->discount);
+
         $this->amount = ShoppingCart::summaryInCents();
     }
 
@@ -61,9 +88,10 @@ class StripeGateway
             'currency' => $this->currency,
             'metadata' => [
                 'user_id' => $this->user_id,
-                'subtotal' => $this->amount['subtotal'],
+                'subtotal' => $this->subtotal,
                 'tax_amount' => $this->amount['tax'],
                 'shipping_costs' => $this->amount['shipping_costs'],
+                'coupon_code' => $this->coupon_code,
             ],
         ]);
     }
