@@ -1,4 +1,4 @@
-<table class="table border mb-2 ordered-items">
+<table class="table border mb-2 text-gray-600 ordered-items">
     <thead>
         <th width="12%">Item</th>
         <th width="25%"></th>

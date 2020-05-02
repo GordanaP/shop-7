@@ -25,7 +25,9 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('subtotal_in_cents');
             $table->unsignedInteger('tax_amount_in_cents');
             $table->unsignedInteger('shipping_costs_in_cents');
-            $table->string('coupon_code')->nullable();
+
+            $table->unsignedInteger('coupon_id')->nullable();
+
             $table->datetime('payment_created_at');
             $table->timestamps();
         });

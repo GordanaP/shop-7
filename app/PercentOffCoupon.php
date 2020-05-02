@@ -25,4 +25,9 @@ class PercentOffCoupon extends Model
     {
         return $this->percent_off . '% off';
     }
+
+    public function coupons()
+    {
+        return $this->hasMany(Coupon::class);
+    }
 }

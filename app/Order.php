@@ -5,14 +5,19 @@ namespace App;
 use App\Coupon;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use App\Traits\Order\Priceable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Order extends Model
 {
+    use Priceable;
+
+    protected $with = ['user.customer'];
+
     /**
-     * The customer who placed the orders.
+     * The registered customer who placed the orders (optional).
      */
     public function user(): BelongsTo
     {
@@ -20,11 +25,21 @@ class Order extends Model
     }
 
     /**
-     * The shipping address to dispatch the orders .
+     * The shipping address to dispatch the orders (optional).
      */
     public function shipping(): BelongsTo
     {
-        return $this->belongsTo(Shipping::class);
+        return $this->belongsTo(Shipping::class)->withDefault(function($shipping){
+            $shipping->sameAsBilling($this->user->customer);
+        });
+    }
+
+    /**
+     * The coupon applied to the order (optional).
+     */
+    public function coupon(): BelongsTo
+    {
+        return $this->belongsTo(Coupon::class);
     }
 
     /**
@@ -54,7 +69,7 @@ class Order extends Model
         $order->subtotal_in_cents = $data->metadata->subtotal;
         $order->tax_amount_in_cents = $data->metadata->tax_amount;
         $order->shipping_costs_in_cents = $data->metadata->shipping_costs;
-        $order->coupon_code = $data->metadata->coupon_code ?? null;
+        $order->coupon_id = $data->metadata->coupon_id ?? null;
         $order->payment_created_at = Carbon::createFromTimeStamp(
             $data->created, config('app.timezone')
         );
@@ -64,12 +79,13 @@ class Order extends Model
         return $order;
     }
 
-    public function getCoupon()
+    /**
+     * Get the coupon applied to order.
+     */
+    public function getCoupon(): array
     {
-        $coupon = Coupon::findByCode($this->coupon_code);
-
-        $value = $coupon->value();
-        $discount = $coupon->discount($this->subtotal_in_cents);
+        $value = $this->coupon->value();
+        $discount = $this->coupon->discount($this->subtotal_in_cents);
 
         return [
             'value' => $value,
@@ -77,35 +93,10 @@ class Order extends Model
         ];
     }
 
-    public function total()
-    {
-        $total = number_format($this->total_in_cents / 100, 2);
-
-        return Str::price($total);
-    }
-
-    public function subtotal()
-    {
-        $subtotal = number_format($this->subtotal_in_cents / 100, 2);
-
-        return Str::price($subtotal);
-    }
-
-    public function taxAmount()
-    {
-        $tax_amount = number_format($this->tax_amount_in_cents / 100, 2);
-
-        return Str::price($tax_amount);
-    }
-
-    public function shippingCosts()
-    {
-        $shipping_costs = number_format($this->shipping_costs_in_cents / 100, 2);
-
-        return Str::price($shipping_costs);
-    }
-
-    public function date()
+    /**
+     * The order date.
+     */
+    public function date(): string
     {
         return Carbon::parse($this->payment_created_at)->format('Y-d-m');
     }

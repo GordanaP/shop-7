@@ -26,16 +26,14 @@ trait Discountable
 
     /**
      * Calculate the discount.
-     *
-     * @return mixed
      */
-    public function coupon()
+    public function coupon(): array
     {
-        $coupon = Coupon::findByCode($this->get('coupon'));
+        $coupon = Coupon::find($this->get('coupon'));
         $amount = $this->subtotalInCents();
 
         return [
-            'code' => $this->get('coupon'),
+            'id' => $this->get('coupon'),
             'discount' => optional($coupon)->discount($amount),
             'value' => optional($coupon)->value(),
         ];

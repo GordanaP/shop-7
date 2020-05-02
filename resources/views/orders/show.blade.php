@@ -40,7 +40,7 @@
                                     />
                                 </tr>
 
-                                @if ($order->coupon_code)
+                                @if ($order->coupon)
                                     <x-coupon.show-discount
                                         :couponValue="$order->getCoupon()['value']"
                                         :discount="$order->getCoupon()['discount']"
@@ -59,7 +59,7 @@
                         <p class="font-medium">Ship to:</p>
                         <div class="text-gray-600 text-sm">
                             <x-order.shipping-address
-                                :shipping="$order->shipping ?? $order->user->customer"
+                                :shipping="$order->shipping"
                             />
                         </div>
                     </div>

@@ -38,7 +38,9 @@ class CouponController extends Controller
      */
     public function store(CouponRequest $request): RedirectResponse
     {
-        ShoppingCart::addCoupon($request->code);
+        $coupon = Coupon::findByCode($request->code);
+
+        ShoppingCart::addCoupon($coupon->id);
 
         return back();
     }

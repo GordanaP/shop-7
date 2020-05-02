@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Model;
 
 class Shipping extends Model
@@ -27,5 +28,30 @@ class Shipping extends Model
         $shipping->save();
 
         return $shipping;
+    }
+
+    /**
+     * The shipping address is same as the billing address.
+     *
+     * @param  \App\Customer $customer
+     */
+    public function sameAsBilling($customer): Shipping
+    {
+        $this->name = $customer->name;
+        $this->street_address = $customer->street_address;
+        $this->postal_code = $customer->postal_code;
+        $this->city = $customer->city;
+        $this->country = $customer->country;
+        $this->phone = $customer->phone;
+
+        return $this;
+    }
+
+    /**
+     * The shipping country name.
+     */
+    public function countryName(): string
+    {
+        return App::make('country-list')->key(strtolower($this->country));
     }
 }
