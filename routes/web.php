@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'Product\ProductController@index')->name('welcome');
 
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -77,5 +76,17 @@ Route::delete('coupons', 'Coupon\CouponController@destroy')
     ->name('coupons.destroy');
 Route::resource('coupons', 'Coupon\CouponController')->except('destroy');
 
-Route::get('/test', 'TestController@index')->name('tests.index');
+/**
+ * PDF Controller
+ */
+Route::post('pdf', 'PDF\PDFController')->name('pdfs.store');
+
+// Route::get('/test', 'TestController@index')->name('tests.index');
 Route::post('/test', 'TestController@store')->name('tests.store');
+
+Route::get('/test', function(){
+    $html = '<h1>Hello PDF</h1>';
+    $pdf = PDF::loadHtml($html);
+
+    return $pdf->download();
+});

@@ -63,6 +63,15 @@ border-b border-yellow-300">
 
                         <div class="dropdown-menu dropdown-menu-right"
                         aria-labelledby="navbarDropdown">
+                            <a href="{{ route('home') }}" class="dropdown-item">
+                                Home
+                            </a>
+
+                            <a href="{{ route('users.orders.index', Auth::user()) }}"
+                            class="dropdown-item">
+                                My orders
+                            </a>
+
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">
