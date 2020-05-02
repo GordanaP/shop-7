@@ -14,19 +14,12 @@
                 <div class="col-md-9">
                     <div class="bg-white p-4 h-full">
                         <div class="flex justify-between">
-                            <span class="mb-1 text-base">
+                            <div class="mb-1 text-base">
                                 <span class="font-medium">Date:</span>
                                 <span class="text-gray-600">{{ $order->date() }}</span>
-                            </span>
-                            <span>
-                                <form action="{{ route('pdfs.store') }}" method="POST">
-                                    @csrf
+                            </div>
 
-                                    <button type="submit">
-                                        <i class="fas fa-file-pdf text-2xl text-gray-700"></i>
-                                    </button>
-                                </form>
-                            </span>
+                            <x-order.create-pdf :route="route('pdfs.store')" />
                         </div>
                         <table class="table border mb-2 ordered-items">
                             <thead>

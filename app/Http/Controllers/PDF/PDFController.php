@@ -9,9 +9,8 @@ class PDFController extends Controller
 {
     public function __invoke()
     {
-        $html = '<h1>Hello PDF</h1>';
-        $pdf = \PDF::loadHtml($html);
+        $pdf = \PDF::loadView('pdfs.order');
 
-        return $pdf->download('hello_laravel.pdf');
+        return $pdf->stream();
     }
 }
