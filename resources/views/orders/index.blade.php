@@ -47,6 +47,27 @@
             var customerOrdersUrl = @json(route('users.orders.list', Auth::user()));
 
             var datatable = tableOrders.DataTable({
+                dom: "<'row'<'col-sm-3'l><'col-sm-6'B><'col-sm-3'f>>"
+                +"<'row'<'col-sm-12'tr>>"
+                +"<'row'<'col-sm-5'i><'col-sm-7'p>>",
+                buttons: [
+                    {
+                        extend: 'pdf',
+                        text: '<i class="fa fa-file-pdf fa-lg"></i>',
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="fa fa-print fa-lg"></i>',
+                    },
+                    {
+                        extend: 'copy',
+                        text: '<i class="fa fa-copy fa-lg"></i>',
+                    },
+                    {
+                        extend: 'excel',
+                        text: '<i class="fa fa-file-excel fa-lg"></i>',
+                    },
+                ],
                 "ajax": {
                     "url": customerOrdersUrl,
                     "type": "GET"

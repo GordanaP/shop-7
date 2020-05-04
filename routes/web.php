@@ -65,8 +65,8 @@ Route::resource('orders', 'Order\OrderController');
 /**
  * Order PDF
  */
-Route::post('order-pdf/{order}', 'Order\OrderPdfController')
-    ->name('orders.pdfs.store');
+Route::get('order-pdf/{order}', 'Order\OrderPdfController')
+    ->name('orders.pdfs.stream');
 
 /**
  * User Order

@@ -28,3 +28,27 @@ table.dataTable thead th, table.dataTable thead td {
 table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before {
     background-color: #38b2ac
 }
+
+/**
+ * Action buttons
+ */
+.dataTables_wrapper .row .col-sm-6 {
+    margin-top: 8px !important;
+}
+.dataTables_wrapper .dt-buttons {
+  float:none;
+  text-align:center;
+}
+button.dt-button, div.dt-button, a.dt-button {
+    color: #a0aec0;
+    border: 1px solid #cbd5e0;
+    background-image: none;
+    background-color: #f8fbfd;
+    margin-top: 0px;
+}
+button.dt-button:hover {
+    background-image: none !important;
+    background-color: #a0aec0!important;
+    color: #f8fbfd !important;
+}
+
