@@ -43,7 +43,7 @@ class OrderCompleted
      *
      * @param  string $pi [Stripe PaymentIntent id]
      */
-    public function handlePayment($pi)
+    public function handle($pi)
     {
         if($this->billable($pi) && ! $this->billable($pi)->customer) {
 
@@ -86,7 +86,6 @@ class OrderCompleted
     private function billable($pi): ?User
     {
         return User::find($this->payment($pi)->metadata->user_id) ?? null;
-
     }
 
     /**
@@ -97,7 +96,6 @@ class OrderCompleted
     private function billing($pi): StripeObject
     {
         return $this->gateway->retrievePaymentMethod($pi)->billing_details;
-
     }
 
     /**
@@ -108,7 +106,6 @@ class OrderCompleted
     private function shipping($pi): bool
     {
         return $this->payment($pi)->shipping !== null;
-
     }
 
     /**

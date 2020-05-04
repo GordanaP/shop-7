@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Events\PaymentCollected;
 use App\Http\Requests\CheckoutRequest;
 
 class TestController extends Controller
@@ -12,16 +13,12 @@ class TestController extends Controller
         return view('test');
     }
 
-    public function store(CheckoutRequest $request)
+    public function store(Request $request)
     {
-        return $request->all();
+        $pi = 'pi_1GeDtvKu08hlX7ziGzAEtbwP';
 
-        $billing = $request->validated()['billing'];
-        $shipping = $request->validated()['shipping'];
+        event(new PaymentCollected($pi));
 
-        return response([
-            'billing' => $billing,
-            'shipping' => $shipping
-        ]);
+        return back()->with('success', 'Success!');
     }
 }

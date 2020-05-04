@@ -87,12 +87,8 @@ Route::resource('coupons', 'Coupon\CouponController')->except('destroy');
  */
 Route::post('pdf', 'PDF\PDFController')->name('pdfs.store');
 
-// Route::get('/test', 'TestController@index')->name('tests.index');
+/**
+ * Test
+ */
+Route::get('/test', 'TestController@index');
 Route::post('/test', 'TestController@store')->name('tests.store');
-
-Route::get('/test', function(){
-    $html = '<h1>Hello PDF</h1>';
-    $pdf = PDF::loadHtml($html);
-
-    return $pdf->download();
-});

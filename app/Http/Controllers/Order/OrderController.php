@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Order;
 use App\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Events\PaymentCollected;
 use App\Http\Controllers\Controller;
 use App\Utilities\Orders\OrderCompleted;
 
@@ -38,7 +39,9 @@ class OrderController extends Controller
      */
     public function store(Request $request, OrderCompleted $order):Response
     {
-        $order->handlePayment($request->payment_intent_id);
+        // $order->handle($request->payment_intent_id);
+
+        event(new PaymentCollected($request->payment_intent_id));
 
         return response([
             'success' => route('checkouts.success')
