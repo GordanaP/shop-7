@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
+use App\Order;
+use App\Mail\TestMail;
 use Illuminate\Http\Request;
 use App\Events\PaymentCollected;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\CheckoutRequest;
+use App\Utilities\General\PDFGenerator;
 
 class TestController extends Controller
 {
@@ -13,12 +18,14 @@ class TestController extends Controller
         return view('test');
     }
 
-    public function store(Request $request)
+    public function streamPDF(PDFGenerator $pdf_generator)
     {
-        $pi = 'pi_1GeDtvKu08hlX7ziGzAEtbwP';
+        $order = Order::find(3);
 
-        event(new PaymentCollected($pi));
+        $invoice = PDF::loadView('orders.pdf', compact('order'))->download();
 
-        return back()->with('success', 'Success!');
+        Mail::to('g@test.com')->send(new TestMail($invoice));
+
+        return back();
     }
 }

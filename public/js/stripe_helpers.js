@@ -92,7 +92,7 @@ function handlePostPaymentResponse(response)
     } else {
         if (response.paymentIntent.status === 'succeeded') {
             $.ajax({
-                url: '/orders',
+                url: '/payment-collected',
                 type: 'POST',
                 data: {
                     payment_intent_id: response.paymentIntent.id

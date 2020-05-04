@@ -37,7 +37,10 @@ return [
         'enabled' => true,
         'binary'  => env('WKHTML_PDF_BINARY', '"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf"'),
         'timeout' => false,
-        'options' => [],
+        'options' => [
+            'header-right' => '[page]',
+            'footer-center' => '[date]',
+        ],
         'env'     => [],
     ],
 

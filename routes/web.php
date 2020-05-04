@@ -63,6 +63,11 @@ Route::get('checkout/payment/error','Checkout\CheckoutErrorController')
 Route::resource('orders', 'Order\OrderController');
 
 /**
+ * Payment Collected
+ */
+Route::post('payment-collected', 'Payment\PaymentCollectedController');
+
+/**
  * Order PDF
  */
 Route::get('order-pdf/{order}', 'Order\OrderPdfController')
@@ -91,4 +96,5 @@ Route::post('pdf', 'PDF\PDFController')->name('pdfs.store');
  * Test
  */
 Route::get('/test', 'TestController@index');
+Route::get('/stream-pdf', 'TestController@streamPDF')->name('tests.pdf');
 Route::post('/test', 'TestController@store')->name('tests.store');

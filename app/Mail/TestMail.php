@@ -7,32 +7,19 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class YourOrderHasBeenReceived extends Mailable
+class TestMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * The order.
-     *
-     * @var \App\Order
-     */
-    public $order;
-
-    /**
-     * The invoice.
-     *
-     * @var \Symfony\Component\HttpFoundation\StreamedResponse
-     */
     public $invoice;
 
     /**
      * Create a new message instance.
      *
-     * @param \App\Order $order
+     * @return void
      */
-    public function __construct($order, $invoice)
+    public function __construct($invoice)
     {
-        $this->order = $order;
         $this->invoice = $invoice;
     }
 
@@ -43,8 +30,7 @@ class YourOrderHasBeenReceived extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.order-received')
-            ->subject('Order #'.$this->order->order_number)
+        return $this->view('emails.test')
             ->attachData($this->invoice, 'invoice.pdf', [
                 'mime' => 'application/pdf',
             ]);

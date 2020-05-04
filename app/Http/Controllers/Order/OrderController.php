@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Events\PaymentCollected;
 use App\Http\Controllers\Controller;
-use App\Utilities\Orders\OrderCompleted;
 
 class OrderController extends Controller
 {
@@ -37,15 +36,9 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Utilities\Orders\OrderCompleted  $order
      */
-    public function store(Request $request, OrderCompleted $order):Response
+    public function store(Request $request)
     {
-        // $order->handle($request->payment_intent_id);
-
-        event(new PaymentCollected($request->payment_intent_id));
-
-        return response([
-            'success' => route('checkouts.success')
-        ]);
+        //
     }
 
     /**
