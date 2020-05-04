@@ -5,7 +5,6 @@ namespace App\Traits\Product;
 use App\Image;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait Imageable
@@ -19,17 +18,6 @@ trait Imageable
     }
 
     /**
-     * Scope a query to only include the products fitered by a query.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \App\Filters\ProductFiltersManager  $productFiltersManager
-     */
-    public function scopeFilter($query, $productFiltersManager): Builder
-    {
-        return $productFiltersManager->apply($query);
-    }
-
-    /**
      * Get the product's main image.
      */
     public function mainImage(): string
@@ -39,7 +27,7 @@ trait Imageable
         } else {
             $image = ($first = $this->images->first())
                 ? App::make('image-manager')->getUrl($first)
-                : asset('images/demo_product.jpg');
+                : asset($this->demoImagePath());
         }
 
         return $image;
@@ -59,5 +47,25 @@ trait Imageable
     public function isMainImage(): ?Image
     {
         return $this->images->firstWhere('is_main', true);
+    }
+
+    /**
+     * The image path in the pdf format.
+     */
+    public function pdfImage(): string
+    {
+        $product_image = $this->isMainImage();
+
+        return $product_image
+            ? public_path('/storage/'.$product_image->path)
+            : public_path('/'.$this->demoImagePath());
+    }
+
+    /**
+     * The demo image path.
+     */
+    private function demoImagePath(): string
+    {
+        return 'images/demo_product.jpg';
     }
 }

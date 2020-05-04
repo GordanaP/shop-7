@@ -63,6 +63,12 @@ Route::get('checkout/payment/error','Checkout\CheckoutErrorController')
 Route::resource('orders', 'Order\OrderController');
 
 /**
+ * Order PDF
+ */
+Route::post('order-pdf/{order}', 'Order\OrderPdfController')
+    ->name('orders.pdfs.store');
+
+/**
  * User Order
  */
 Route::get('users/{user}/orders/list',  'User\UserOrderAjaxController@index')

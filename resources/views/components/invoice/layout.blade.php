@@ -16,6 +16,7 @@
             table tbody tr.price td { padding: 4px 8px;}
             .relative {position: relative}
             .w-full { width: 100%; }
+            .w-80 { width: 80%; }
             .font-sans { font-family: sans-serif; }
             .text-semibold { font-weight: 600; }
             .text-gray-800 { color: #2d3748; }
@@ -36,6 +37,7 @@
             .my-3 { margin-top: 12px; margin-bottom: 12px; }
             .py-1 { padding-top: 4px; padding-bottom: 4px; }
             .py-3 { padding-top: 12px; padding-bottom: 12px; }
+            .py-4 { padding-top: 16px; padding-bottom: 16px; }
             .px-2 { padding-left: 8px; padding-right: 8px; }
             .border-b-gray { border-bottom: 1px solid #eee; }
             .border-t-gray { border-top: 1px solid #eee; }

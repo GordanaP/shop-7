@@ -13,7 +13,6 @@
 
     <div class="my-4">
         <x-alert.success />
-
         <section class="jumbotron text-center">
             <div class="container text-white">
                 <h1 class="jumbotron-heading">Album example</h1>
@@ -30,7 +29,6 @@
         <div class="album py-5 bg-light">
             <div class="container">
                 <div class="row">
-
                     <div class="col-md-3">
                         <x-filters.all :filters="$filters" />
                     </div>

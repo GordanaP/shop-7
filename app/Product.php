@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Support\Str;
 use App\Traits\Product\Imageable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
@@ -83,5 +84,16 @@ class Product extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    /**
+     * Scope a query to only include the products fitered by a query.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \App\Filters\ProductFiltersManager  $productFiltersManager
+     */
+    public function scopeFilter($query, $productFiltersManager): Builder
+    {
+        return $productFiltersManager->apply($query);
     }
 }

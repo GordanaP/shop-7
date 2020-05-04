@@ -2,20 +2,21 @@
 
 @php
 
-  // $product =  \App\Product::first();
+  $product =  \App\Product::first();
   // $product =  \App\Product::find(2);
-  $product =  \App\Product::find(3);
+  // $product =  \App\Product::find(3);
   //
   $product->images->count();
 @endphp
 
 <div class="container">
+
     <div class="bg-white px-12 py-8 mt-4">
         <div class="row">
             <div class="col-md-6">
                 <p class="mb-2 uppercase-semibold">Edit product</p>
 
-                <form action="#" method="POST"
+                <form action="{{ route('products.images.store', $product) }}" method="POST"
                 class="p-4" style="border: 1px solid #f0f5fa">
 
                     @csrf

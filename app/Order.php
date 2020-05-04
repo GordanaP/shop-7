@@ -16,6 +16,8 @@ class Order extends Model
 
     protected $with = ['user.customer'];
 
+    protected $dates = [ 'payment_created_at' ];
+
     /**
      * The registered customer who placed the orders (optional).
      */
@@ -98,6 +100,6 @@ class Order extends Model
      */
     public function date(): string
     {
-        return Carbon::parse($this->payment_created_at)->format('Y-d-m');
+        return $this->payment_created_at->format('Y-d-m');
     }
 }
