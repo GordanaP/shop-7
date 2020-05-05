@@ -39,10 +39,10 @@ class Customer extends Model
         $customer->name = $data['name'];
         $customer->email = $data['email'];
         $customer->phone = $data['phone'];
-        $customer->street_address = $data['address']['line1'];
-        $customer->postal_code = $data['address']['postal_code'];
-        $customer->city = $data['address']['city'];
-        $customer->country = $data['address']['country'];
+        $customer->street_address = $data['street_address'];
+        $customer->postal_code = $data['postal_code'];
+        $customer->city = $data['city'];
+        $customer->country = $data['country'];
         $customer->user_id = $user->id;
 
         $customer->save();

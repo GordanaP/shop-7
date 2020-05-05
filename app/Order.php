@@ -63,22 +63,45 @@ class Order extends Model
     {
         $order = new static;
 
-        $order->user_id = $data->metadata->user_id ?? null;
+        // $order->user_id = $data->metadata->user_id ?? null;
+        // $order->shipping_id = optional($shipping)->id ?? null;
+        // $order->order_number = random_int(5000, 10000);
+        // $order->stripe_payment_id = $data->id;
+        // $order->total_in_cents = $data->amount;
+        // $order->subtotal_in_cents = $data->metadata->subtotal;
+        // $order->tax_amount_in_cents = $data->metadata->tax_amount;
+        // $order->shipping_costs_in_cents = $data->metadata->shipping_costs;
+        // $order->coupon_id = $data->metadata->coupon_id ?? null;
+        // $order->payment_created_at = Carbon::createFromTimeStamp(
+        //     $data->created, config('app.timezone')
+        // );
+
+        $order->user_id = $data['user_id'];
         $order->shipping_id = optional($shipping)->id ?? null;
-        $order->order_number = random_int(5000, 10000);
-        $order->stripe_payment_id = $data->id;
-        $order->total_in_cents = $data->amount;
-        $order->subtotal_in_cents = $data->metadata->subtotal;
-        $order->tax_amount_in_cents = $data->metadata->tax_amount;
-        $order->shipping_costs_in_cents = $data->metadata->shipping_costs;
-        $order->coupon_id = $data->metadata->coupon_id ?? null;
+        $order->order_number = $data['order_number'];
+        $order->stripe_payment_id = $data['stripe_payment_id'];
+        $order->total_in_cents = $data['total_in_cents'];
+        $order->subtotal_in_cents = $data['subtotal_in_cents'];
+        $order->tax_amount_in_cents = $data['tax_amount_in_cents'];
+        $order->shipping_costs_in_cents = $data['shipping_costs_in_cents'];
+        $order->coupon_id = $data['coupon_id'];
         $order->payment_created_at = Carbon::createFromTimeStamp(
-            $data->created, config('app.timezone')
+            $data['payment_created_at'], config('app.timezone')
         );
 
         $order->save();
 
         return $order;
+    }
+
+    /**
+     * Get the order by payment id.
+     *
+     * @param  string $pi
+     */
+    public static function findByPaymentId($pi)
+    {
+        return static::firstWhere('stripe_payment_id', $pi);
     }
 
     /**

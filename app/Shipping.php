@@ -13,17 +13,17 @@ class Shipping extends Model
      * @param  Stripe\PaymentMethod $data
      * @param  \App\User $user
      */
-    public static function new($data): Shipping
+    public static function new($data, $user): Shipping
     {
         $shipping = new static;
 
-        $shipping->name = $data->shipping->name;
-        $shipping->phone = $data->shipping->phone;
-        $shipping->street_address = $data->shipping->address['line1'];
-        $shipping->postal_code = $data->shipping->address['postal_code'];
-        $shipping->city = $data->shipping->address['city'];
-        $shipping->country = $data->shipping->address['country'];
-        $shipping->user_id = $data->metadata->user_id;
+        $shipping->name = $data['name'];
+        $shipping->phone = $data['phone'];
+        $shipping->street_address = $data['street_address'];
+        $shipping->postal_code = $data['postal_code'];
+        $shipping->city = $data['city'];
+        $shipping->country = $data['country'];
+        $shipping->user_id = $user->id;
 
         $shipping->save();
 

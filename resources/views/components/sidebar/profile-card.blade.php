@@ -1,7 +1,7 @@
 <div class="profile-sidebar">
     <div class="profile-avatar">
         <x-sidebar.profile-avatar
-            :profileName="Auth::user()->customer->name"
+            :profileName="optional(Auth::user()->customer)->name"
         />
     </div>
 

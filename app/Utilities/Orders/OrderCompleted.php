@@ -47,15 +47,15 @@ class OrderCompleted
     {
         if($this->billable($pi) && ! $this->billable($pi)->customer) {
 
-            Customer::new($this->billing($pi), $this->billable($pi));
+            Customer::new($this->gateway->billingDetails($pi), $this->billable($pi));
         }
 
-        if($this->billable($pi) && $this->shipping(($pi))) {
+        if($this->billable($pi) && $this->shippingExists($pi)) {
 
-            $shipping = Shipping::new($this->payment($pi));
+            $shipping = Shipping::new($this->gateway->shippingDetails($pi), $this->billable($pi));
         }
 
-        $order = Order::place($this->payment($pi), $shipping ?? null);
+        $order = Order::place($this->gateway->orderDetails($pi), $shipping ?? null);
 
         $this->attachItemsToOrder($this->items, $order);
 
@@ -85,17 +85,11 @@ class OrderCompleted
      */
     private function billable($pi): ?User
     {
-        return User::find($this->payment($pi)->metadata->user_id) ?? null;
-    }
+        // return User::find($this->payment($pi)->metadata->user_id) ?? null;
 
-    /**
-     * The billing details.
-     *
-     * @param  string $pi
-     */
-    private function billing($pi): StripeObject
-    {
-        return $this->gateway->retrievePaymentMethod($pi)->billing_details;
+        $user_id = $this->gateway->orderDetails($pi)['user_id'];
+
+        return User::find($user_id) ?? null;
     }
 
     /**
@@ -103,9 +97,11 @@ class OrderCompleted
      *
      * @param  string $pi
      */
-    private function shipping($pi): bool
+    private function shippingExists($pi)
     {
-        return $this->payment($pi)->shipping !== null;
+        // return $this->payment($pi)->shipping !== null;
+
+        return $this->gateway->shippingDetails($pi);
     }
 
     /**
@@ -113,8 +109,8 @@ class OrderCompleted
      *
      * @param  string $pi
      */
-    private function payment($pi): PaymentIntent
-    {
-        return $this->gateway->retrievePayment($pi);
-    }
+    // private function payment($pi): PaymentIntent
+    // {
+    //     return $this->gateway->retrievePayment($pi);
+    // }
 }

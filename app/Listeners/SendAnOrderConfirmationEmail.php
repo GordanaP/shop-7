@@ -49,9 +49,10 @@ class SendAnOrderConfirmationEmail
     {
         $pi = $event->payment_intent_id;
 
-        $order = $this->order($pi);
-        $billing = $this->billing($pi);
-        $shipping = $this->shipping($pi);
+        // $order = $this->order($pi);
+        $order = Order::findByPaymentId($pi);
+        $billing = $this->gateway->billingDetails($pi);
+        $shipping = $this->gateway->shippingDetails($pi);
         $invoice = $this->createInvoice($order, $billing, $shipping);
 
         Mail::to($billing['email'])
@@ -63,10 +64,10 @@ class SendAnOrderConfirmationEmail
      *
      * @param  string $payment_intent_id
      */
-    private function order($pi): Order
-    {
-        return Order::firstWhere('stripe_payment_id', $pi);
-    }
+    // private function order($pi): Order
+    // {
+    //     return Order::firstWhere('stripe_payment_id', $pi);
+    // }
 
     /**
      * Create an invoice in the PDF format.
@@ -79,48 +80,5 @@ class SendAnOrderConfirmationEmail
     {
         return $this->pdf_generator
             ->download('pdfs.invoice', compact('order', 'billing', 'shipping'));
-    }
-
-    /**
-     * The billing address.
-     *
-     * @param  string $pi
-     */
-    private function billing($pi): array
-    {
-        $billing = $this->gateway->retrievePaymentMethod($pi)
-            ->billing_details;
-
-        return [
-            'name' => $billing->name,
-            'street_address' => $billing->address->line1,
-            'postal_code' => $billing->address->postal_code,
-            'city' => $billing->address->city,
-            'country' => $billing->address->country,
-            'phone' => $billing->phone,
-            'email' => $billing->email,
-        ];
-    }
-
-    /**
-     * The shipping address.
-     *
-     * @param  string $pi
-     */
-    private function shipping($pi)
-    {
-        $shipping = $this->gateway->retrievePayment($pi)
-            ->shipping;
-
-        if($shipping) {
-            return [
-                'name' => $shipping->name,
-                'street_address' => $shipping->address->line1,
-                'postal_code' => $shipping->address->postal_code,
-                'city' => $shipping->address->city,
-                'country' => $shipping->address->country,
-                'phone' => $shipping->phone,
-            ];
-        }
     }
 }
