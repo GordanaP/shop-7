@@ -5,7 +5,11 @@
     @section('payment-date', $order->date())
 
     @section('billing-details')
-        <x-invoice.address :related="$order->user->customer" />
+        <x-invoice.address
+            :related="$billing ?? $order->user->customer"
+        >
+            <div>Email: {{ ($billing ?? $order->user->customer)['email'] }}</div>
+        </x-invoice.address>
     @endsection
 
     @section('order-details')
@@ -19,7 +23,9 @@
     @endsection
 
     @section('shipping-details')
-        <x-invoice.address :related="$order->shipping" />
+        <x-invoice.address
+            :related="isset($shipping) ? $shipping : ($billing ?? $order->shipping)"
+        />
     @endsection
 
 </x-invoice.layout>

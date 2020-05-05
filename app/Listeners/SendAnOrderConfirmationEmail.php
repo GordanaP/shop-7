@@ -43,29 +43,19 @@ class SendAnOrderConfirmationEmail
     /**
      * Handle the event.
      *
-     * @param  PaymentCollected  $event
+     * @param  \App\Events\PaymentCollected  $event
      */
     public function handle(PaymentCollected $event)
     {
-        $billing_email = $this->billingEmail($event->payment_intent_id);
-        $order = $this->order($event->payment_intent_id);
-        $invoice = $this->createInvoice($order);
+        $pi = $event->payment_intent_id;
 
-        Mail::to($billing_email)
+        $order = $this->order($pi);
+        $billing = $this->billing($pi);
+        $shipping = $this->shipping($pi);
+        $invoice = $this->createInvoice($order, $billing, $shipping);
+
+        Mail::to($billing['email'])
             ->send(new YourOrderHasBeenReceived($order, $invoice));
-    }
-
-    /**
-     * Get the billing email.
-     *
-     * @param  string $payment_intent_id
-     */
-    private function billingEmail($payment_intent_id): string
-    {
-        $billing = $this->gateway->retrievePaymentMethod($payment_intent_id)
-            ->billing_details;
-
-        return $billing['email'];
     }
 
     /**
@@ -73,18 +63,64 @@ class SendAnOrderConfirmationEmail
      *
      * @param  string $payment_intent_id
      */
-    private function order($payment_intent_id): Order
+    private function order($pi): Order
     {
-        return Order::firstWhere('stripe_payment_id', $payment_intent_id);
+        return Order::firstWhere('stripe_payment_id', $pi);
     }
 
     /**
      * Create an invoice in the PDF format.
      *
      * @param  \App\Order $order
+     * @param  array $billing
+     * @param  array $shipping
      */
-    private function createInvoice($order): Response
+    private function createInvoice($order, $billing, $shipping): Response
     {
-        return $this->pdf_generator->download('orders.pdf', compact('order'));
+        return $this->pdf_generator
+            ->download('pdfs.invoice', compact('order', 'billing', 'shipping'));
+    }
+
+    /**
+     * The billing address.
+     *
+     * @param  string $pi
+     */
+    private function billing($pi): array
+    {
+        $billing = $this->gateway->retrievePaymentMethod($pi)
+            ->billing_details;
+
+        return [
+            'name' => $billing->name,
+            'street_address' => $billing->address->line1,
+            'postal_code' => $billing->address->postal_code,
+            'city' => $billing->address->city,
+            'country' => $billing->address->country,
+            'phone' => $billing->phone,
+            'email' => $billing->email,
+        ];
+    }
+
+    /**
+     * The shipping address.
+     *
+     * @param  string $pi
+     */
+    private function shipping($pi)
+    {
+        $shipping = $this->gateway->retrievePayment($pi)
+            ->shipping;
+
+        if($shipping) {
+            return [
+                'name' => $shipping->name,
+                'street_address' => $shipping->address->line1,
+                'postal_code' => $shipping->address->postal_code,
+                'city' => $shipping->address->city,
+                'country' => $shipping->address->country,
+                'phone' => $shipping->phone,
+            ];
+        }
     }
 }

@@ -21,7 +21,7 @@ class YourOrderHasBeenReceived extends Mailable
     /**
      * The invoice.
      *
-     * @var \Symfony\Component\HttpFoundation\StreamedResponse
+     * @var \Illuminate\App\Response
      */
     public $invoice;
 
@@ -29,6 +29,7 @@ class YourOrderHasBeenReceived extends Mailable
      * Create a new message instance.
      *
      * @param \App\Order $order
+     * @param \Illuminate\App\Response $invoice
      */
     public function __construct($order, $invoice)
     {
@@ -45,7 +46,7 @@ class YourOrderHasBeenReceived extends Mailable
     {
         return $this->view('emails.order-received')
             ->subject('Order #'.$this->order->order_number)
-            ->attachData($this->invoice, 'invoice.pdf', [
+            ->attachData($this->invoice, 'invoice_'.$this->order->order_number.'.pdf', [
                 'mime' => 'application/pdf',
             ]);
     }

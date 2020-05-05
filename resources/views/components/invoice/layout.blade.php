@@ -60,7 +60,10 @@
         <div class="container clearfix">
             <div class="float-left">
                 <x-partials.logo-header />
-                <p>Payment Date: @yield('payment-date')</p>
+                <p>
+                    <span class="text-semibold">Order Date:</span>
+                    @yield('payment-date')
+                </p>
             </div>
             <div class="float-right">
                 <h4 class="mb-1">Billing Details</h4>

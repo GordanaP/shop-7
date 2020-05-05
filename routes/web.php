@@ -68,10 +68,10 @@ Route::resource('orders', 'Order\OrderController');
 Route::post('payment-collected', 'Payment\PaymentCollectedController');
 
 /**
- * Order PDF
+ * Invoice
  */
-Route::get('order-pdf/{order}', 'Order\OrderPdfController')
-    ->name('orders.pdfs.stream');
+Route::get('invoice/{order}', 'Invoice\InvoiceController')
+    ->name('invoices.pdf');
 
 /**
  * User Order
@@ -88,13 +88,10 @@ Route::delete('coupons', 'Coupon\CouponController@destroy')
 Route::resource('coupons', 'Coupon\CouponController')->except('destroy');
 
 /**
- * PDF Controller
- */
-Route::post('pdf', 'PDF\PDFController')->name('pdfs.store');
-
-/**
  * Test
  */
 Route::get('/test', 'TestController@index');
 Route::get('/stream-pdf', 'TestController@streamPDF')->name('tests.pdf');
-Route::post('/test', 'TestController@store')->name('tests.store');
+Route::get('mailable', function () {
+    return new App\Mail\TestMail();
+});

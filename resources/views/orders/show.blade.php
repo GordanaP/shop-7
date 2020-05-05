@@ -19,7 +19,7 @@
                                 <span class="text-gray-600">{{ $order->date() }}</span>
                             </div>
 
-                            <x-pdf.create :route="route('orders.pdfs.stream', $order)" />
+                            <x-pdf.create :route="route('invoices.pdf', $order)" />
                         </div>
                         <table class="table border mb-2 ordered-items">
                             <thead>

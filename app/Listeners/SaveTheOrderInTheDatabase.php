@@ -10,14 +10,16 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class SaveTheOrderInTheDatabase
 {
     /**
-     * The Order
+     * The order
      *
-     * @var [type]
+     * @var \App\Utilities\Orders\OrderCompleted
      */
     public $order;
 
     /**
      * Create the event listener.
+     *
+     * @param \App\Utilities\Orders\OrderCompleted $order
      */
     public function __construct(OrderCompleted $order)
     {
@@ -27,7 +29,7 @@ class SaveTheOrderInTheDatabase
     /**
      * Handle the event.
      *
-     * @param  PaymentCollected  $event
+     * @param  \App\Events\PaymentCollected  $event
      */
     public function handle(PaymentCollected $event)
     {
