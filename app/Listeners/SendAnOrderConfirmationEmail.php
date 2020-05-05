@@ -17,9 +17,9 @@ class SendAnOrderConfirmationEmail
     /**
      * The Stripe gateway.
      *
-     * @var \App\Utilities\Payments\StripeGateway
+     * @var \App\Utilities\Payments\PaymentDetails
      */
-    public $gateway;
+    public $payment;
 
     /**
      * The PDF documents generator.
@@ -31,12 +31,12 @@ class SendAnOrderConfirmationEmail
     /**
      * Create the event listener.
      *
-     * @param \App\Utilities\Payments\StripeGateway $gateway
+     * @param \App\Utilities\Payments\StripeGateway $payment
      * @param \App\Utilities\General\PDFGenerator $pdf_generator
      */
-    public function __construct(StripeGateway $gateway, PDFGenerator $pdf_generator)
+    public function __construct(PaymentDetails $payment, PDFGenerator $pdf_generator)
     {
-        $this->gateway = $gateway;
+        $this->payment = $payment;
         $this->pdf_generator = $pdf_generator;
     }
 
@@ -49,25 +49,14 @@ class SendAnOrderConfirmationEmail
     {
         $pi = $event->payment_intent_id;
 
-        // $order = $this->order($pi);
         $order = Order::findByPaymentId($pi);
-        $billing = $this->gateway->billingDetails($pi);
-        $shipping = $this->gateway->shippingDetails($pi);
+        $billing = $this->payment->billing($pi);
+        $shipping = $this->payment->shipping($pi);
         $invoice = $this->createInvoice($order, $billing, $shipping);
 
         Mail::to($billing['email'])
             ->send(new YourOrderHasBeenReceived($order, $invoice));
     }
-
-    /**
-     * Get the order.
-     *
-     * @param  string $payment_intent_id
-     */
-    // private function order($pi): Order
-    // {
-    //     return Order::firstWhere('stripe_payment_id', $pi);
-    // }
 
     /**
      * Create an invoice in the PDF format.

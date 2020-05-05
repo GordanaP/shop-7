@@ -2,23 +2,34 @@
 
 namespace App\Utilities\Orders;
 
-use App\User;
 use App\Order;
-use App\Customer;
-use App\Shipping;
-use Stripe\StripeObject;
-use Stripe\PaymentIntent;
 use App\Facades\ShoppingCart;
-use App\Utilities\Payments\StripeGateway;
+use App\Utilities\Orders\Billable;
+use App\Utilities\Orders\Deliverable;
+use App\Utilities\Payments\PaymentDetails;
 
 class OrderCompleted
 {
     /**
-     * The payment gateway.
+     * The payment details.
      *
-     * @var \App\Utilities\Payments\StripeGateway
+     * @var \App\Utilities\Payments\PaymentDetails
      */
-    public $gateway;
+    public $payment;
+
+    /**
+     * The billable customer.
+     *
+     * @var \App\Utilities\Orders\Billable
+     */
+    public $billable;
+
+    /**
+     * The deliverable data.
+     *
+     * @var \App\Utilities\Orders\Deliverable
+     */
+    public $deliverable;
 
     /**
      * The purchased items.
@@ -30,32 +41,32 @@ class OrderCompleted
     /**
      * Create a new class istance.
      *
-     * @param App\Utilities\Payments\StripeGateway $gateway
+     * @param App\Utilities\Payments\PaymentDetails $payment
+     * @param App\Utilities\Orders\Billable $billable
+     * @param App\Utilities\Orders\Deliverable $deliverable
      */
-    public function __construct(StripeGateway $gateway)
+    public function __construct(PaymentDetails $payment, Billable $billable, Deliverable $deliverable)
     {
-        $this->gateway = $gateway;
+        $this->payment = $payment;
+        $this->billable = $billable;
+        $this->deliverable = $deliverable;
         $this->items = ShoppingCart::content();
     }
 
     /**
      * Handle the payment once it has been completed.
      *
-     * @param  string $pi [Stripe PaymentIntent id]
+     * @param  string $pi
      */
     public function handle($pi)
     {
-        if($this->billable($pi) && ! $this->billable($pi)->customer) {
+        $this->billable->handle($pi);
 
-            Customer::new($this->gateway->billingDetails($pi), $this->billable($pi));
-        }
+        $shipping = $this->deliverable->handle($pi);
 
-        if($this->billable($pi) && $this->shippingExists($pi)) {
+        $order_data = $this->payment->order($pi);
 
-            $shipping = Shipping::new($this->gateway->shippingDetails($pi), $this->billable($pi));
-        }
-
-        $order = Order::place($this->gateway->orderDetails($pi), $shipping ?? null);
+        $order = Order::place($order_data, $shipping ?? null);
 
         $this->attachItemsToOrder($this->items, $order);
 
@@ -77,40 +88,4 @@ class OrderCompleted
             ]);
         });
     }
-
-    /**
-     * The registered billable user.
-     *
-     * @param  string $pi
-     */
-    private function billable($pi): ?User
-    {
-        // return User::find($this->payment($pi)->metadata->user_id) ?? null;
-
-        $user_id = $this->gateway->orderDetails($pi)['user_id'];
-
-        return User::find($user_id) ?? null;
-    }
-
-    /**
-     * The shipping details.
-     *
-     * @param  string $pi
-     */
-    private function shippingExists($pi)
-    {
-        // return $this->payment($pi)->shipping !== null;
-
-        return $this->gateway->shippingDetails($pi);
-    }
-
-    /**
-     * The payment.
-     *
-     * @param  string $pi
-     */
-    // private function payment($pi): PaymentIntent
-    // {
-    //     return $this->gateway->retrievePayment($pi);
-    // }
 }
