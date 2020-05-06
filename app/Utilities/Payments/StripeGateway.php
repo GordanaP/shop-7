@@ -78,7 +78,7 @@ class StripeGateway
     }
 
     /**
-     * Collect the payment info.
+     * Collect the payment.
      */
     public function collectPayment(): PaymentIntent
     {
@@ -88,7 +88,7 @@ class StripeGateway
             'amount' => $this->amount['total'],
             'currency' => $this->currency,
             'metadata' => [
-                'order_number' => random_int(5000, 10000),
+                'order_number' => random_int(10000, 99000),
                 'user_id' => $this->user_id,
                 'subtotal' => $this->subtotal,
                 'tax_amount' => $this->amount['tax'],

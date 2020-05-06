@@ -45,7 +45,7 @@ class Payable
     }
 
     /**
-     * Handle the payment once it has been completed.
+     * Handle the payment.
      *
      * @param  string $pi
      */
