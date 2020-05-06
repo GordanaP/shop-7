@@ -7,7 +7,7 @@ use App\Utilities\Orders\Payable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SaveTheOrderInTheDatabase
+class SaveThePaymentInTheDatabase
 {
     /**
      * The payable.
