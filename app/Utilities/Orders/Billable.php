@@ -3,25 +3,25 @@
 namespace App\Utilities\Orders;
 
 use App\Customer;
-use App\Utilities\Payments\PaymentDetails;
+use App\Utilities\Payments\StripeGateway;
 
 class Billable
 {
     /**
-     * The payment details.
+     * The payment gateway.
      *
-     * @var \App\Utilities\Payments\PaymentDetails
+     * @var \App\Utilities\Payments\StripeGateway
      */
-    private $payment;
+    private $gateway;
 
     /**
      * Create a new class instance.
      *
-     * @param \App\Utilities\Payments\PaymentDetails $payment
+     * @param \App\Utilities\Payments\StripeGateway $gateway
      */
-    public function __construct(PaymentDetails $payment)
+    public function __construct(StripeGateway $gateway)
     {
-        $this->payment = $payment;
+        $this->gateway = $gateway;
     }
 
     /**
@@ -31,8 +31,8 @@ class Billable
      */
     public function handle($pi)
     {
-        $registered_user = $this->payment->registered_user($pi);
-        $billing_data = $this->payment->billing($pi);
+        $registered_user = $this->gateway->retrieveRegisteredUser($pi);
+        $billing_data = $this->gateway->retrieveBillingData($pi);
 
         if($registered_user && ! $registered_user->customer) {
 

@@ -2,6 +2,7 @@
 
 namespace App\Utilities\Payments;
 
+use App\User;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
 use Stripe\PaymentMethod;
@@ -98,11 +99,23 @@ class StripeGateway
     }
 
     /**
-     * The order details.
+     * Retrieve the registered user.
+     *
+     * @param string $pi
+     */
+    public function retrieveRegisteredUser($pi)
+    {
+        $user_id = $this->retrieveOrderData($pi)['user_id'];
+
+        return User::find($user_id) ?? null;
+    }
+
+    /**
+     * Retrieve the order details.
      *
      * @param  string $pi
      */
-    public function orderDetails($pi): array
+    public function retrieveOrderData($pi): array
     {
         $payment = $this->retrievePayment($pi);
         $metadata = $payment->metadata;
@@ -115,17 +128,17 @@ class StripeGateway
             'subtotal_in_cents' => $metadata['subtotal'],
             'tax_amount_in_cents' => $metadata['tax_amount'],
             'shipping_costs_in_cents' => $metadata['shipping_costs'],
-            'coupon_id' => $metadata['coupon-id'] ?? null,
+            'coupon_id' => $metadata['coupon_id'] ?? null,
             'payment_created_at' => $payment['created']
         ];
     }
 
     /**
-     * The billing address.
+     * Retrieve the billing address.
      *
      * @param  string $pi
      */
-    public function billingDetails($pi): array
+    public function retrieveBillingData($pi): array
     {
         $billing = $this->retrievePaymentMethod($pi)->billing_details;
 
@@ -141,11 +154,11 @@ class StripeGateway
     }
 
     /**
-     * The shipping address.
+     * Retrieve the shipping address.
      *
      * @param  string $pi
      */
-    public function shippingDetails($pi)
+    public function retrieveShippingData($pi)
     {
         $shipping = $this->retrievePayment($pi)->shipping;
 

@@ -63,19 +63,6 @@ class Order extends Model
     {
         $order = new static;
 
-        // $order->user_id = $data->metadata->user_id ?? null;
-        // $order->shipping_id = optional($shipping)->id ?? null;
-        // $order->order_number = random_int(5000, 10000);
-        // $order->stripe_payment_id = $data->id;
-        // $order->total_in_cents = $data->amount;
-        // $order->subtotal_in_cents = $data->metadata->subtotal;
-        // $order->tax_amount_in_cents = $data->metadata->tax_amount;
-        // $order->shipping_costs_in_cents = $data->metadata->shipping_costs;
-        // $order->coupon_id = $data->metadata->coupon_id ?? null;
-        // $order->payment_created_at = Carbon::createFromTimeStamp(
-        //     $data->created, config('app.timezone')
-        // );
-
         $order->user_id = $data['user_id'];
         $order->shipping_id = optional($shipping)->id ?? null;
         $order->order_number = $data['order_number'];

@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\PaymentCollected;
-use App\Utilities\Orders\OrderCompleted;
+use App\Utilities\Orders\Orderable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -12,18 +12,18 @@ class SaveTheOrderInTheDatabase
     /**
      * The order
      *
-     * @var \App\Utilities\Orders\OrderCompleted
+     * @var \App\Utilities\Orders\Orderable
      */
-    public $order;
+    public $orderable;
 
     /**
      * Create the event listener.
      *
-     * @param \App\Utilities\Orders\OrderCompleted $order
+     * @param \App\Utilities\Orders\Orderable $orderable
      */
-    public function __construct(OrderCompleted $order)
+    public function __construct(Orderable $orderable)
     {
-        $this->order = $order;
+        $this->orderable = $orderable;
     }
 
     /**
@@ -33,6 +33,6 @@ class SaveTheOrderInTheDatabase
      */
     public function handle(PaymentCollected $event)
     {
-        $this->order->handle($event->payment_intent_id);
+        $this->orderable->handle($event->payment_intent_id);
     }
 }

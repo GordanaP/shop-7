@@ -3,25 +3,25 @@
 namespace App\Utilities\Orders;
 
 use App\Shipping;
-use App\Utilities\Payments\PaymentDetails;
+use App\Utilities\Payments\StripeGateway;
 
 class Deliverable
 {
     /**
-     * The payment details.
+     * The payment gateway.
      *
-     * @var \App\Utilities\Payments\PaymentDetails
+     * @var \App\Utilities\Payments\StripeGateway
      */
-    private $payment;
+    private $gateway;
 
     /**
      * Create a new class instance.
      *
-     * @param \App\Utilities\Payments\PaymentDetails $payment
+     * @param \App\Utilities\Payments\StripeGateway $gateway
      */
-    public function __construct(PaymentDetails $payment)
+    public function __construct(StripeGateway $gateway)
     {
-        $this->payment = $payment;
+        $this->gateway = $gateway;
     }
 
     /**
@@ -31,14 +31,13 @@ class Deliverable
      */
     public function handle($pi)
     {
-        $registered_user = $this->payment->registered_user($pi);
-        $shipping_data = $this->payment->shipping($pi);
+        $registered_user = $this->gateway->retrieveRegisteredUser($pi);
+        $shipping_data = $this->gateway->retrieveShippingData($pi);
 
         if($registered_user && $shipping_data) {
 
-            $shipping = Shipping::new($shipping_data, $registered_user);
-        }
+            return Shipping::new($shipping_data, $registered_user);
 
-        return $shipping;
+        }
     }
 }

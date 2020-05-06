@@ -6,19 +6,19 @@ use App\Order;
 use App\Facades\ShoppingCart;
 use App\Utilities\Orders\Billable;
 use App\Utilities\Orders\Deliverable;
-use App\Utilities\Payments\PaymentDetails;
+use App\Utilities\Payments\StripeGateway;
 
-class OrderCompleted
+class Orderable
 {
     /**
-     * The payment details.
+     * The payment gateway.
      *
-     * @var \App\Utilities\Payments\PaymentDetails
+     * @var \App\Utilities\Payments\StripeGateway
      */
-    public $payment;
+    public $gateway;
 
     /**
-     * The billable customer.
+     * The billable user.
      *
      * @var \App\Utilities\Orders\Billable
      */
@@ -41,13 +41,13 @@ class OrderCompleted
     /**
      * Create a new class istance.
      *
-     * @param App\Utilities\Payments\PaymentDetails $payment
+     * @param App\Utilities\Payments\StripeGateway $gateway
      * @param App\Utilities\Orders\Billable $billable
      * @param App\Utilities\Orders\Deliverable $deliverable
      */
-    public function __construct(PaymentDetails $payment, Billable $billable, Deliverable $deliverable)
+    public function __construct(StripeGateway $gateway, Billable $billable, Deliverable $deliverable)
     {
-        $this->payment = $payment;
+        $this->gateway = $gateway;
         $this->billable = $billable;
         $this->deliverable = $deliverable;
         $this->items = ShoppingCart::content();
@@ -64,7 +64,7 @@ class OrderCompleted
 
         $shipping = $this->deliverable->handle($pi);
 
-        $order_data = $this->payment->order($pi);
+        $order_data = $this->gateway->retrieveOrderData($pi);
 
         $order = Order::place($order_data, $shipping ?? null);
 

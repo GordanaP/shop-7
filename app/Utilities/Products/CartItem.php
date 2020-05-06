@@ -20,7 +20,7 @@ class CartItem
 
         $product->subtotal_in_dollars = number_format($product->subtotal_in_cents/100, 2);
 
-        return $product;
+        return $product->load('images');
     }
 
 }

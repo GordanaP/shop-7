@@ -17,9 +17,9 @@ class SendAnOrderConfirmationEmail
     /**
      * The Stripe gateway.
      *
-     * @var \App\Utilities\Payments\PaymentDetails
+     * @var \App\Utilities\Payments\StripeGateway
      */
-    public $payment;
+    public $gateway;
 
     /**
      * The PDF documents generator.
@@ -31,12 +31,12 @@ class SendAnOrderConfirmationEmail
     /**
      * Create the event listener.
      *
-     * @param \App\Utilities\Payments\StripeGateway $payment
+     * @param \App\Utilities\Payments\StripeGateway $gateway
      * @param \App\Utilities\General\PDFGenerator $pdf_generator
      */
-    public function __construct(PaymentDetails $payment, PDFGenerator $pdf_generator)
+    public function __construct(StripeGateway $gateway, PDFGenerator $pdf_generator)
     {
-        $this->payment = $payment;
+        $this->gateway = $gateway;
         $this->pdf_generator = $pdf_generator;
     }
 
@@ -50,8 +50,8 @@ class SendAnOrderConfirmationEmail
         $pi = $event->payment_intent_id;
 
         $order = Order::findByPaymentId($pi);
-        $billing = $this->payment->billing($pi);
-        $shipping = $this->payment->shipping($pi);
+        $billing = $this->gateway->retrieveBillingData($pi);
+        $shipping = $this->gateway->retrieveShippingData($pi);
         $invoice = $this->createInvoice($order, $billing, $shipping);
 
         Mail::to($billing['email'])
