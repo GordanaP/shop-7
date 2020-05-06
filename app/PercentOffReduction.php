@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PercentOffCoupon extends Model
+class PercentOffReduction extends Model
 {
     /**
      * The discount.
@@ -26,8 +26,8 @@ class PercentOffCoupon extends Model
         return $this->percent_off . '% off';
     }
 
-    public function coupons()
-    {
-        return $this->hasMany(Coupon::class);
-    }
+    // public function coupons()
+    // {
+    //     return $this->hasMany(Coupon::class);
+    // }
 }

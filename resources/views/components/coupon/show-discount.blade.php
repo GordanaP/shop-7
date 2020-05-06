@@ -6,8 +6,10 @@
         </p>
     </td>
     <td class="text-right py-0 no-border">
-        <p>
-            -{{  $discount }}
+        <p>-{{  $discount }}</p>
+
+        <p class="text-xs text-teal-500">
+            <a href="{{ $removeRoute }}">Remove</a>
         </p>
     </td>
     <td class=" py-0 no-border"></td>

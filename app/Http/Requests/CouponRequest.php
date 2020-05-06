@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Coupon;
-use App\Rules\IsNotExpired;
+use App\Rules\IsValid;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -30,7 +30,7 @@ class CouponRequest extends FormRequest
             'code' => [
                 'bail','required',
                 Rule::in(Coupon::all()->pluck('code')),
-                new IsNotExpired
+                new IsValid,
             ]
         ];
     }

@@ -83,7 +83,7 @@ Route::middleware('auth')->resource('users.orders', 'User\UserOrderController');
 /**
  * Coupon
  */
-Route::delete('coupons', 'Coupon\CouponController@destroy')
+Route::get('coupons/destroy', 'Coupon\CouponController@destroy')
     ->name('coupons.destroy');
 Route::resource('coupons', 'Coupon\CouponController')->except('destroy');
 

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class PercentOffCouponsTableSeeder extends Seeder
+class CouponsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class PercentOffCouponsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory('App\PercentOffCoupon')->create();
+        factory('App\Coupon')->create();
     }
 }

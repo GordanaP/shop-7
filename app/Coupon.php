@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Coupon extends Model
 {
-    protected $with = ['coupon'];
+    protected $with = ['reduction'];
 
     /**
      * Get the coupon by its code.
@@ -31,7 +31,7 @@ class Coupon extends Model
     /**
      * The model owning the coupon.
      */
-    public function coupon(): MorphTo
+    public function reduction(): MorphTo
     {
         return $this->morphTo();
     }
@@ -43,7 +43,7 @@ class Coupon extends Model
      */
     public function discount($amount): int
     {
-        return $this->coupon->discount($amount);
+        return $this->reduction->discount($amount);
     }
 
     /**
@@ -53,6 +53,34 @@ class Coupon extends Model
      */
     public function value()
     {
-        return $this->code . ' - ' . $this->coupon->value();
+        return $this->code . ' - ' . $this->reduction->value();
     }
+
+    // /**
+    //  * The model owning the coupon.
+    //  */
+    // public function coupon(): MorphTo
+    // {
+    //     return $this->morphTo();
+    // }
+
+    // /**
+    //  * The discount calculated on the basis of the coupon value.
+    //  *
+    //  * @param  integer $amount
+    //  */
+    // public function discount($amount): int
+    // {
+        // return $this->coupon->discount($amount);
+    // }
+
+    // /**
+    //  * The coupon's value.
+    //  *
+    //  * @return string
+    //  */
+    // public function value()
+    // {
+    //     return $this->code . ' - ' . $this->coupon->value();
+    // }
 }

@@ -3,10 +3,10 @@
 namespace App\Rules;
 
 use App\Coupon;
-use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Contracts\Validation\Rule;
 
-class IsNotExpired implements Rule
+class IsValid implements Rule
 {
     /**
      * Create a new rule instance.
@@ -27,9 +27,12 @@ class IsNotExpired implements Rule
      */
     public function passes($attribute, $value)
     {
-        $expires_at = optional(optional(Coupon::findByCode($value))->coupon)->expires_at;
+        $from = Coupon::findByCode($value)->valid_from;
+        $to = Coupon::findByCode($value)->expires_at;
 
-        return $expires_at > Carbon::yesterday();
+        $validPeriod = CarbonPeriod::create($from, $to);
+
+        return $validPeriod->isInProgress();
     }
 
     /**
@@ -39,6 +42,6 @@ class IsNotExpired implements Rule
      */
     public function message()
     {
-        return 'The coupon has expired.';
+        return 'The coupon is invalid.';
     }
 }

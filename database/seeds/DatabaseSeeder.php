@@ -11,7 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     protected $tables = [
         'users', 'products', 'customers', 'categories',
-        'fixed_value_coupons', 'percent_off_coupons'
+        'fixed_value_reductions', 'percent_off_reductions', 'coupons'
     ];
 
     /**
@@ -27,8 +27,9 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductsTableSeeder::class);
         $this->call(CustomersTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
-        $this->call(FixedValueCouponsTableSeeder::class);
-        $this->call(PercentOffCouponsTableSeeder::class);
+        $this->call(FixedValueReductionsTableSeeder::class);
+        $this->call(PercentOffReductionsTableSeeder::class);
+        $this->call(CouponsTableSeeder::class);
     }
 
     /**

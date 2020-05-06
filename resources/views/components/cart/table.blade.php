@@ -33,6 +33,7 @@
             <x-coupon.show-discount
                 :couponValue="ShoppingCart::coupon()['value']"
                 :discount="Str::withCurrency(number_format(ShoppingCart::getDiscount(), 2))"
+                :removeRoute="route('coupons.destroy')"
             />
         @endif
 

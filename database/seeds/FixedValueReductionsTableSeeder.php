@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class FixedValueCouponsTableSeeder extends Seeder
+class FixedValueReductionsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class FixedValueCouponsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory('App\FixedValueCoupon')->create();
+        factory('App\FixedValueReduction')->create();
     }
 }

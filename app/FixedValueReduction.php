@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FixedValueCoupon extends Model
+class FixedValueReduction extends Model
 {
     /**
      * The discount.

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFixedValueCouponsTable extends Migration
+class CreateFixedValueReductionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateFixedValueCouponsTable extends Migration
      */
     public function up()
     {
-        Schema::create('fixed_value_coupons', function (Blueprint $table) {
+        Schema::create('fixed_value_reductions', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('value_in_cents');
-            $table->datetime('expires_at')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateFixedValueCouponsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fixed_value_coupons');
+        Schema::dropIfExists('fixed_value_reductions');
     }
 }
