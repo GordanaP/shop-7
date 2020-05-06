@@ -4,8 +4,6 @@ namespace App\Utilities\Orders;
 
 use App\Order;
 use App\Facades\ShoppingCart;
-use App\Utilities\Orders\Billable;
-use App\Utilities\Orders\Deliverable;
 use App\Utilities\Payments\StripeGateway;
 
 class Orderable
@@ -18,20 +16,6 @@ class Orderable
     public $gateway;
 
     /**
-     * The billable user.
-     *
-     * @var \App\Utilities\Orders\Billable
-     */
-    public $billable;
-
-    /**
-     * The deliverable data.
-     *
-     * @var \App\Utilities\Orders\Deliverable
-     */
-    public $deliverable;
-
-    /**
      * The purchased items.
      *
      * @var \Illuminate\Support\Collection
@@ -42,35 +26,26 @@ class Orderable
      * Create a new class istance.
      *
      * @param App\Utilities\Payments\StripeGateway $gateway
-     * @param App\Utilities\Orders\Billable $billable
-     * @param App\Utilities\Orders\Deliverable $deliverable
      */
-    public function __construct(StripeGateway $gateway, Billable $billable, Deliverable $deliverable)
+    public function __construct(StripeGateway $gateway)
     {
         $this->gateway = $gateway;
-        $this->billable = $billable;
-        $this->deliverable = $deliverable;
         $this->items = ShoppingCart::content();
     }
 
     /**
-     * Handle the payment once it has been completed.
+     * Handle the payment id and shipping data.
      *
      * @param  string $pi
+     * @param  \App\Shipping|null $shipping
      */
-    public function handle($pi)
+    public function handle($pi, $shipping = null)
     {
-        $this->billable->handle($pi);
-
-        $shipping = $this->deliverable->handle($pi);
-
         $order_data = $this->gateway->retrieveOrderData($pi);
 
         $order = Order::place($order_data, $shipping ?? null);
 
         $this->attachItemsToOrder($this->items, $order);
-
-        ShoppingCart::empty();
     }
 
     /**
