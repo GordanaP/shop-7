@@ -5,9 +5,11 @@
         <link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
     @endsection
 
-    <x-coupon.set-discount
-        :discount="ShoppingCart::coupon()['discount']"
-    />
+    @if (ShoppingCart::has('coupon'))
+        <x-coupon.set-discount
+            :discount="ShoppingCart::coupon()['discount']"
+        />
+    @endif
 
     <div class="row">
         <div class="col-md-7">
@@ -16,7 +18,9 @@
                     Complete your details below
                 </p>
 
-                <x-checkout.payment-form :route="route('checkouts.store')" />
+                <x-checkout.payment-form
+                    :route="route('checkouts.store')"
+                />
             </div>
 
             <div class="alert alert-danger text-center hidden mx-auto
@@ -30,11 +34,11 @@
             </div>
             <x-checkout.order-summary
                 :items="ShoppingCart::content()"
-                :subtotal="number_format((ShoppingCart::subtotal()+ShoppingCart::getDiscount()), 2)"
-                :taxAmount="ShoppingCart::taxAmount()"
-                :shippingCosts="ShoppingCart::shippingCosts()"
-                :total="ShoppingCart::total()"
-                :discount="ShoppingCart::getDiscount()"
+                :subtotal="Present::price(ShoppingCart::subtotalInCents()+ShoppingCart::getDiscountInCents())"
+                :taxAmount="Present::price(ShoppingCart::taxAmountInCents())"
+                :shippingCosts="Present::price(ShoppingCart::shippingCostsInCents())"
+                :total="Present::price(ShoppingCart::totalInCents())"
+                :discount="Present::price(ShoppingCart::getDiscountInCents())"
             />
         </div>
     </div>

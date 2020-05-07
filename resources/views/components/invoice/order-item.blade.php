@@ -11,10 +11,10 @@
         </p>
     </td>
     <td>
-        {{ Str::price(number_format($item->ordered->price_in_cents / 100, 2)) }}
+        {{ Present::price($item->ordered->price_in_cents) }}
     </td>
     <td class="text-center">{{ $item->ordered->quantity }}</td>
     <td class="text-right">
-         {{ Str::price(number_format(($item->ordered->price_in_cents * $item->ordered->quantity)/100,2)) }}
+         {{ Present::price($item->ordered->price_in_cents * $item->ordered->quantity) }}
     </td>
 </tr>

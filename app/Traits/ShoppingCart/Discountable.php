@@ -19,9 +19,9 @@ trait Discountable
     /**
      * Get the discount.
      */
-    public static function getDiscount(): ?float
+    public static function getDiscountInCents(): ?float
     {
-        return static::$discount / 100;
+        return static::$discount;
     }
 
     /**
@@ -34,8 +34,8 @@ trait Discountable
 
         return [
             'id' => $this->get('coupon'),
-            'discount' => optional($coupon)->discount($amount),
-            'value' => optional($coupon)->value(),
+            'discount' => optional($coupon)->applyDiscount($amount),
+            'name' => optional($coupon)->name(),
         ];
     }
 

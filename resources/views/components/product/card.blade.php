@@ -25,7 +25,7 @@
                     />
                 </div>
 
-                <div>{{ Str::price(number_format($product->calculated_price_in_cents/100, 2)) }}</div>
+                <div>{{ Present::price($product->calculated_price_in_cents) }}</div>
             </div>
         </div>
     </div>

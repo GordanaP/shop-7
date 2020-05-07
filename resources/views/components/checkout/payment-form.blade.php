@@ -39,7 +39,7 @@
             </p>
 
             <x-checkout.stripe-elem
-                :total="Str::withCurrency(ShoppingCart::total())"
+                :total="Present::price(ShoppingCart::totalInCents())"
             />
         </div>
     </form>

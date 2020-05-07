@@ -7,6 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(PercentOffReduction::class, function (Faker $faker) {
     return [
+        'name' => '10% off',
         'percent_off' => 10
     ];
 });

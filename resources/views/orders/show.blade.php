@@ -38,7 +38,7 @@
 
                                 <tr>
                                     <x-cart.subtotal
-                                        :subtotal="$order->subtotal()"
+                                        :subtotal="Present::price($order->subtotal_in_cents)"
                                         :colspan="4"
                                         class="pb-0"
                                     />
@@ -46,16 +46,16 @@
 
                                 @if ($order->coupon)
                                     <x-coupon.show-discount
-                                        :couponValue="$order->getCoupon()['value']"
+                                        :couponName="$order->getCoupon()['name']"
                                         :discount="$order->getCoupon()['discount']"
                                     />
                                 @endif
 
                                 <x-cart.prices
-                                    :taxRate="config('cart.tax_rate') * 100"
-                                    :taxAmount="$order->taxAmount()"
-                                    :shippingCosts="$order->shippingCosts()"
-                                    :grandTotal="$order->total()"
+                                    :taxRate="Present::taxRate()"
+                                    :taxAmount="Present::price($order->tax_amount_in_cents)"
+                                    :shippingCosts="Present::price($order->shipping_costs_in_cents)"
+                                    :grandTotal="Present::price($order->total_in_cents)"
                                 />
                             </tbody>
                         </table>

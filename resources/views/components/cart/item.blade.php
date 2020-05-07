@@ -20,8 +20,8 @@
 
     <td class="text-center">
         {{ Request::route('order')
-            ? $item->orderPrice($item->ordered->price_in_cents)
-            : Str::price(number_format($item->calculated_price_in_cents / 100, 2)) }}
+            ? Present::price($item->ordered->price_in_cents)
+            : Present::price($item->calculated_price_in_cents) }}
     </td>
 
     <td class="text-center" width="10%">
@@ -37,9 +37,9 @@
 
     <td class="text-right">
         @if (Request::route('order'))
-            {{ $item->orderSubtotal($item->ordered->price_in_cents, $item->ordered->quantity) }}
+            {{ Present::price($item->ordered->price_in_cents * $item->ordered->quantity) }}
         @else
-            {{ Str::withCurrency($item->subtotal_in_dollars) }}
+            {{ Present::price($item->subtotal_in_cents) }}
         @endif
     </td>
 

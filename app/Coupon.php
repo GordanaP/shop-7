@@ -41,9 +41,9 @@ class Coupon extends Model
      *
      * @param  integer $amount
      */
-    public function discount($amount): int
+    public function applyDiscount($amount): int
     {
-        return $this->reduction->discount($amount);
+        return $this->reduction->getDiscount($amount);
     }
 
     /**
@@ -51,8 +51,8 @@ class Coupon extends Model
      *
      * @return string
      */
-    public function value()
+    public function name()
     {
-        return $this->code . ' - ' . $this->reduction->value();
+        return $this->reduction->name;
     }
 }

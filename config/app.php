@@ -231,6 +231,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'ShoppingCart' => App\Facades\ShoppingCart::class,
         'QueryManager' => App\Facades\QueryManager::class,
+        'Present' => App\Facades\Present::class,
 
     ],
 

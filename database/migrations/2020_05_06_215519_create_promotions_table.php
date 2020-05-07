@@ -18,8 +18,6 @@ class CreatePromotionsTable extends Migration
             $table->string('name')->unique();
             $table->string('code')->unique();
             $table->morphs('reduction');
-            $table->datetime('starts_at');
-            $table->datetime('ends_at');
             $table->timestamps();
         });
     }

@@ -16,10 +16,7 @@ class CartItem
     {
         $product->quantity = $quantity;
 
-        // $product->subtotal_in_cents = $product->price_in_cents * $product->quantity;
         $product->subtotal_in_cents = $product->calculated_price_in_cents * $product->quantity;
-
-        $product->subtotal_in_dollars = number_format($product->subtotal_in_cents/100, 2);
 
         return $product->load('images');
     }

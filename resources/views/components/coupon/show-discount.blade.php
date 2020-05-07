@@ -2,11 +2,11 @@
     <td colspan="4" class="text-right py-0 no-border">
         <p>Discount:</p>
         <p class="text-xs mb-1 text-gray-600">
-            {{ $couponValue }}
+            {{ $couponName }}
         </p>
     </td>
     <td class="text-right py-0 no-border">
-        <p>-{{  $discount }}</p>
+        <p>{{  Present::discount($discount) }}</p>
 
         @if (! Request::route('order'))
             <p class="text-xs text-teal-500">

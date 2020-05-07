@@ -14,10 +14,10 @@
             <div class="flex justify-between my-2">
                 <div class="text-gray-700">
                     Discount
-                    <span class="text-sm">({{ ShoppingCart::coupon()['value'] }})</span>
+                    <span class="text-sm">({{ ShoppingCart::coupon()['name'] }})</span>
                 </div>
                 <div class="font-bold text-teal-500">
-                    -{{ Str::withCurrency(number_format($discount, 2)) }}
+                    {{ Present::discount($discount) }}
                 </div>
             </div>
         @endif
@@ -35,7 +35,7 @@
         <div class="flex justify-between text-2xl text-black">
             <div class="tracking-wide">Total</div>
             <div>
-                {{ Str::withCurrency($total) }}
+                {{ $total }}
             </div>
         </div>
     </div>

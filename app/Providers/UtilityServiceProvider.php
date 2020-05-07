@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Utilities\General\Present;
 use App\Utilities\General\CountryList;
 use App\Utilities\Images\ImageManager;
 use App\Utilities\General\QueryManager;
@@ -21,6 +22,10 @@ class UtilityServiceProvider extends ServiceProvider
     {
         $this->app->instance('country-list', new CountryList);
         $this->app->instance('image-manager', new ImageManager);
+
+        $this->app->bind('Present', function($app) {
+            return new Present;
+        });
 
         $this->app->bind('QueryManager', function($app) {
             return new QueryManager;

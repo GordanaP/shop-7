@@ -47,7 +47,7 @@ class UserOrderController extends Controller
      */
     public function show(User $user, Order $order)
     {
-        return view('orders.show', compact('user', 'order'));
+        return view('orders.show', compact('order'));
     }
 
     /**

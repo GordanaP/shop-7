@@ -20,7 +20,7 @@
         @if (ShoppingCart::has('coupon'))
             <tr>
                 <x-cart.subtotal
-                    :subtotal="Str::withCurrency(ShoppingCart::subtotal())"
+                    :subtotal="Present::price(ShoppingCart::subtotalInCents())"
                     :colspan="4"
                     class="pb-0"
                 />
@@ -31,17 +31,17 @@
             />
 
             <x-coupon.show-discount
-                :couponValue="ShoppingCart::coupon()['value']"
-                :discount="Str::withCurrency(number_format(ShoppingCart::getDiscount(), 2))"
+                :couponName="ShoppingCart::coupon()['name']"
+                :discount="Present::price(ShoppingCart::getDiscountInCents())"
                 :removeRoute="route('coupons.destroy')"
             />
         @endif
 
         <x-cart.prices
-            :taxRate="config('cart.tax_rate') * 100"
-            :taxAmount="Str::withCurrency(ShoppingCart::taxAmount())"
-            :shippingCosts="Str::withCurrency(ShoppingCart::shippingCosts())"
-            :grandTotal="Str::withCurrency(ShoppingCart::total())"
+            :taxRate="Present::taxRate()"
+            :taxAmount="Present::price(ShoppingCart::taxAmountInCents())"
+            :shippingCosts="Present::price(ShoppingCart::shippingCostsInCents())"
+            :grandTotal="Present::price(ShoppingCart::totalInCents())"
         />
     </tbody>
 </table>

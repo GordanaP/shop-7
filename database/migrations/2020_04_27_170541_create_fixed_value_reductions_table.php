@@ -15,6 +15,7 @@ class CreateFixedValueReductionsTable extends Migration
     {
         Schema::create('fixed_value_reductions', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->unsignedInteger('value_in_cents');
             $table->timestamps();
         });

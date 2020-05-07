@@ -19,7 +19,9 @@
                         @if (ShoppingCart::isNotEmpty())
                             <x-cart.table />
                         @else
-                            <h2 class="text-center mb-4">Your cart is empty at present.</h2>
+                            <h2 class="text-center mb-4">
+                                Your cart is empty at present.
+                            </h2>
                         @endif
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 <tr>
     <td colspan="4" class="text-right pt-0 pb-1 no-border">
-        Tax ({{ $taxRate }}%)
+        Tax ({{ $taxRate }})
     </td>
     <td class="text-right pt-0 pb-1 no-border">
         {{ $taxAmount }}

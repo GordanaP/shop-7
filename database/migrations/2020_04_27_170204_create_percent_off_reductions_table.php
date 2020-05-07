@@ -15,6 +15,7 @@ class CreatePercentOffReductionsTable extends Migration
     {
         Schema::create('percent_off_reductions', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->unsignedInteger('percent_off');
             $table->timestamps();
         });

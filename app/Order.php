@@ -4,6 +4,7 @@ namespace App;
 
 use App\Coupon;
 use Carbon\Carbon;
+use App\Facades\Present;
 use Illuminate\Support\Str;
 use App\Traits\Order\Priceable;
 use Illuminate\Database\Eloquent\Model;
@@ -96,12 +97,12 @@ class Order extends Model
      */
     public function getCoupon(): array
     {
-        $value = $this->coupon->value();
-        $discount = $this->coupon->discount($this->subtotal_in_cents);
+        $name = $this->coupon->name();
+        $discount = $this->coupon->applyDiscount($this->subtotal_in_cents);
 
         return [
-            'value' => $value,
-            'discount' => Str::price(number_format($discount/ 100, 2)),
+            'name' => $name,
+            'discount' => Present::price($discount),
         ];
     }
 

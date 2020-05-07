@@ -5,15 +5,15 @@
         {{ $title }}
 
         @if (isset($taxRate))
-            ({{ $taxRate }}%)
+            ({{ $taxRate }})
         @endif
     </td>
 
     <td {{ $attributes->merge(['class' => 'text-right']) }}>
         @if (isset($discount))
-            <p class="mt-0" ">-{{ $discount }}</p>
+            <p class="mt-0" ">{{ Present::discount($discount) }}</p>
         @else
-            {{ Str::price(number_format($priceInCents / 100, 2)) }}
+            {{ $price }}
         @endif
     </td>
 </tr>
