@@ -19,7 +19,9 @@
     </td>
 
     <td class="text-center">
-        {{ Request::route('order') ? $item->orderPrice($item->ordered->price_in_cents) : $item->price }}
+        {{ Request::route('order')
+            ? $item->orderPrice($item->ordered->price_in_cents)
+            : Str::price(number_format($item->calculated_price_in_cents / 100, 2)) }}
     </td>
 
     <td class="text-center" width="10%">

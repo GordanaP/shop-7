@@ -32,7 +32,7 @@
                             </thead>
 
                             <tbody>
-                                @foreach ($order->products->load('images') as $item)
+                                @foreach ($order->products->load('images', 'currentPromotions') as $item)
                                     <x-cart.item :item="$item" />
                                 @endforeach
 

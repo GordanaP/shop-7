@@ -16,7 +16,7 @@ class ProductFiltersManager
     {
         return app(Pipeline::class)
             ->send(Product::query()
-                ->with('images'))
+                ->with('images', 'currentPromotions'))
             ->through([
                 CategoryFilter::class,
             ])

@@ -30,7 +30,7 @@
             </div>
             <x-checkout.order-summary
                 :items="ShoppingCart::content()"
-                :subtotal="ShoppingCart::subtotal()+ShoppingCart::getDiscount()"
+                :subtotal="number_format((ShoppingCart::subtotal()+ShoppingCart::getDiscount()), 2)"
                 :taxAmount="ShoppingCart::taxAmount()"
                 :shippingCosts="ShoppingCart::shippingCosts()"
                 :total="ShoppingCart::total()"

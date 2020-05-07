@@ -20,7 +20,7 @@
                     </p>
                 </td>
                 <td width="20%" class="py-4">
-                    {{ $item->quantity }} x {{ $item->price }}
+                    {{ $item->quantity }} x {{ Str::price(number_format($item->calculated_price_in_cents /100, 2)) }}
                 </td>
                 <td class="py-4 font-semibold text-teal-500">
                     {{ Str::withCurrency($item->subtotal_in_dollars) }}

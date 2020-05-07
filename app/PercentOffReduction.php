@@ -16,6 +16,11 @@ class PercentOffReduction extends Model
         return round($amount * ($this->percent_off / 100));
     }
 
+    public function applyDiscount($price)
+    {
+        return round($price * (1 - $this->percent_off / 100));
+    }
+
     /**
      * The coupon value.
      *
@@ -26,8 +31,4 @@ class PercentOffReduction extends Model
         return $this->percent_off . '% off';
     }
 
-    // public function coupons()
-    // {
-    //     return $this->hasMany(Coupon::class);
-    // }
 }
