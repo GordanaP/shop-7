@@ -8,7 +8,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Promotion extends Model
 {
-    protected $with = [ 'reduction' ];
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = [
+        'reduction'
+    ];
 
     /**
      * Get the promotion by its code.
@@ -20,6 +27,9 @@ class Promotion extends Model
         return optional(static::firstWhere('code', $code));
     }
 
+    /**
+     * The products being promoted.
+     */
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)
@@ -27,6 +37,9 @@ class Promotion extends Model
             ->withPivot('from', 'to');
     }
 
+    /**
+     * The products currently being promoted.
+     */
     public function productsAtPresent()
     {
         return $this->products()

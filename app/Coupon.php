@@ -8,7 +8,14 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Coupon extends Model
 {
-    protected $with = [ 'reduction' ];
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = [
+        'reduction'
+    ];
 
     /**
      * Get the coupon by its code.
@@ -47,7 +54,7 @@ class Coupon extends Model
     }
 
     /**
-     * The coupon's value.
+     * The coupon's name.
      *
      * @return string
      */

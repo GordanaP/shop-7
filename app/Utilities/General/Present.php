@@ -6,17 +6,30 @@ use Illuminate\Support\Str;
 
 class Present
 {
-    function price($price_in_cents)
+    /**
+     * Present price with the currency.
+     *
+     * @param  mixed $price_in_cents
+     */
+    function price($price_in_cents): string
     {
         return Str::price(number_format($price_in_cents / 100, 2));
     }
 
-    function taxRate()
+    /**
+     * Present tax rate in percents.
+     */
+    function taxRate(): string
     {
         return (config('cart.tax_rate') * 100).'%';
     }
 
-    function discount($discount)
+    /**
+     * Present discount.
+     *
+     * @param  mixed $discount [description]
+     */
+    function discount($discount):string
     {
         return '-'.$discount;
     }

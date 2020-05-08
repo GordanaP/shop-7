@@ -13,7 +13,6 @@ Route::get('/home', 'HomeController@index')->name('home');
  */
 Route::resource('products', 'Product\ProductController')->except('index');
 
-
 /**
  * ProductImage
  */
@@ -91,7 +90,6 @@ Route::resource('coupons', 'Coupon\CouponController')->except('destroy');
  * Test
  */
 Route::get('/test', 'TestController@index');
-Route::get('/stream-pdf', 'TestController@streamPDF')->name('tests.pdf');
 Route::get('mailable', function () {
     return new App\Mail\TestMail();
 });

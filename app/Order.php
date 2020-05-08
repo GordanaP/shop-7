@@ -6,17 +6,26 @@ use App\Coupon;
 use Carbon\Carbon;
 use App\Facades\Present;
 use Illuminate\Support\Str;
-use App\Traits\Order\Priceable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Order extends Model
 {
-    use Priceable;
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = [
+        'user.customer'
+    ];
 
-    protected $with = ['user.customer'];
-
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
     protected $dates = [ 'payment_created_at' ];
 
     /**

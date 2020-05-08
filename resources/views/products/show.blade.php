@@ -26,7 +26,7 @@
                         </h4>
 
                         <p class="font-medium text-base mb-3">
-                            {{ $product->price }}
+                            {{ Present::price($product->price_in_cents) }}
                         </p>
 
                         <p class="text-base text-gray-500 lg:w-4/5">

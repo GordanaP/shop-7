@@ -12,7 +12,9 @@ class Image extends Model
      *
      * @var array
      */
-    protected $fillable = ['path', 'is_main'];
+    protected $fillable = [
+        'path', 'is_main'
+    ];
 
     /**
      * The product represented by the images.

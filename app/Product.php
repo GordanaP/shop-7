@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Promotion;
-use Illuminate\Support\Str;
 use App\Traits\Product\Imageable;
 use App\Traits\Product\Promotionable;
 use Illuminate\Database\Eloquent\Model;
@@ -21,7 +20,7 @@ class Product extends Model
      * @var array
      */
     protected $appends = [
-        'calculated_price_in_cents', 'price_in_dollars'
+        'calculated_price_in_cents'
     ];
 
     /**
@@ -40,47 +39,13 @@ class Product extends Model
     }
 
     /**
-     * Get the product price together with currency.
-     */
-    public function getPriceAttribute(): string
-    {
-        return Str::withCurrency($this->price_in_dollars);
-    }
-
-    /**
-     * Get the product's price in dollars.
-     *
-     * @return float
-     */
-    public function getPriceInDollarsAttribute()
-    {
-        $price_in_dollars = $this->price_in_cents/100;
-
-        return number_format($this->price_in_cents/100, 2);
-    }
-
-    /**
-     * Get the product price
+     * Get the product's calculated price
      */
     public function getCalculatedPriceInCentsAttribute()
     {
         return $this->IsCurrentlyBeingPromoted()
             ? $this->currentPromotion()->applyDiscount($this->price_in_cents)
             : $this->price_in_cents;
-    }
-
-    public function orderPrice($price_in_cents)
-    {
-        $purchase_price = number_format($price_in_cents / 100, 2);
-
-        return Str::price($purchase_price);
-    }
-
-    public function orderSubtotal($price_in_cents, $qty)
-    {
-        $subtotal_in_dollars = number_format(($price_in_cents * $qty / 100), 2);
-
-        return Str::price($subtotal_in_dollars);
     }
 
     /**
