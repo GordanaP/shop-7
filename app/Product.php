@@ -30,6 +30,7 @@ class Product extends Model
      */
     protected $perPage = 9;
 
+
     /**
      * Get the route key for the model.
      */
@@ -43,9 +44,15 @@ class Product extends Model
      */
     public function getCalculatedPriceInCentsAttribute()
     {
-        return $this->IsCurrentlyBeingPromoted()
+        return $this->isCurrentlyBeingPromoted()
             ? $this->currentPromotion()->applyDiscount($this->price_in_cents)
             : $this->price_in_cents;
+    }
+
+    public function getPromotionalPriceInCentsAttribute()
+    {
+            return optional($this->currentPromotion())
+                ->applyDiscount($this->price_in_cents);
     }
 
     /**

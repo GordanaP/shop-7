@@ -39,9 +39,8 @@ trait Promotionable
     /**
      * Determine if the product is currently being promoted.
      */
-    public function IsCurrentlyBeingPromoted(): int
+    public function isCurrentlyBeingPromoted()
     {
         return $this->currentPromotions->count();
     }
-
 }

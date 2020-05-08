@@ -1,7 +1,7 @@
 <tr>
     <td>
         <x-product.image
-            :image="$item->mainImage()"
+            :product="$item"
             class="rounded-sm w-full"
         />
     </td>
@@ -19,9 +19,15 @@
     </td>
 
     <td class="text-center">
-        {{ Request::route('order')
-            ? Present::price($item->ordered->price_in_cents)
-            : Present::price($item->calculated_price_in_cents) }}
+        @if (Request::route('order'))
+            {{ Present::price($item->ordered->price_in_cents) }}
+        @else
+            <x-product.price
+                :productIsBeingPromoted="$item->isCurrentlyBeingPromoted()"
+                :regularPrice="Present::price($item->price_in_cents)"
+                :promotionalPrice="Present::price($item->promotional_price_in_cents)"
+            />
+        @endif
     </td>
 
     <td class="text-center" width="10%">

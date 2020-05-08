@@ -64,4 +64,9 @@ class Promotion extends Model
     {
         return $this->reduction->applyDiscount($price);
     }
+
+    public function name()
+    {
+        return $this->reduction->name;
+    }
 }

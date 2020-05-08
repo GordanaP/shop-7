@@ -3,9 +3,17 @@
 
         <a href="{{ route('products.show', $product) }}">
             <x-product.image
-                :image="$product->mainImage()"
+                :product="$product"
                 class="card-img-top"
-            />
+            >
+                @if ($product->isCurrentlyBeingPromoted())
+                    <div class="absolute rounded-full px-1 py-2 bg-warning p-1 right-0 top-0
+                        text-lg font-semibold uppercase">
+                        <p>{{ $product->currentPromotion()->name() }}</p>
+                    </div>
+                @endif
+
+            </x-product.image>
         </a>
 
         <div class="card-body">
@@ -17,7 +25,8 @@
             <p class="card-text text-muted mb-3">
                 {{ $product->subtitle }}
             </p>
-            <div class="d-flex justify-content-between align-items-center">
+
+            <div class="flex justify-between items-end">
                 <div class="btn-group">
                     <x-cart.add-item
                         :product="$product"
@@ -25,7 +34,13 @@
                     />
                 </div>
 
-                <div>{{ Present::price($product->calculated_price_in_cents) }}</div>
+                <div >
+                    <x-product.price
+                        :productIsBeingPromoted="$product->isCurrentlyBeingPromoted()"
+                        :regularPrice="Present::price($product->price_in_cents)"
+                        :promotionalPrice="Present::price($product->promotional_price_in_cents)"
+                    />
+                </div>
             </div>
         </div>
     </div>

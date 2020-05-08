@@ -25,4 +25,20 @@ class FixedValueReduction extends Model
     {
         return $price_in_cents - $this->value_in_cents;
     }
+
+     /**
+     * Get all of the reduction's pormotions.
+     */
+    public function promotions()
+    {
+        return $this->morphMany('App\Promotion', 'reduction');
+    }
+
+     /**
+     * Get all of the reduction's coupons.
+     */
+    public function coupons()
+    {
+        return $this->morphMany('App\Coupon', 'reduction');
+    }
 }

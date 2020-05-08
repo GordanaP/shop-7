@@ -4,11 +4,11 @@
             <tr>
                 <td width="30%" class="py-4">
                     <x-product.image
-                        :image="$item->mainImage()"
+                        :product="$item"
                         class="rounded-sm lg:w-4/5"
                      />
                 </td>
-                <td class="py-4">
+                <td width="35%" class="py-4">
                     <p class="uppercase-semibold text-xs text-gray-700 mb-2">
                         <a href="{{ route('products.show', $item) }}"
                         class="font-semibold tracking-wide text-teal-400">
@@ -19,8 +19,16 @@
                         {{ $item->subtitle }}
                     </p>
                 </td>
-                <td width="20%" class="py-4">
-                    {{ $item->quantity }} x {{ Present::price($item->calculated_price_in_cents) }}
+                <td width="10%" class="py-4">
+                    {{ $item->quantity }}
+                </td>
+                <td width="10%" class="py-4">x</td>
+                <td class="py-4">
+                    <x-product.price
+                        :productIsBeingPromoted="$item->isCurrentlyBeingPromoted()"
+                        :regularPrice="Present::price($item->price_in_cents)"
+                        :promotionalPrice="Present::price($item->promotional_price_in_cents)"
+                    />
                 </td>
                 <td class="py-4 font-semibold text-teal-500">
                     {{ Present::price($item->subtotal_in_cents) }}
