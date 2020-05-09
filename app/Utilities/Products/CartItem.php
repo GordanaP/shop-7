@@ -16,7 +16,14 @@ class CartItem
     {
         $product->quantity = $quantity;
 
-        $product->subtotal_in_cents = $product->calculated_price_in_cents * $product->quantity;
+        if($product->isCurrentlyBeingPromoted()) {
+            $product->subtotal_in_cents =
+                $product->promotional_price_in_cents * $product->quantity;
+            $product->promotion_id = $product->currentPromotion()->id;
+        } else {
+            $product->subtotal_in_cents =
+                $product->price_in_cents * $product->quantity;
+        }
 
         return $product->load('images');
     }

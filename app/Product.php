@@ -20,7 +20,7 @@ class Product extends Model
      * @var array
      */
     protected $appends = [
-        'calculated_price_in_cents'
+        'promotional_price_in_cents'
     ];
 
     /**
@@ -62,7 +62,12 @@ class Product extends Model
     {
         return $this->belongsToMany(Order::class)
             ->as('ordered')
-            ->withPivot('quantity', 'price_in_cents');
+            ->withPivot(
+                'quantity',
+                'price_in_cents',
+                'promotional_price_in_cents',
+                'promotion_id'
+            );
     }
 
     /**

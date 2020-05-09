@@ -9,7 +9,7 @@ use Faker\Generator as Faker;
 $factory->define(Promotion::class, function (Faker $faker) {
     return [
         'name' => 'Weekend Promotion',
-        'code' => 'VPPO10',
+        'code' => 'WPPO05',
         'reduction_type' => 'App\PercentOffReduction',
         'reduction_id' => '1',
     ];

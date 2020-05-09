@@ -12,5 +12,16 @@ class PercentOffReductionsTableSeeder extends Seeder
     public function run()
     {
         factory('App\PercentOffReduction')->create();
+
+        factory('App\PercentOffReduction')->create([
+            'name' => '-10%',
+            'percent_off' => 10
+        ]);
+
+        factory('App\PercentOffReduction')->create([
+            'name' => '-15%',
+            'percent_off' => 15
+        ]);
+
     }
 }

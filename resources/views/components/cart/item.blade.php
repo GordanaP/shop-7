@@ -7,7 +7,7 @@
     </td>
 
     <td width="35%">
-        <p class="mb-2">
+        <p class="mb-1">
             <a href="{{ route('products.show', $item) }}"
             class="uppercase text-xs font-semibold text-teal-500">
                 {{ $item->title }}
@@ -18,13 +18,19 @@
         </p>
     </td>
 
-    <td class="text-center">
+    <td>
         @if (Request::route('order'))
-            {{ Present::price($item->ordered->price_in_cents) }}
+            <x-product.price
+                :productIsBeingPromoted="$item->isCurrentlyBeingPromoted()"
+                :regularPrice="Present::price($item->ordered->price_in_cents)"
+                :promotionName="Present::promotionFullName($item)"
+                :promotionalPrice="Present::price($item->ordered->promotional_price_in_cents)"
+            />
         @else
             <x-product.price
                 :productIsBeingPromoted="$item->isCurrentlyBeingPromoted()"
                 :regularPrice="Present::price($item->price_in_cents)"
+                :promotionName="Present::promotionFullName($item)"
                 :promotionalPrice="Present::price($item->promotional_price_in_cents)"
             />
         @endif
@@ -43,7 +49,11 @@
 
     <td class="text-right">
         @if (Request::route('order'))
-            {{ Present::price($item->ordered->price_in_cents * $item->ordered->quantity) }}
+            {{ Present::price(
+                    $item->ordered->promotional_price_in_cents ?? $item->ordered->price_in_cents
+                    * $item->ordered->quantity
+                )
+            }}
         @else
             {{ Present::price($item->subtotal_in_cents) }}
         @endif

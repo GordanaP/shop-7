@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-md-5">
                     <x-product.image
-                        :image="$product->mainImage()"
+                        :product="$product"
                         id="mainImage"
                         class="rounded-lg"
                     />
@@ -25,11 +25,13 @@
                             {{ Str::ucfirst($product->title ) }}
                         </h4>
 
-                        <p class="font-medium text-base mb-3">
-                            {{ Present::price($product->price_in_cents) }}
-                        </p>
+                        <x-product.price
+                            :productIsBeingPromoted="$product->isCurrentlyBeingPromoted()"
+                            :regularPrice="Present::price($product->price_in_cents)"
+                            :promotionalPrice="Present::price($product->promotional_price_in_cents)"
+                        />
 
-                        <p class="text-base text-gray-500 lg:w-4/5">
+                        <p class="text-base text-gray-500 lg:w-4/5 mt-3">
                             {{ $product->description }}
                         </p>
                     </div>

@@ -61,7 +61,12 @@ class Order extends Model
     {
         return $this->belongsToMany(Product::class)
             ->as('ordered')
-            ->withPivot('quantity', 'price_in_cents');
+            ->withPivot(
+                'quantity',
+                'price_in_cents',
+                'promotional_price_in_cents',
+                'promotion_id'
+            );
     }
 
     /**

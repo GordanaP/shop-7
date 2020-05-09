@@ -2,7 +2,7 @@
     <thead>
         <th width="12%">Item</th>
         <th width="25%"></th>
-        <th class="text-center" width="25%">Price</th>
+        <th width="25%">Price</th>
         <th class="text-center" width="15%">Qty</th>
         <th class="text-right" width="15%">Subtotal</th>
         <th></th>

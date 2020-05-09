@@ -59,7 +59,9 @@ class Orderable
         $items->map(function($item, $key) use($order) {
             $order->products()->attach($item->id, [
                 'quantity' => $item->quantity,
-                'price_in_cents' => $item->calculated_price_in_cents
+                'price_in_cents' => $item->price_in_cents,
+                'promotional_price_in_cents' => $item->promotional_price_in_cents,
+                'promotion_id' => $item->promotion_id
             ]);
         });
     }

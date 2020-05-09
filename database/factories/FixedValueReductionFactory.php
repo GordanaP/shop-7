@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(FixedValueReduction::class, function (Faker $faker) {
     return [
-        'name' => '$5.00 off',
-        'value_in_cents' => 500
+        'name' => '-$3.00',
+        'value_in_cents' => 300
     ];
 });

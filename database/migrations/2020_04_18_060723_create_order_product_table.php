@@ -24,6 +24,8 @@ class CreateOrderProductTable extends Migration
 
             $table->unsignedInteger('quantity');
             $table->unsignedInteger('price_in_cents');
+            $table->unsignedInteger('promotional_price_in_cents')->nullable();
+            $table->unsignedInteger('promotion_id')->nullable();
         });
     }
 

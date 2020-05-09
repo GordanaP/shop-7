@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 class Present
 {
     /**
-     * Present price with the currency.
+     * Present the price with the currency.
      *
      * @param  mixed $price_in_cents
      */
@@ -17,7 +17,7 @@ class Present
     }
 
     /**
-     * Present tax rate in percents.
+     * Present the tax rate in percents.
      */
     function taxRate(): string
     {
@@ -25,12 +25,18 @@ class Present
     }
 
     /**
-     * Present discount.
+     * Present the discount.
      *
      * @param  mixed $discount [description]
      */
     function discount($discount):string
     {
         return '-'.$discount;
+    }
+
+    function promotionFullName($product)
+    {
+        return optional($product->currentPromotion())->name()
+        .' '. optional($product->currentPromotion())->code;
     }
 }
