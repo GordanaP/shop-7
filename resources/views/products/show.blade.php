@@ -27,6 +27,7 @@
 
                         <x-product.price
                             :productIsBeingPromoted="$product->isCurrentlyBeingPromoted()"
+                            :promotionName="Present::promotionFullName($product)"
                             :regularPrice="Present::price($product->price_in_cents)"
                             :promotionalPrice="Present::price($product->promotional_price_in_cents)"
                         />

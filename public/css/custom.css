@@ -20,3 +20,21 @@ table.ordered-items tbody td {
 .profile-sidebar .profile-usermenu:hover {
     background-color: #fafcfd;
 }
+
+.profile-card {
+    min-height: 450px;
+    box-shadow: 0 0 16px rgba(0,0,0,0.3);
+}
+.profile-card-img {
+    height: 175px;
+}
+.profile-card-img img {
+    width: 160px;
+    height: 160px;
+    top: 51%;
+    transition-duration: 0.4s;
+    transition-property: transform;
+}
+.profile-card-img img:hover {
+    transform: scale(1.1);
+}

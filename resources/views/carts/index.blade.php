@@ -1,3 +1,4 @@
+
 <x-layouts.app>
     <x-partials.page-header title="My shopping cart">
         <x-alert.message />
@@ -7,11 +8,9 @@
         <div class="mx-4 p-4 mt-1" style="background-color: #E9ECF3;">
             <div class="row">
                 <div class="col-md-3">
-                    @auth
-                        <x-sidebar.profile-card />
-                    @else
-                        <x-sidebar.guest-card />
-                    @endauth
+                    <div class="profile-sidebar">
+                        <x-sidebar.profile.card />
+                    </div>
                 </div>
 
                 <div class="col-md-9">

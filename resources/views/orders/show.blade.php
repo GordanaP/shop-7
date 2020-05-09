@@ -8,7 +8,9 @@
         <div class="mx-4 p-4" style="background-color: #E9ECF3;">
             <div class="row">
                 <div class="col-md-3">
-                    <x-sidebar.profile-card />
+                    <div class="profile-sidebar">
+                        <x-sidebar.profile.card />
+                    </div>
                 </div>
 
                 <div class="col-md-9">
