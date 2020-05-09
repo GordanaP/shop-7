@@ -42,7 +42,7 @@ class Promotion extends Model
      */
     public function productsAtPresent()
     {
-        return $this->products()
+        return $this->belongsToMany(Product::class)
             ->wherePivot('from', '<', today())
             ->wherePivot('to', '>', today());
     }

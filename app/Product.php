@@ -42,12 +42,12 @@ class Product extends Model
     /**
      * Get the product's calculated price
      */
-    public function getCalculatedPriceInCentsAttribute()
-    {
-        return $this->isCurrentlyBeingPromoted()
-            ? $this->currentPromotion()->applyDiscount($this->price_in_cents)
-            : $this->price_in_cents;
-    }
+    // public function getCalculatedPriceInCentsAttribute()
+    // {
+    //     return $this->isCurrentlyBeingPromoted()
+    //         ? $this->currentPromotion()->applyDiscount($this->price_in_cents)
+    //         : $this->price_in_cents;
+    // }
 
     public function getPromotionalPriceInCentsAttribute()
     {

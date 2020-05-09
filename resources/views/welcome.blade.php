@@ -8,23 +8,56 @@
             }
 
             #filtersList li.active { color: #38b2ac; font-weight: 500;}
+
+            .scrolling-banner {
+                position: relative;
+                width: 100%;
+                height: 50px;
+                overflow: hidden;
+            }
+
+            .scrolling-banner h2 {
+                position: absolute;
+                width: 100%;
+                text-align: center;
+                transform: translateX(-100%);
+                animation: scrolling 30s linear infinite;
+            }
+
+            @keyframes scrolling {
+                0% {
+                    transform: translateX(-100%);
+                }
+                100% {
+                    transform: translateX(100%);
+                }
+            }
         </style>
     @endsection
 
     <div class="my-4">
         <x-alert.success />
-        <section class="jumbotron text-center">
-            <div class="container text-white">
-                <h1 class="jumbotron-heading">Album example</h1>
-                <p class="lead">Something short and leading about the collection
-                below—its contents, the creator, etc. Make it short and sweet,
-                but not too short so folks don't simply skip over it entirely.</p>
-                <p>
-                    <a href="#" class="btn btn-warning my-2">Main call to action</a>
-                    <a href="#" class="btn btn-secondary my-2">Secondary action</a>
-                </p>
-            </div>
-        </section>
+
+        <header>
+            <section class="scrolling-banner">
+                <h2 class="text-gray-700">
+                    This weekend - up to 15% off on the selected products!
+                </h2>
+            </section>
+
+            <section class="jumbotron text-center">
+                <div class="container text-white">
+                    <h1 class="jumbotron-heading">Album example</h1>
+                    <p class="lead">Something short and leading about the collection
+                    below—its contents, the creator, etc. Make it short and sweet,
+                    but not too short so folks don't simply skip over it entirely.</p>
+                    <p>
+                        <a href="#" class="btn btn-warning my-2">Main call to action</a>
+                        <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+                    </p>
+                </div>
+            </section>
+        </header>
 
         <div class="album py-5 bg-light">
             <div class="container">
