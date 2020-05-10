@@ -4,7 +4,7 @@
 
         <div class=" flex justify-between">
             <h3 class="text-teal-400 font-medium">
-                {{ $title }} {{ $variable ?? null }}
+                {{ $title ?? null }} {{ $variable ?? null }}
             </h3>
 
             <x-product.go-shopping-btn :route="route('welcome')" />

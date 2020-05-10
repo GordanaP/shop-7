@@ -1,9 +1,49 @@
+/**
+ * Products index page
+ */
+ .page-item.active .page-link{
+     background: #38b2ac;
+     border: 1px solid #38b2ac;
+ }
+
+ #filtersList li.active { color: #38b2ac; font-weight: 500;}
+
+ .scrolling-banner {
+     position: relative;
+     width: 100%;
+     height: 50px;
+     overflow: hidden;
+ }
+
+ .scrolling-banner h2 {
+     position: absolute;
+     width: 100%;
+     text-align: center;
+     transform: translateX(-100%);
+     animation: scrolling 30s linear infinite;
+ }
+
+ @keyframes scrolling {
+     0% {
+         transform: translateX(-100%);
+     }
+     100% {
+         transform: translateX(100%);
+     }
+ }
+
+/**
+ * Checkout page
+ */
 table.ordered-items tbody td.no-border { border-top: none; }
 table.ordered-items, table.ordered-items thead th,
 table.ordered-items tbody td {
     border-color:  #edf2f7 !important
 }
 
+/**
+ * Profile sidebar
+ */
 .profile-sidebar .profile-usermenu a.active {
     color: #4fd1c5;
     font-weight: 500;

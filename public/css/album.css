@@ -7,18 +7,26 @@
   padding-bottom: var(--jumbotron-padding-y);
   margin-bottom: 0;
   background-color: #fff;
-  background-image: url(http://placehold.jp/24/319795/38b2ac/150x100.png);
-    background-size: cover;
-    height: 100%;
+  /*background-image: url(http://placehold.jp/24/319795/38b2ac/150x100.png);*/
+  background-image: url(../images/jumbotron.jpg);
+  background-size: cover;
+  height: 100%;
 }
+
+.my-jumbotron {
+  padding-top: var(--jumbotron-padding-y);
+  padding-bottom: var(--jumbotron-padding-y);
+  margin-bottom: 0;
+}
+
 @media (min-width: 768px) {
-  .jumbotron {
+  .my-jumbotron {
     padding-top: calc(var(--jumbotron-padding-y) * 2);
     padding-bottom: calc(var(--jumbotron-padding-y) * 2);
   }
 }
 
-.jumbotron p:last-child {
+.my-jumbotron p:last-child {
   margin-bottom: 0;
 }
 
@@ -26,7 +34,7 @@
   font-weight: 300;
 }
 
-.jumbotron .container {
+.my-jumbotron .container {
   max-width: 40rem;
 }
 

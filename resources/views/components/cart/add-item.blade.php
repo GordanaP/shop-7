@@ -16,6 +16,6 @@
     <button type="submit"
         {{ $attributes->merge(['class' => 'btn btn-teal-rounded hover:bg-teal-500 text-white w-full']) }}
     >
-        <i class="fas fa-shopping-cart fa-sm mr-1"></i> Add to cart
+        <i class="fas fa-shopping-cart fa-sm mr-2"></i> Add to cart
     </button>
 </form>

@@ -3,7 +3,7 @@
         @foreach ($items as $item)
             <tr>
                 <td width="30%" class="py-4">
-                    <x-product.image
+                    <x-product.card.image
                         :product="$item"
                         class="rounded-sm lg:w-4/5"
                      />
@@ -24,7 +24,7 @@
                 </td>
                 <td width="10%" class="py-4">x</td>
                 <td class="py-4">
-                    <x-product.price
+                    <x-product.card.price
                         :productIsBeingPromoted="$item->isCurrentlyBeingPromoted()"
                         :regularPrice="Present::price($item->price_in_cents)"
                         :promotionalPrice="Present::price($item->promotional_price_in_cents)"

@@ -1,6 +1,6 @@
 <tr>
     <td>
-        <x-product.image
+        <x-product.card.image
             :product="$item"
             class="rounded-sm w-full"
         />
@@ -20,14 +20,14 @@
 
     <td>
         @if (Request::route('order'))
-            <x-product.price
+            <x-product.card.price
                 :productIsBeingPromoted="$item->isCurrentlyBeingPromoted()"
                 :regularPrice="Present::price($item->ordered->price_in_cents)"
                 :promotionName="Present::promotionFullName($item)"
                 :promotionalPrice="Present::price($item->ordered->promotional_price_in_cents)"
             />
         @else
-            <x-product.price
+            <x-product.card.price
                 :productIsBeingPromoted="$item->isCurrentlyBeingPromoted()"
                 :regularPrice="Present::price($item->price_in_cents)"
                 :promotionName="Present::promotionFullName($item)"

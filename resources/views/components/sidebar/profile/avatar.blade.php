@@ -1,5 +1,5 @@
 <div>
-    <div class="profile-card-img bg-gray-200 rounded-t-lg mb-20">
+    <div class="profile-card-img bg-gray-200 rounded-t-lg mb-16">
         <img src="{{ asset('images/guest_avatar.svg') }}"
         class="rounded-full p-1 relative mx-auto border-8 border-white" />
     </div>
