@@ -1,5 +1,15 @@
 <x-layouts.app>
 
+@section('links')
+    <style type="text/css">
+        .product--info { position: relative }
+        .product--info::before {
+            content: ""; position: absolute; border: 1px solid #eee;
+            left: -2rem;  top: 1px; bottom: 1px
+        }
+    </style>
+@endsection
+
 <x-partials.page-header title="{{ $product->title }}">
     <x-alert.success />
 </x-partials.page-header>
@@ -9,39 +19,41 @@
     <div class="card card-body p-12">
         <div class="row">
             <div class="col-md-5">
-                <x-product.image
+                <x-product.card.image
                     :product="$product"
                     id="mainImage"
                     class="rounded-lg"
                 />
             </div>
 
-            <div class="col-md-1">
+            <div class="col-md-1 pr-10">
                 <x-product.thumbnails :product="$product" />
             </div>
 
             <div class="col-md-6 lg:pl-6">
-                <div class="caption">
-                    <x-product.categories-list :product="$product" />
+                <div class="product--info h-full">
+                    <div class="caption">
+                        <x-product.categories-list :product="$product" />
 
-                    <h4 class="font-light mb-2 text-2xl">
-                        {{ Str::ucfirst($product->title ) }}
-                    </h4>
+                        <h4 class="font-light mb-2 text-2xl">
+                            {{ Str::ucfirst($product->title ) }}
+                        </h4>
 
-                    <x-product.price
-                        :productIsBeingPromoted="$product->isCurrentlyBeingPromoted()"
-                        :promotionName="Present::promotionFullName($product)"
-                        :regularPrice="Present::price($product->price_in_cents)"
-                        :promotionalPrice="Present::price($product->promotional_price_in_cents)"
-                    />
+                        <x-product.card.price
+                            :productIsBeingPromoted="$product->isCurrentlyBeingPromoted()"
+                            :promotionName="Present::promotionFullName($product)"
+                            :regularPrice="Present::price($product->price_in_cents)"
+                            :promotionalPrice="Present::price($product->promotional_price_in_cents)"
+                        />
 
-                    <p class="text-base text-gray-500 lg:w-4/5 mt-3">
-                        {{ $product->description }}
-                    </p>
-                </div>
+                        <p class="text-base text-gray-500 lg:w-4/5 mt-3">
+                            {{ $product->description }}
+                        </p>
+                    </div>
 
-                <div class="lg:w-1/3 mt-4">
-                    <x-cart.add-item :product="$product" />
+                    <div class="lg:w-1/3 mt-4">
+                        <x-cart.add-item :product="$product" />
+                    </div>
                 </div>
             </div>
         </div>
