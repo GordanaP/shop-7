@@ -17,6 +17,7 @@
 <div class="mx-4 p-4 mt-1" style="background-color: #E9ECF3;">
 
     <div class="card card-body p-12">
+
         <div class="row">
             <div class="col-md-5">
                 <x-product.card.image
@@ -33,7 +34,10 @@
             <div class="col-md-6 lg:pl-6">
                 <div class="product--info h-full">
                     <div class="caption">
-                        <x-product.categories-list :product="$product" />
+                        <x-product.card.rating
+                            :user="Auth::user()"
+                            :product="$product"
+                        />
 
                         <h4 class="font-light mb-2 text-2xl">
                             {{ Str::ucfirst($product->title ) }}
@@ -49,6 +53,8 @@
                         <p class="text-base text-gray-500 lg:w-4/5 mt-3">
                             {{ $product->description }}
                         </p>
+
+                        <x-product.categories-list :product="$product" />
                     </div>
 
                     <div class="lg:w-1/3 mt-4">

@@ -177,6 +177,7 @@ return [
         App\Providers\MacroServiceProvider::class,
         App\Providers\UtilityServiceProvider::class,
         App\Providers\ViewComposerServiceProvider::class,
+        App\Providers\BladeServiceProvider::class,
 
     ],
 

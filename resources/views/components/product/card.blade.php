@@ -1,34 +1,24 @@
 @section('links')
     <style type="text/css">
         .product-card { box-shadow: 0 0 16px rgba(0,0,0,0.3); }
-        .product-card-body { min-height:200px }
+        .product-card-body { min-height:220px }
     </style>
 @endsection
 
 <div class="col-md-4">
-    <div class="card product-card mb-3">
+    <div class="card product-card mb-10">
 
         <x-product.card.image :product="$product" />
 
         <div class="product-card-body mx-3 mb-3 mt-2 flex flex-col
         justify-between">
             <div>
-                <form action="{{ route('users.products.ratings.store', [Auth::user(), $product]) }}" method="POST">
-
-                    @csrf
-
-                    @for ($i = 0; $i < 5 ; $i++)
-                        <button name="rating" value="{{ $i+1 }}">
-                            <i class="fa fa-star {{ $product->avgRating() <= $i
-                                ? 'text-gray-700' : 'text-warning' }} hover:text-yellow-500" ></i>
-                        </button>
-                    @endfor
-
-                    {{ $product->currentRating()->star ?? null }}
-                </form>
+                <x-product.card.rating
+                    :user="Auth::user()"
+                    :product="$product"
+                />
 
                 <x-product.card.title :product="$product" />
-
             </div>
 
             <div>

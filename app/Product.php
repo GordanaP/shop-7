@@ -3,16 +3,16 @@
 namespace App;
 
 use App\Promotion;
+use App\Traits\Product\Rateable;
 use App\Traits\Product\Imageable;
 use App\Traits\Product\Promotionable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
 {
-    use Imageable, Promotionable;
+    use Imageable, Promotionable, Rateable;
 
     /**
      * The accessors to append to the model's array form.
@@ -68,52 +68,6 @@ class Product extends Model
         return $this->belongsToMany(Category::class);
     }
 
-    /**
-     * Get all the ratings for the product.
-     */
-    public function ratings(): BelongsToMany
-    {
-        return $this->belongsToMany(Rating::class)
-            ->as('user')
-            ->withPivot('user_id');
-    }
-
-    /**
-     * Get the product's average rating;
-     */
-    public function avgRating(): int
-    {
-        return number_format($this->ratings->pluck('star')->avg());
-    }
-
-    /**
-     * Get the rating from the given user.
-     *
-     * @param  int $rating
-     * @param  \App\User $user
-     */
-    public function getRatingFrom($rating, $user): void
-    {
-        $this->ratings()->save(
-            Rating::find($rating), [
-                'user_id' => $user->id
-            ]
-        );
-    }
-
-    /**
-     * Get the product's current promotions.
-     */
-    public function userRatings(): BelongsToMany
-    {
-        return $this->ratings()
-            ->wherePivot('user_id', '=', \Auth::id());
-    }
-
-    public function currentRating()
-    {
-        return $this->userRatings->first();
-    }
     /**
      * Scope a query to only include the products fitered by a query.
      *
