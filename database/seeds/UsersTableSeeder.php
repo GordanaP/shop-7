@@ -20,5 +20,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'darko',
             'email' => 'd@gmail.com'
         ]);
+
+        factory('App\User', 3)->create();
     }
 }

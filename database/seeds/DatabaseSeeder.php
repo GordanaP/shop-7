@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
     protected $tables = [
         'users', 'products', 'customers', 'categories',
         'fixed_value_reductions', 'percent_off_reductions', 'coupons',
-        'promotions'
+        'promotions', 'ratings'
     ];
 
     /**
@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PercentOffReductionsTableSeeder::class);
         $this->call(CouponsTableSeeder::class);
         $this->call(PromotionsTableSeeder::class);
+        $this->call(RatingsTableSeeder::class);
     }
 
     /**

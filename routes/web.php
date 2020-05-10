@@ -80,6 +80,12 @@ Route::get('users/{user}/orders/list',  'User\UserOrderAjaxController@index')
 Route::middleware('auth')->resource('users.orders', 'User\UserOrderController');
 
 /**
+ * User Product Rating
+ */
+Route::middleware('auth')->resource('users.products.ratings', 'User\UserProductRatingController')
+    ->only('store');
+
+/**
  * Coupon
  */
 Route::get('coupons/destroy', 'Coupon\CouponController@destroy')

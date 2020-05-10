@@ -13,11 +13,22 @@
         <div class="product-card-body mx-3 mb-3 mt-2 flex flex-col
         justify-between">
             <div>
-                @for ($i = 0; $i < 5 ; $i++)
-                    <i class="fa fa-star text-warning"></i>
-                @endfor
+                <form action="{{ route('users.products.ratings.store', [Auth::user(), $product]) }}" method="POST">
+
+                    @csrf
+
+                    @for ($i = 0; $i < 5 ; $i++)
+                        <button name="rating" value="{{ $i+1 }}">
+                            <i class="fa fa-star {{ $product->avgRating() <= $i
+                                ? 'text-gray-700' : 'text-warning' }} hover:text-yellow-500" ></i>
+                        </button>
+                    @endfor
+
+                    {{ $product->currentRating()->star ?? null }}
+                </form>
 
                 <x-product.card.title :product="$product" />
+
             </div>
 
             <div>

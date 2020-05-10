@@ -66,6 +66,7 @@ trait Imageable
      */
     private function demoImagePath(): string
     {
-        return 'images/demo_product.jpg';
+        // return 'images/demo_product.jpg';
+        return 'images/strawberry-dessert.jpg';
     }
 }
