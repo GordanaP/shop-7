@@ -45,4 +45,8 @@ class Present
         .' '. optional($product->currentPromotion())->code;
     }
 
+    public function rating($rating)
+    {
+        return $rating.'/5';
+    }
 }

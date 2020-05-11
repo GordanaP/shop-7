@@ -39,6 +39,9 @@ class Product extends Model
         return 'slug';
     }
 
+    /**
+     * The promotional price in cents,
+     */
     public function getPromotionalPriceInCentsAttribute()
     {
             return optional($this->currentPromotion())

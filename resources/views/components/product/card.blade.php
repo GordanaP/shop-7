@@ -7,7 +7,6 @@
 
 <div class="col-md-4">
     <div class="card product-card mb-10">
-
         <x-product.card.image :product="$product" />
 
         <div class="product-card-body mx-3 mb-3 mt-2 flex flex-col justify-between">

@@ -1,9 +1,10 @@
     <div class="mb-2">
-    @authNotRated($product)
-        <form action="{{ route('users.products.ratings.store', [$user, $product]) }}" method="POST">
+    @auth
+        <form action="{{ route('users.products.ratings.update', [$user, $product]) }}" method="POST">
 
             @csrf
-    @endauthNotRated
+            @method('PUT')
+    @endauth
 
             @for ($i = 0; $i < 5 ; $i++)
                 <button name="rating" value="{{ $i+1 }}">
@@ -18,11 +19,11 @@
 
             @if ($product->isRatedByUser($user))
                 <span class="ml-2 text-gray-600">
-                    Your rate: {{ $product->userRating($user) }} / 5
+                    Avg: {{ Present::rating($product->avgRating()) }}
                 </span>
             @endif
 
-    @authNotRated($product)
+    @auth
         </form>
-    @endauthNotRated
+    @endauth
 </div>

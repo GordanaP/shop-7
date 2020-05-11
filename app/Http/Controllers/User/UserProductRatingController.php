@@ -6,6 +6,7 @@ use App\User;
 use App\Rating;
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RatingRequest;
 use Illuminate\Support\Facades\Auth;
@@ -36,15 +37,11 @@ class UserProductRatingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\RatingRequest  $request
+     * @param  \Http\Illuminate\Request  $request
      */
     public function store(Request $request, User $user, Product $product)
     {
-        if ($request->rating > 0 && $request->rating <= 5) {
-            $product->getRatingFrom($request->rating, $user);
-        }
-
-        return back()->with('success', 'Thank you for rating the product.');
+        //
     }
 
     /**
@@ -72,13 +69,15 @@ class UserProductRatingController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\RatingRequest  $request
      * @param  \App\User  $user
-     * @return \Illuminate\Http\Response
+     * @param  \App\Product  $product
      */
-    public function update(Request $request, User $user)
+    public function update(RatingRequest $request, User $user, Product $product): RedirectResponse
     {
-        //
+        $product->toggleUserRating($user, $request->validated()['rating']);
+
+        return back()->with('success', 'Thank you for rating the product.');
     }
 
     /**

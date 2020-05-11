@@ -10,9 +10,9 @@
     </style>
 @endsection
 
-<x-partials.page-header title="{{ $product->title }}">
+<x-main.page-header title="{{ $product->title }}">
     <x-alert.success />
-</x-partials.page-header>
+</x-main.page-header>
 
 <div class="mx-4 p-4 mt-1" style="background-color: #E9ECF3;">
 

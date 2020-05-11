@@ -16,7 +16,7 @@ class RatingsTableSeeder extends Seeder
     {
         for ($i=1; $i < 6 ; $i++) {
             factory('App\Rating')->create([
-                'star' => $i
+                'rate' => $i
             ]);
         }
 

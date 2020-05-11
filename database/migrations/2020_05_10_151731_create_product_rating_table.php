@@ -14,6 +14,7 @@ class CreateProductRatingTable extends Migration
     public function up()
     {
         Schema::create('product_rating', function (Blueprint $table) {
+
             $table->primary(['product_id', 'rating_id', 'user_id']);
 
             $table->foreignId('product_id')->constrained()
@@ -22,8 +23,7 @@ class CreateProductRatingTable extends Migration
             $table->foreignId('rating_id')->constrained()
                 ->onDelete('cascade');
 
-            $table->unsignedBigInteger('user_id');
-
+            $table->unsignedInteger('user_id');
         });
     }
 
