@@ -73,7 +73,7 @@ class UserProductRatingController extends Controller
      * @param  \App\User  $user
      * @param  \App\Product  $product
      */
-    public function update(RatingRequest $request, User $user, Product $product): RedirectResponse
+    public function update(RatingRequest $request, User $user, Product $product)
     {
         $product->toggleUserRating($user, $request->validated()['rating']);
 

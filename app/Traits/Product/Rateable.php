@@ -74,6 +74,14 @@ trait Rateable
     }
 
     /**
+     * Deteremine if the product is rated by any user.
+     */
+    public function isRatedByAnyUser(): bool
+    {
+        return $this->avgRating() > 0;
+    }
+
+    /**
      * Get the rating from the given user.
      *
      * @param  \App\User $user
