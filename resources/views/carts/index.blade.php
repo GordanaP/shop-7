@@ -1,11 +1,11 @@
 
 <x-layouts.app>
-    <x-partials.page-header title="My shopping cart">
+    <x-main.page-header title="My shopping cart">
         <x-alert.message />
-    </x-partials.page-header>
+    </x-main.page-header>
 
     <main>
-        <div class="mx-4 p-4 mt-1" style="background-color: #E9ECF3;">
+        <div class="mx-4 p-4 mt-1 bg-custom-gray">
             <div class="row">
                 <div class="col-md-3">
                     <div class="profile-sidebar">

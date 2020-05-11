@@ -1,26 +1,28 @@
-@authNotRated($product)
-    <form action="{{ route('users.products.ratings.store', [$user, $product]) }}" method="POST">
+    <div class="mb-2">
+    @authNotRated($product)
+        <form action="{{ route('users.products.ratings.store', [$user, $product]) }}" method="POST">
 
-        @csrf
-@endauthNotRated
+            @csrf
+    @endauthNotRated
 
-        @for ($i = 0; $i < 5 ; $i++)
-            <button name="rating" value="{{ $i+1 }}">
-                <i class="fa fa-star
-                    {{ $product->avgRating() <= $i ? 'text-gray-700' : 'text-warning' }}
-                    @authNotRated($product)
-                        hover:text-yellow-500
-                    @endauthNotRated
-                "></i>
-            </button>
-        @endfor
+            @for ($i = 0; $i < 5 ; $i++)
+                <button name="rating" value="{{ $i+1 }}">
 
-        @if ($product->isRatedByUser($user))
-            <span class="ml-2 text-gray-600">
-                Your rate: {{ $product->userRating($user) }} / 5
-            </span>
-        @endif
-@authNotRated($product)
-    </form>
+                    <x-product.card.rating-star
+                        :i="$i"
+                        :product="$product"
+                    />
 
-@endauthNotRated
+                </button>
+            @endfor
+
+            @if ($product->isRatedByUser($user))
+                <span class="ml-2 text-gray-600">
+                    Your rate: {{ $product->userRating($user) }} / 5
+                </span>
+            @endif
+
+    @authNotRated($product)
+        </form>
+    @endauthNotRated
+</div>

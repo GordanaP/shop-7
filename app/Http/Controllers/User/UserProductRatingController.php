@@ -7,7 +7,9 @@ use App\Rating;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RatingRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 
 class UserProductRatingController extends Controller
 {
@@ -34,12 +36,13 @@ class UserProductRatingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\RatingRequest  $request
      */
     public function store(Request $request, User $user, Product $product)
     {
-        $product->getRatingFrom($request->rating, $user);
+        if ($request->rating > 0 && $request->rating <= 5) {
+            $product->getRatingFrom($request->rating, $user);
+        }
 
         return back()->with('success', 'Thank you for rating the product.');
     }

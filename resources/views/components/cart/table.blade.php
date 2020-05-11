@@ -50,7 +50,7 @@
     <x-cart.empty :route="route('shopping.cart.empty')" />
 
     <a href="{{ route('checkouts.index') }}" class="btn
-    bg-teal-400 hover:bg-teal-500 text-white rounded-full">
+     text-white rounded-full bg-red-dark hover:bg-red-dark-h">
         Proceed to checkout
     </a>
 </div>

@@ -9,13 +9,13 @@
                      />
                 </td>
                 <td width="35%" class="py-4">
-                    <p class="uppercase-semibold text-xs text-gray-700 mb-2">
+                    <p class="uppercase-semibold text-xs mb-2">
                         <a href="{{ route('products.show', $item) }}"
-                        class="font-semibold tracking-wide text-teal-400">
+                        class="uppercase-semibold hover:no-underline">
                             {{ $item->title }}
                         </a>
                     </p>
-                    <p class="text-xs text-gray-500">
+                    <p class="text-xs text-gray-600">
                         {{ $item->subtitle }}
                     </p>
                 </td>
@@ -25,6 +25,7 @@
                 <td width="10%" class="py-4">x</td>
                 <td class="py-4">
                     <x-product.card.price
+                        class="text-sm"
                         :productIsBeingPromoted="$item->isCurrentlyBeingPromoted()"
                         :regularPrice="Present::price($item->price_in_cents)"
                         :promotionalPrice="Present::price($item->promotional_price_in_cents)"

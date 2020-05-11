@@ -11,7 +11,7 @@ class Present
      *
      * @param  mixed $price_in_cents
      */
-    function price($price_in_cents): string
+    public function price($price_in_cents): string
     {
         return Str::price(number_format($price_in_cents / 100, 2));
     }
@@ -19,7 +19,7 @@ class Present
     /**
      * Present the tax rate in percents.
      */
-    function taxRate(): string
+    public function taxRate(): string
     {
         return (config('cart.tax_rate') * 100).'%';
     }
@@ -27,16 +27,22 @@ class Present
     /**
      * Present the discount.
      *
-     * @param  mixed $discount [description]
+     * @param  mixed $discount
      */
-    function discount($discount):string
+    public function discount($discount):string
     {
         return '-'.$discount;
     }
 
-    function promotionFullName($product)
+    /**
+     * The promotion name and value.
+     *
+     * @param  \App\Product
+     */
+    public function promotionFullName($product): string
     {
         return optional($product->currentPromotion())->name()
         .' '. optional($product->currentPromotion())->code;
     }
+
 }

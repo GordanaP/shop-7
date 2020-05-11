@@ -9,7 +9,7 @@
     <td width="35%">
         <p class="mb-1">
             <a href="{{ route('products.show', $item) }}"
-            class="uppercase text-xs font-semibold text-teal-500">
+            class="uppercase text-xs font-semibold hover:text-red-dark-h hover:no-underline">
                 {{ $item->title }}
             </a>
         </p>
@@ -21,6 +21,7 @@
     <td>
         @if (Request::route('order'))
             <x-product.card.price
+                class="text-sm"
                 :productIsBeingPromoted="$item->isCurrentlyBeingPromoted()"
                 :regularPrice="Present::price($item->ordered->price_in_cents)"
                 :promotionName="Present::promotionFullName($item)"
@@ -28,6 +29,7 @@
             />
         @else
             <x-product.card.price
+                class="text-sm"
                 :productIsBeingPromoted="$item->isCurrentlyBeingPromoted()"
                 :regularPrice="Present::price($item->price_in_cents)"
                 :promotionName="Present::promotionFullName($item)"

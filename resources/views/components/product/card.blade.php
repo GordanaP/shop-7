@@ -10,8 +10,7 @@
 
         <x-product.card.image :product="$product" />
 
-        <div class="product-card-body mx-3 mb-3 mt-2 flex flex-col
-        justify-between">
+        <div class="product-card-body mx-3 mb-3 mt-2 flex flex-col justify-between">
             <div>
                 <x-product.card.rating
                     :user="Auth::user()"

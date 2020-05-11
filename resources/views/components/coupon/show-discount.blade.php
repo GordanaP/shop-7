@@ -10,7 +10,10 @@
 
         @if (! Request::route('order'))
             <p class="text-xs text-teal-500">
-                <a href="{{ $removeRoute }}">Remove</a>
+                <a href="{{ $removeRoute }}" class="text-petroleum
+                hover:text-red-dark-h hover:no-underline">
+                    Remove
+                </a>
             </p>
         @endif
     </td>

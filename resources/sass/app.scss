@@ -16,12 +16,10 @@ h3 { @apply text-2xl; }
 h4 { @apply text-xl; }
 h5 { @apply text-lg; }
 h6 { @apply text-sm; }
-.a-blue { @apply text-blue-600; }
-.custom-badge { @apply  font-semibold rounded-full text-xs px-2; }
 .form-inline { @apply inline; }
+.custom-badge { @apply font-semibold rounded-full text-xs px-2; }
 .uppercase-semibold { @apply uppercase font-semibold tracking-wide; }
 .text-error { @apply text-xs text-red-500; }
-.btn-teal-rounded { @apply bg-teal-400 rounded-full }
 
 @tailwind components;
 

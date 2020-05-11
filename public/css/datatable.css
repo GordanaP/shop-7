@@ -19,14 +19,16 @@ table.dataTable thead th, table.dataTable thead td {
 .dataTables_wrapper .row .col-sm-6 { margin: auto; }
 .dataTables_wrapper .dataTables_paginate .paginate_button.current {
     border-radius: 0;
-    background: #81e6d9;
-    border: 1px solid #4fd1c5;
+    background: #00c9c6;
+    border: 1px solid #009D9A;
+    color: #fff !important;
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-    background: #4fd1c5;
+    background: #00b3b0;
+    color: #fff !important;
 }
 table.dataTable.dtr-inline.collapsed>tbody>tr[role="row"]>td:first-child:before {
-    background-color: #38b2ac
+    background-color: #00b3b0
 }
 
 /**

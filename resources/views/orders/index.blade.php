@@ -3,10 +3,10 @@
         @include('partials.datatables._links')
     @endsection
 
-    <x-partials.page-header title="My orders" />
+    <x-main.page-header title="My orders" />
 
     <main>
-        <div class="mx-4 p-4" style="background-color: #E9ECF3;">
+        <div class="mx-4 p-4 bg-custom-gray">
             <div class="row">
                 <div class="col-md-3">
                     <div class="profile-sidebar">
@@ -99,7 +99,7 @@
                     {
                         data: 'links',
                         render: function(data, type, row, meta) {
-                          return '<a href="' + data.show_order + '" class="text-teal-500">View</a>'
+                          return '<a href="' + data.show_order + '" class="text-red-dark hover:text-petroleum-h hover:no-underline">View</a>'
                         },
                     }
                 ],

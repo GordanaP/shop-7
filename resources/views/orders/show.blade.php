@@ -1,11 +1,11 @@
 <x-layouts.master>
-    <x-partials.page-header
-        title="My orders"
+    <x-main.page-header
+        title="My order"
         :variable="'#'.$order->order_number"
     />
 
     <main>
-        <div class="mx-4 p-4" style="background-color: #E9ECF3;">
+        <div class="mx-4 p-4 bg-custom-gray">
             <div class="row">
                 <div class="col-md-3">
                     <div class="profile-sidebar">

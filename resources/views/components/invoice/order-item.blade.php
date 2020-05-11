@@ -3,7 +3,8 @@
         <img src="{{ $item->pdfImage() }}" width="90%">
     </td>
     <td>
-        <p class="w-80 mt-0 mb-1 font-12 uppercase text-semibold tracking-wide">
+        <p class="w-80 mt-0 mb-1 font-12 uppercase-semibold text-xs
+        text-red-dark hover:no_underline hover:text-red-dark-h">
             {{ $item->title }}
         </p>
         <p class="font-14 w-80">

@@ -61,7 +61,7 @@
     <body class="font-sans text-gray-800">
         <div class="container clearfix">
             <div class="float-left">
-                <x-partials.logo-header />
+                <x-main.logo-header />
                 <p>
                     <span class="text-semibold">Order Date:</span>
                     @yield('payment-date')

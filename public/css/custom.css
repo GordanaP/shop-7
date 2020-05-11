@@ -1,35 +1,45 @@
 /**
- * Products index page
+ * Pagination links - main page
  */
- .page-item.active .page-link{
-     background: #38b2ac;
-     border: 1px solid #38b2ac;
- }
+.page-item.active .page-link{
+    background: #38b2ac;
+    border: 1px solid #38b2ac;
+}
+.page-item.active .page-link:hover {
+    background: #319795;
+}
 
- #filtersList li.active { color: #38b2ac; font-weight: 500;}
+/**
+ * Sidebar list items - main page
+ */
+#filtersList li.active { color: #00C9C6; font-weight: 500;}
+#filtersList li.active a:hover { color: #00b3b0; font-weight: 500;}
 
- .scrolling-banner {
-     position: relative;
-     width: 100%;
-     height: 50px;
-     overflow: hidden;
- }
+/**
+ * Scrolling banner - welcome page
+ */
+.scrolling-banner {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    overflow: hidden;
+}
 
- .scrolling-banner h2 {
-     position: absolute;
-     width: 100%;
-     text-align: center;
-     transform: translateX(-100%);
-     animation: scrolling 30s linear infinite;
+.scrolling-banner h2 {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    transform: translateX(-100%);
+    animation: scrolling 30s linear infinite;
  }
 
  @keyframes scrolling {
-     0% {
-         transform: translateX(-100%);
-     }
-     100% {
-         transform: translateX(100%);
-     }
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
  }
 
 /**
@@ -42,13 +52,13 @@ table.ordered-items tbody td {
 }
 
 /**
- * Profile sidebar
+ * Profile card - sidebar
  */
 .profile-sidebar .profile-usermenu a.active {
-    color: #4fd1c5;
+    color: #00c9c6;
     font-weight: 500;
     background-color: #f8fafc;
-    border-left: 2px solid #4fd1c5;
+    border-left: 2px solid #00c9c6;
     border-bottom: 1px solid #f0f5fa;
     border-top: 1px solid #f0f5fa;
 }
@@ -57,8 +67,8 @@ table.ordered-items tbody td {
     border-bottom: 1px solid #f0f5fa;
 }
 
-.profile-sidebar .profile-usermenu:hover {
-    background-color: #fafcfd;
+.profile-sidebar .profile-usermenu a.active:hover {
+    color: #00b3b0;
 }
 
 .profile-card {
