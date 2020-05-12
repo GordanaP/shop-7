@@ -1,20 +1,10 @@
 <x-layouts.app>
 
-@section('links')
-    <style type="text/css">
-        .product--info { position: relative }
-        .product--info::before {
-            content: ""; position: absolute; border: 1px solid #eee;
-            left: -2rem;  top: 1px; bottom: 1px
-        }
-    </style>
-@endsection
-
 <x-main.page-header title="{{ $product->title }}">
     <x-alert.success />
 </x-main.page-header>
 
-<div class="mx-4 p-4 mt-1" style="background-color: #E9ECF3;">
+<div class="mx-4 p-4 mt-1 bg-custom-gray">
 
     <div class="card card-body p-12">
 
@@ -34,7 +24,7 @@
             <div class="col-md-6 lg:pl-6">
                 <div class="product--info h-full">
                     <div class="caption">
-                        <x-product.card.rating
+                        <x-product.card.rating-box
                             :user="Auth::user()"
                             :product="$product"
                         />

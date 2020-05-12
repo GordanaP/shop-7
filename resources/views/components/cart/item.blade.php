@@ -1,9 +1,11 @@
 <tr>
     <td>
-        <x-product.card.image
-            :product="$item"
-            class="rounded-sm w-full"
-        />
+        <div>
+            <x-product.card.image
+                :product="$item"
+                class="rounded-sm w-full"
+            />
+        </div>
     </td>
 
     <td width="35%">
@@ -14,7 +16,7 @@
             </a>
         </p>
         <p class="text-xs text-gray-500">
-                {{ $item->subtitle }}
+            {{ $item->subtitle }}
         </p>
     </td>
 

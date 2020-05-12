@@ -37,7 +37,7 @@ trait Rateable
     }
 
     /**
-     * Toggle between rating the product and update the rating.
+     * Toggle between rating the product and updating the rating.
      *
      * @param  App\User $user
      * @param  integer $rating
@@ -108,5 +108,4 @@ trait Rateable
             'rating_id' => $rating
         ]);
     }
-
 }

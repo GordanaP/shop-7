@@ -4,7 +4,7 @@
     <img
         src="{{ $product->mainImage() }}"
         id="{{ $id ?? null }}"
-        class="card-img-top img-fluid relative"
+        class="relative"
         alt="Product image"
     />
 

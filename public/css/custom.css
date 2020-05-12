@@ -88,3 +88,35 @@ table.ordered-items tbody td {
 .profile-card-img img:hover {
     transform: scale(1.1);
 }
+
+/**
+ * Product card
+ */
+.product-card { box-shadow: 0 0 16px rgba(0,0,0,0.3); }
+.product-card-body { min-height:220px }
+
+/**
+ * Rating box
+ */
+.rating-box { direction: rtl; }
+.rating-box button:hover {
+    color: #924049;
+    cursor: pointer }
+.rating-box button:focus {
+    color: #924049 !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+.b1:hover ~ button, .b2:hover ~ button, .b3:hover ~ button,
+.b4:hover ~ button, .b5:hover ~ button, .b1:focus ~ button,
+.b2:focus ~ button, .b3:focus ~ button, .b4:focus ~ button,
+.b5:focus ~ button { color: #924049; }
+
+/**
+ * Vertical line
+ */
+ .product--info { position: relative }
+ .product--info::before {
+     content: ""; position: absolute; border: 1px solid #eee;
+     left: -2rem;  top: 1px; bottom: 1px
+ }

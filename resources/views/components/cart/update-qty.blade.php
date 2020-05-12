@@ -5,7 +5,7 @@
 
     <div class="mx-auto flex">
         <div class="form-group">
-            <input type="text" name="quantity" id="quantity"
+            <input type="text" name="quantity"
             class="form-control text-center"
             value="{{ $item->quantity }}">
         </div>
