@@ -74,4 +74,11 @@ class User extends Authenticatable
             ->withPivot('rating_id');
     }
 
+    /**
+     * Determine if the user has rated any product.
+     */
+    public function hasRatedAnyProduct(): bool
+    {
+        return$this->products->load('currentPromotions')->count();
+    }
 }

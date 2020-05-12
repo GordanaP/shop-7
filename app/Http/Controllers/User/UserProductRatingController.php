@@ -50,9 +50,9 @@ class UserProductRatingController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(User $user, Product $product)
     {
-        //
+        return $product->userRating($user);
     }
 
     /**
@@ -77,7 +77,10 @@ class UserProductRatingController extends Controller
     {
         $product->toggleUserRating($user, $request->validated()['rating']);
 
-        return back()->with('success', 'Thank you for rating the product.');
+        return response([
+            'success' => 'Thank you for rating the product.'
+        ]);
+        // return back()->with('success', 'Thank you for rating the product.');
     }
 
     /**

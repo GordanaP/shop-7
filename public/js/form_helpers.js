@@ -76,3 +76,14 @@ function errorContainer(error)
 
     return $('.'+className);
 }
+
+/**
+ * Check the radio input.
+ *
+ * @param  mixed value
+ */
+function checkRadioValue(value)
+{
+    $("input:radio[value="+value+"]").prop('checked', true);
+}
+

@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-md-9">
                     <div class="bg-white p-4 h-full">
-                        @if ($user->products->load('currentPromotions')->count())
+                        @if ($user->hasRatedAnyProduct())
                             <table class="table text-gray-600 mb-3 ordered-items"
                             id="tableRatings">
                                 <thead class="bg-bs-gray">
@@ -36,6 +36,8 @@
                 </div>
             </div>
         </div>
+
+        <x-rating.modal />
     </main>
 
     @section('scripts')
@@ -90,7 +92,7 @@
                         data: 'rating',
                         render: function(data, type, row, meta) {
                             var activeClass = 'text-red-medium';
-                            return getRatingStars(data, activeClass);
+                            return getRatingStars(data, activeClass)+'<p class="mt-1"><a href="#" class="hover:no-underline" id="openRatingModal" data-name="'+row.name+'" data-rating="'+ row.rating +'" data-product="'+row.slug+'">Change</a></p>';
                         },
                     },
                     {
@@ -113,6 +115,48 @@
                 ],
             });
 
+        </script>
+
+        <script>
+            $(document).on('click','#openRatingModal', function(e) {
+                e.preventDefault();
+
+                var ratingModal = $('#ratingModal');
+                var productName = $(this).attr('data-name');
+                var productSlug = $(this).attr('data-product');
+                var productRating = $(this).attr('data-rating');
+                var userId = @json(Auth::id());
+                var userProductRatingShowUrl = '/users/'+userId+'/products/'+productSlug+'/ratings';
+
+                ratingModal.modal('show');
+                $('.modal-title').text(productName);
+                checkRadioValue(productRating)
+
+                $("input:radio").change(function(){
+                    var rating = $( this ).val();
+                    $('#updateRatingBtn').val(rating);
+                });
+
+                $(document).on('click', '#updateRatingBtn', function() {
+                    var rating = $(this).val()
+                    var userProductRatingUpdateUrl = '/users/'+userId+'/products/'+ productSlug +'/ratings'
+
+                    $.ajax({
+                        url: userProductRatingUpdateUrl,
+                        type: 'PUT',
+                        data: {
+                            rating: rating
+                        }
+                    })
+                    .done(function(response) {
+                        ratingModal.modal('hide');
+                        datatable.ajax.reload();
+                    })
+                    .fail(function(response) {
+                        console.log("error");
+                    });
+                });
+            });
         </script>
     @endsection
 </x-layouts.master>
