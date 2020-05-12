@@ -128,9 +128,14 @@
                 var userId = @json(Auth::id());
                 var userProductRatingShowUrl = '/users/'+userId+'/products/'+productSlug+'/ratings';
 
-                ratingModal.modal('show');
+                ratingModal.open();
                 $('.modal-title').text(productName);
-                checkRadioValue(productRating)
+                checkRadioValue(productRating);
+
+                var errors = ['rating'];
+                ratingModal.clearContentOnClose(errors);
+
+                clearErrorOnTriggeringAnEvent();
 
                 $("input:radio").change(function(){
                     var rating = $( this ).val();
@@ -149,11 +154,14 @@
                         }
                     })
                     .done(function(response) {
-                        ratingModal.modal('hide');
+                        ratingModal.close();
                         datatable.ajax.reload();
                     })
                     .fail(function(response) {
-                        console.log("error");
+                        var errors = response.responseJSON.errors;
+                        if(errors) {
+                            displayErrors(errors);
+                        }
                     });
                 });
             });

@@ -13,6 +13,7 @@
                 @for ($i = 0; $i < 5 ; $i++)
                     <x-misc.radio-input name="rating-btn" value="{{ $i+1 }}" />
                 @endfor
+                <p class="rating invalid-feedback text-error mt-1"></p>
             </div>
             <div class="modal-footer bg-gray-100">
                 <button type="button" id="updateRatingBtn"

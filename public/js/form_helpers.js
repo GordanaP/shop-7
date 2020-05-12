@@ -65,6 +65,18 @@ function displayErrors(errors)
 }
 
 /**
+ * Clear all errors.
+ *
+ * @param  array errors
+ */
+function clearErrors(errors)
+{
+    $.each(errors, function (index, error) {
+        errorContainer(error).hide().empty();
+    });
+}
+
+/**
  * Html element containing the given error.
  *
  * @param  string error
