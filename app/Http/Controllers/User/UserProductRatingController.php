@@ -19,9 +19,9 @@ class UserProductRatingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
-        //
+        return view('ratings.index', compact('user'));
     }
 
     /**

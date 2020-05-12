@@ -34,4 +34,17 @@ function counterFirstColumn (datatable) {
     } ).draw();
 }
 
+function getRatingStars(rating, activeClass)
+{
+    var result = '';
 
+    for (var i = 0; i < 5; i++) {
+        if(rating > i) {
+            result = result + '<i class="fa fa-star text-xs '+ activeClass +'"></i>';
+        } else {
+            result = result + '<i class="fa fa-star text-xs"></i>';
+        }
+    }
+
+    return result;
+}

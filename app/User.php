@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -62,4 +63,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Shipping::class);
     }
+
+    /**
+     * The products rated by the given user.
+     */
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'product_rating')
+            ->as('rate')
+            ->withPivot('rating_id');
+    }
+
 }

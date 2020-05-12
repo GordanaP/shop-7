@@ -10,6 +10,7 @@ module.exports = {
                 'petroleum-h': '#00b3b0',
                 'red-dark': '#924049',
                 'red-dark-h': '#7c363f',
+                'red-medium': '#cb7379',
             }
         },
     },

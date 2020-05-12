@@ -82,10 +82,12 @@ Route::middleware('auth')->resource('users.orders', 'User\UserOrderController');
 /**
  * User Product Rating
  */
-Route::put('users/{user}/products/{product}/ratings/', 'User\UserProductRatingController@update')
+Route::get('users/{user}/products/ratings',  'User\UserProductRatingController@index')
+    ->name('users.products.ratings.index');
+Route::get('users/{user}/products/ratings/list',  'User\UserProductRatingAjaxController')
+    ->name('users.products.ratings.list');
+Route::put('users/{user}/products/{product}/ratings', 'User\UserProductRatingController@update')
     ->name('users.products.ratings.update');
-Route::middleware('auth')->resource('users.products.ratings', 'User\UserProductRatingController')
-    ->only('store');
 
 /**
  * Coupon
