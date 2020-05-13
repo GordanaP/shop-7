@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductRatingTable extends Migration
+class CreateProductUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateProductRatingTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_rating', function (Blueprint $table) {
+        Schema::create('product_user', function (Blueprint $table) {
 
             $table->primary(['product_id', 'rating_id', 'user_id']);
 
@@ -34,6 +34,6 @@ class CreateProductRatingTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_rating');
+        Schema::dropIfExists('product_user');
     }
 }
