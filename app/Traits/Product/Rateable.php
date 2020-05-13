@@ -13,7 +13,7 @@ trait Rateable
      */
     public function ratings(): BelongsToMany
     {
-        return $this->belongsToMany(Rating::class, 'product_user')
+        return $this->belongsToMany(Rating::class, 'product_user', 'product_id', 'rating_id')
             ->withPivot('user_id')
             ->as('user');
     }
@@ -23,7 +23,7 @@ trait Rateable
      */
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)
+        return $this->belongsToMany(User::class,  'product_user', 'product_id', 'user_id')
             ->withPivot('rating_id')
             ->as('rate');
     }

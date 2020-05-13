@@ -30,6 +30,7 @@ class Product extends Model
      */
     protected $perPage = 9;
 
+    protected $with = ['customers'];
 
     /**
      * Get the route key for the model.
@@ -81,4 +82,21 @@ class Product extends Model
     {
         return $productFiltersManager->apply($query);
     }
+
+
+    public function customers()
+    {
+        return $this->belongsToMany(User::class, 'user_favorite', 'product_id', 'user_id',);
+    }
+
+    /**
+     * Determine if the product is favorited by the given user.
+     *
+     * @param  \App\User  $user
+     */
+    public function isFavoritedBy($user): bool
+    {
+        return $this->customers->where('id', $user->id)->count();
+    }
+
 }

@@ -10,6 +10,10 @@
     </section>
 </div>
 
+{{-- {{ Auth::user()->favorites->load('currentPromotions') }} --}}
+{{-- {{ Auth::user()->favorites->load('currentPromotions')->where('id', 1)->first() }} --}}
+
+
 <div class="mx-4 p-4 mt-1 bg-custom-gray">
     <header>
         <x-main.jumbotron />

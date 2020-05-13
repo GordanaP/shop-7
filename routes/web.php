@@ -90,6 +90,19 @@ Route::middleware('auth')->put('users/{user}/products/{product}/ratings', 'User\
     ->name('users.products.ratings.update');
 
 /**
+ * User Product Favorite
+ */
+Route::middleware('auth')->get('users/{user}/products/favorites',
+    'User\UserProductFavoriteController@index')
+    ->name('users.products.favorites.index');
+// Route::middleware('auth')->get('users/{user}/products/favorites/list',
+//     'User\UserProductFavoriteAjaxController')
+//     ->name('users.products.favorites.list');
+Route::middleware('auth')->put('users/{user}/products/{product}/favorites',
+    'User\UserProductFavoriteController@update')
+    ->name('users.products.favorites.update');
+
+/**
  * Coupon
  */
 Route::get('coupons/destroy', 'Coupon\CouponController@destroy')

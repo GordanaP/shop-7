@@ -8,6 +8,21 @@
                     :user="Auth::user()"
                     :product="$product"
                 />
+
+                <form action="{{ route('users.products.favorites.update', [Auth::user(), $product]) }}"
+                method="POST">
+
+                    @csrf
+                    @method('PUT')
+
+                    <button type="submit" class="focus:outline-none">
+                        <i class="fa fa-heart {{ $product->isFavoritedBy(Auth::user())
+                            ? 'text-red-carmin' : 'text-gray-400'}} hover:text-red-carmin-h"
+                            aria-hidden="true"
+                        ></i>
+                    </button>
+                </form>
+
                 <x-product.card.title :product="$product" />
             </div>
 

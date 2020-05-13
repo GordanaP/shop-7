@@ -12,7 +12,7 @@ class Rating extends Model
      */
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class)
+        return $this->belongsToMany(Product::class, 'product_user', 'rating_id', 'product_id')
             ->withPivot('user_id')
             ->as('user');
     }

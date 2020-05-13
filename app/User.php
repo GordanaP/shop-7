@@ -81,4 +81,15 @@ class User extends Authenticatable
     {
         return$this->products->load('currentPromotions')->count();
     }
+
+    public function favorites()
+    {
+        return $this->belongsToMany(Product::class, 'user_favorite', 'user_id', 'product_id');
+    }
+
+    public function hasFavorited($product)
+    {
+        return $this->favorites->load('currentPromotions')->where('id', $product->id)->first();
+
+    }
 }
