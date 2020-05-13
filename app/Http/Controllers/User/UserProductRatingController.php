@@ -3,13 +3,10 @@
 namespace App\Http\Controllers\User;
 
 use App\User;
-use App\Rating;
 use App\Product;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RatingRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 
 class UserProductRatingController extends Controller
@@ -52,7 +49,7 @@ class UserProductRatingController extends Controller
      */
     public function show(User $user, Product $product)
     {
-        return $product->userRating($user);
+        //
     }
 
     /**
@@ -72,15 +69,19 @@ class UserProductRatingController extends Controller
      * @param  \App\Http\Requests\RatingRequest  $request
      * @param  \App\User  $user
      * @param  \App\Product  $product
+     * @return \Illuminate\Http\Response
      */
     public function update(RatingRequest $request, User $user, Product $product)
     {
         $product->toggleUserRating($user, $request->validated()['rating']);
 
-        return response([
-            'success' => 'Thank you for rating the product.'
-        ]);
-        // return back()->with('success', 'Thank you for rating the product.');
+        if($request->ajax()) {
+            return response([
+                'success' => 'Thank you for rating the product.'
+            ]);
+        } else {
+            return back()->with('success', 'Thank you for rating the product.');
+        }
     }
 
     /**

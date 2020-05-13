@@ -85,14 +85,14 @@
                     {
                         data: 'name',
                         render: function(data, type, row, meta) {
-                            return '<div class="w-4/5"><a href="' + row.links.show_product + '" class="uppercase-semibold text-xs hover:text-petroleum-h hover:no-underline mb-1">'+data+'</a><p class="text-gray-500 text-xs">'+row.subtitle+'</p></div>'
+                            return '<div class="w-4/5"><a href="' + row.links.show_product + '" class="uppercase-semibold text-xs hover:text-petroleum hover:no-underline mb-1">'+data+'</a><p class="text-gray-500 text-xs">'+row.subtitle+'</p></div>'
                         },
                     },
                     {
                         data: 'rating',
                         render: function(data, type, row, meta) {
                             var activeClass = 'text-red-medium';
-                            return getRatingStars(data, activeClass)+'<p class="mt-1"><a href="#" class="hover:no-underline" id="openRatingModal" data-name="'+row.name+'" data-rating="'+ row.rating +'" data-product="'+row.slug+'">Change</a></p>';
+                            return getRatingStars(data, activeClass)+'<p class="mt-1"><a href="#" class="hover:no-underline hover:text-petroleum" id="openRatingModal" data-name="'+row.name+'" data-rating="'+ row.rating +'" data-product="'+row.slug+'">Change</a></p>';
                         },
                     },
                     {
@@ -126,7 +126,7 @@
                 var productSlug = $(this).attr('data-product');
                 var productRating = $(this).attr('data-rating');
                 var userId = @json(Auth::id());
-                var userProductRatingShowUrl = '/users/'+userId+'/products/'+productSlug+'/ratings';
+                var updateRatingBtn = $('#updateRatingBtn');
 
                 ratingModal.open();
                 $('.modal-title').text(productName);
@@ -138,11 +138,11 @@
                 clearErrorOnTriggeringAnEvent();
 
                 $("input:radio").change(function(){
-                    var rating = $( this ).val();
-                    $('#updateRatingBtn').val(rating);
+                    var rating = $(this).val();
+                    updateRatingBtn.val(rating);
                 });
 
-                $(document).on('click', '#updateRatingBtn', function() {
+                updateRatingBtn.on('click', function() {
                     var rating = $(this).val()
                     var userProductRatingUpdateUrl = '/users/'+userId+'/products/'+ productSlug +'/ratings'
 

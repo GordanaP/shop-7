@@ -11176,6 +11176,12 @@ h6 {
   letter-spacing: 0.025em;
 }
 
+.uppercase-medium {
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+}
+
 .text-error {
   font-size: 0.75rem;
   color: #f56565;

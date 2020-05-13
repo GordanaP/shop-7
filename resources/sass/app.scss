@@ -19,6 +19,7 @@ h6 { @apply text-sm; }
 .form-inline { @apply inline; }
 .custom-badge { @apply font-semibold rounded-full text-xs px-2; }
 .uppercase-semibold { @apply uppercase font-semibold tracking-wide; }
+.uppercase-medium { @apply uppercase font-medium tracking-wide; }
 .text-error { @apply text-xs text-red-500; }
 
 @tailwind components;
