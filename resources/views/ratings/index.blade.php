@@ -46,7 +46,7 @@
         <script>
 
             var tableRatings = $('#tableRatings');
-            var customerProductsRatingsUrl = @json(route('users.products.ratings.list', Auth::user()));
+            var customerProductsRatingsUrl = @json(route('users.ratings.list', Auth::user()));
 
             var datatable = tableRatings.DataTable({
                 dom: "<'row'<'col-sm-3'l><'col-sm-6'B><'col-sm-3'f>>"

@@ -10,8 +10,8 @@ text-lg tracking-tight mt-8">
     />
 
     <x-sidebar.profile.usermenu-list-item
-        :route="route('users.products.ratings.index', Auth::user())"
-        request="users/*/products/ratings"
+        :route="route('users.ratings.index', Auth::user())"
+        request="users/*/ratings"
         title="My ratings"
     />
 

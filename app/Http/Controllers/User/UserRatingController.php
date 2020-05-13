@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RatingRequest;
 use Illuminate\Http\RedirectResponse;
 
-class UserProductRatingController extends Controller
+class UserRatingController extends Controller
 {
     /**
      * Display a listing of the resource.

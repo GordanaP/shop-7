@@ -1,6 +1,6 @@
 <div class="mb-2">
     @auth
-        <form action="{{ route('users.products.ratings.update', [$user, $product]) }}"
+        <form action="{{ route('users.ratings.update', [$user, $product]) }}"
         method="POST">
 
             @csrf

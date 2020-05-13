@@ -72,6 +72,11 @@ border-b border-yellow-300">
                                 My orders
                             </a>
 
+                            <a href="{{ route('users.ratings.index', Auth::user()) }}"
+                            class="dropdown-item">
+                                My ratings
+                            </a>
+
                             <a href="{{ route('users.favorites.index', Auth::user()) }}"
                             class="dropdown-item">
                                 My favorites

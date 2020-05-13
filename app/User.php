@@ -67,9 +67,9 @@ class User extends Authenticatable
     /**
      * The products rated by the given user.
      */
-    public function products(): BelongsToMany
+    public function ratedProducts(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class)
+        return $this->belongsToMany(Product::class, 'product_rating', 'user_id', 'product_id')
             ->withPivot('rating_id')
             ->as('rate');
     }
@@ -79,7 +79,7 @@ class User extends Authenticatable
      */
     public function hasRatedAnyProduct(): bool
     {
-        return$this->products->load('currentPromotions')->count();
+        return$this->ratedProducts->load('currentPromotions')->count();
     }
 
     /**

@@ -6,12 +6,12 @@ use App\User;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
 
-class UserProductRatingAjaxController extends Controller
+class UserRatingAjaxController extends Controller
 {
     public function __invoke(User $user)
     {
-        $products = $user->products->load('currentPromotions');
+        $ratedProducts = $user->ratedProducts->load('currentPromotions');
 
-        return ProductResource::collection($user->products);
+        return ProductResource::collection($user->ratedProducts);
     }
 }
