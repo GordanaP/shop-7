@@ -4,7 +4,7 @@
     @endsection
 
     <x-main.page-header title="My ratings" />
-
+    {{ App\Product::first()->users->where('id', 1)->count() }}
     <main>
         <div class="mx-4 p-4 bg-custom-gray">
             <div class="row">

@@ -67,7 +67,7 @@ class User extends Authenticatable
     /**
      * The products rated by the given user.
      */
-    public function products(): BelongsToMany
+    public function ratings(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'product_rating')
             ->as('rate')
@@ -79,6 +79,24 @@ class User extends Authenticatable
      */
     public function hasRatedAnyProduct(): bool
     {
-        return$this->products->load('currentPromotions')->count();
+        return$this->ratings->load('currentPromotions')->count();
+    }
+
+    /**
+     * The products favorited by the user.
+     */
+    public function favorites(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'product_user')->with('promotions');
+    }
+
+    /**
+     * Determine if the user has favorited the given product.
+     *
+     * @param  \App\Product  $product
+     */
+    public function hasFavorited($product)
+    {
+        return $this->loadCount('favorites');
     }
 }

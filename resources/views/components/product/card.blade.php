@@ -4,10 +4,20 @@
 
         <div class="product-card-body mx-3 mb-3 mt-2 flex flex-col justify-between">
             <div>
-                <x-product.card.rating-box
-                    :user="Auth::user()"
-                    :product="$product"
-                />
+                <div class="flex justify-between items-center mb-2">
+                    <x-product.card.rating-box
+                        :user="Auth::user()"
+                        :product="$product"
+                    />
+
+                    @auth
+                        <i class="fa fa-heart {{ $product->isFavoritedBy(Auth::user())
+                            ? 'text-red-carmin' : 'text-gray-400'}} hover:text-red-carmin-h"
+                            aria-hidden="true"
+                        ></i>
+                    @endauth
+                </div>
+
                 <x-product.card.title :product="$product" />
             </div>
 
