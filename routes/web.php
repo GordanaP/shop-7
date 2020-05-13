@@ -95,6 +95,12 @@ Route::middleware('auth')->put('users/{user}/products/{product}/ratings',
 /**
  * User Product Favorite
  */
+Route::middleware('auth')->get('users/{user}/products/favorites',
+    'User\UserProductFavoriteController@index')
+    ->name('users.products.favorites.index');
+Route::middleware('auth')->get('users/{user}/products/favorites/list',
+    'User\UserProductFavoriteAjaxController')
+    ->name('users.products.favorites.list');
 Route::middleware('auth')->put('users/{user}/products/{product}/favorites',
     'User\UserProductFavoriteController@update')
     ->name('users.products.favorites.update');

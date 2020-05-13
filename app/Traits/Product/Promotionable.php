@@ -14,8 +14,8 @@ trait Promotionable
     public function promotions(): BelongsToMany
     {
         return $this->belongsToMany(Promotion::class)
-            ->as('valid')
-            ->withPivot('from', 'to');
+            ->withPivot('from', 'to')
+            ->as('valid');
     }
 
     /**

@@ -15,6 +15,12 @@ text-lg tracking-tight mt-8">
         title="My ratings"
     />
 
+    <x-sidebar.profile.usermenu-list-item
+        :route="route('users.products.favorites.index', Auth::user())"
+        request="users/*/products/favorites"
+        title="My favorites"
+    />
+
     <x-sidebar.profile.usermenu-list-item title="My address book" />
 
 </div>

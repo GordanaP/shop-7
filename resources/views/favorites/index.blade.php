@@ -3,7 +3,7 @@
         @include('partials.datatables._links')
     @endsection
 
-    <x-main.page-header title="My ratings" />
+    <x-main.page-header title="My favorites" />
 
     <main>
         <div class="mx-4 p-4 bg-custom-gray">
@@ -15,21 +15,20 @@
                 </div>
                 <div class="col-md-9">
                     <div class="bg-white p-4 h-full">
-                        @if ($user->hasRatedAnyProduct())
+                        @if ($user->favorites)
                             <table class="table text-gray-600 mb-3 ordered-items"
-                            id="tableRatings">
+                            id="tableFavorites">
                                 <thead class="bg-bs-gray">
                                     <th width="10%">Product</th>
                                     <th width="30%"></th>
-                                    <th width="20%">Your Rating</th>
-                                    <th width="20%">Avg Rating</th>
+                                    <th></th>
                                 </thead>
 
                                 <tbody></tbody>
                             </table>
                         @else
                             <h2 class="text-center mb-4">
-                                You have not rated any product yet.
+                                You have no any favorites at present.
                             </h2>
                         @endif
                     </div>
@@ -45,10 +44,10 @@
 
         <script>
 
-            var tableRatings = $('#tableRatings');
-            var customerProductsRatingsUrl = @json(route('users.products.ratings.list', Auth::user()));
+            var tableFavorites = $('#tableFavorites');
+            var customerProductsFavoritesUrl = @json(route('users.products.favorites.list', Auth::user()));
 
-            var datatable = tableRatings.DataTable({
+            var datatable = tableFavorites.DataTable({
                 dom: "<'row'<'col-sm-3'l><'col-sm-6'B><'col-sm-3'f>>"
                 +"<'row'<'col-sm-12'tr>>"
                 +"<'row'<'col-sm-5'i><'col-sm-7'p>>",
@@ -71,7 +70,7 @@
                     },
                 ],
                 "ajax": {
-                    "url": customerProductsRatingsUrl,
+                    "url": customerProductsFavoritesUrl,
                     "type": "GET"
                 },
                 "deferRender": true,
@@ -89,17 +88,8 @@
                         },
                     },
                     {
-                        data: 'rating',
                         render: function(data, type, row, meta) {
-                            var activeClass = 'text-red-medium';
-                            return getRatingStars(data, activeClass)+'<p class="mt-1"><a href="#" class="hover:no-underline hover:text-petroleum" id="openRatingModal" data-name="'+row.name+'" data-rating="'+ row.rating +'" data-product="'+row.slug+'">Change</a></p>';
-                        },
-                    },
-                    {
-                        data: 'avg_rating',
-                        render: function(data, type, row, meta) {
-                            var activeClass = 'text-gray-800';
-                            return getRatingStars(data, activeClass);
+                            return '<button type="button" id="unfavoriteProductBtn" data-product="' + row.slug + '" class="focus:outline-none"><i class="fa fa-heart text-red-carmin hover:text-red-carmin-h" aria-hidden="true"></i></button>';
                         },
                     },
                 ],
@@ -110,61 +100,26 @@
                         "targets": 0
                     },
                 ],
-                "order": [
-                    [ 2, "desc" ]
-                ],
             });
-
         </script>
 
         <script>
-            $(document).on('click','#openRatingModal', function(e) {
-                e.preventDefault();
 
-                var ratingModal = $('#ratingModal');
-                var productName = $(this).attr('data-name');
+            $(document).on('click', '#unfavoriteProductBtn', function() {
+
                 var productSlug = $(this).attr('data-product');
-                var productRating = $(this).attr('data-rating');
                 var userId = @json(Auth::id());
-                var updateRatingBtn = $('#updateRatingBtn');
+                var userProductUnfavoriteUrl = '/users/'+userId+'/products/'+ productSlug +'/favorites'
 
-                ratingModal.open();
-                $('.modal-title').text(productName);
-                checkRadioValue(productRating);
-
-                var errors = ['rating'];
-                ratingModal.clearContentOnClose(errors);
-
-                clearErrorOnTriggeringAnEvent();
-
-                $("input:radio").change(function(){
-                    var rating = $(this).val();
-                    updateRatingBtn.val(rating);
-                });
-
-                updateRatingBtn.on('click', function() {
-                    var rating = $(this).val()
-                    var userProductRatingUpdateUrl = '/users/'+userId+'/products/'+ productSlug +'/ratings'
-
-                    $.ajax({
-                        url: userProductRatingUpdateUrl,
-                        type: 'PUT',
-                        data: {
-                            rating: rating
-                        }
-                    })
-                    .done(function(response) {
-                        ratingModal.close();
-                        datatable.ajax.reload();
-                    })
-                    .fail(function(response) {
-                        var errors = response.responseJSON.errors;
-                        if(errors) {
-                            displayErrors(errors);
-                        }
-                    });
+                $.ajax({
+                    url: userProductUnfavoriteUrl,
+                    type: 'PUT',
+                })
+                .done(function(response) {
+                    datatable.ajax.reload();
                 });
             });
+
         </script>
     @endsection
 </x-layouts.master>

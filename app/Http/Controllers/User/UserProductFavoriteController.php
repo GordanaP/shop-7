@@ -14,9 +14,9 @@ class UserProductFavoriteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
-        //
+        return view('favorites.index', compact('user'));
     }
 
     /**
@@ -73,7 +73,14 @@ class UserProductFavoriteController extends Controller
     {
         $user->togglesFavoriting($product);
 
-        return back();
+        if ($request->ajax()) {
+            return response([
+                'success' => 'The product is removed from your favorites.'
+            ]);
+        } else {
+            return back();
+        }
+
     }
 
     /**
