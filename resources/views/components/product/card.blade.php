@@ -11,10 +11,10 @@
                     />
 
                     @auth
-                        <i class="fa fa-heart {{ $product->isFavoritedBy(Auth::user())
-                            ? 'text-red-carmin' : 'text-gray-400'}} hover:text-red-carmin-h"
-                            aria-hidden="true"
-                        ></i>
+                        <x-product.card.favorite
+                            :user="Auth::user()"
+                            :product="$product"
+                        />
                     @endauth
                 </div>
 

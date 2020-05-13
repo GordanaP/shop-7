@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
 use App\User;
+use App\Product;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class UserProductFavoriteController extends Controller
 {
@@ -68,9 +69,11 @@ class UserProductFavoriteController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user, Product $product)
     {
-        //
+        $user->togglesFavoriting($product);
+
+        return back();
     }
 
     /**

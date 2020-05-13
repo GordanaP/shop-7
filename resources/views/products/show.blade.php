@@ -24,10 +24,21 @@
             <div class="col-md-6 lg:pl-6">
                 <div class="product--info h-full">
                     <div class="caption">
-                        <x-product.card.rating-box
-                            :user="Auth::user()"
-                            :product="$product"
-                        />
+                        <div class="flex items-center mb-2">
+                            <div class="mr-4">
+                                <x-product.card.rating-box
+                                    :user="Auth::user()"
+                                    :product="$product"
+                                />
+                            </div>
+
+                            @auth
+                                <x-product.card.favorite
+                                    :user="Auth::user()"
+                                    :product="$product"
+                                />
+                            @endauth
+                        </div>
 
                         <h4 class="font-light mb-2 text-2xl">
                             {{ Str::ucfirst($product->title ) }}

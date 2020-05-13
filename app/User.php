@@ -91,12 +91,13 @@ class User extends Authenticatable
     }
 
     /**
-     * Determine if the user has favorited the given product.
+     * The user toggles favoriting the product.
      *
-     * @param  \App\Product  $product
+     * @param  \App\Product $product
      */
-    public function hasFavorited($product)
+    public function togglesFavoriting($product)
     {
-        return $this->loadCount('favorites');
+        $this->favorites()->toggle($product->id);
     }
+
 }
