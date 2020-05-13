@@ -11,6 +11,8 @@ module.exports = {
                 'red-dark': '#924049',
                 'red-dark-h': '#7c363f',
                 'red-medium': '#cb7379',
+                'red-carmin': '#ff6F87',
+                'red-carmin-h': '#f06073',
             }
         },
     },

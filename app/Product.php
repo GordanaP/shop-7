@@ -30,7 +30,14 @@ class Product extends Model
      */
     protected $perPage = 9;
 
-    protected $with = ['customers'];
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = [
+        'favoritors'
+    ];
 
     /**
      * Get the route key for the model.
@@ -45,12 +52,12 @@ class Product extends Model
      */
     public function getPromotionalPriceInCentsAttribute()
     {
-            return optional($this->currentPromotion())
-                ->applyDiscount($this->price_in_cents);
+        return optional($this->currentPromotion())
+            ->applyDiscount($this->price_in_cents);
     }
 
     /**
-     * The orders containing the products.
+     * The orders containing the product.
      */
     public function orders(): BelongsToMany
     {
@@ -65,7 +72,7 @@ class Product extends Model
     }
 
     /**
-     * The categories containing the products.
+     * The categories containing the product.
      */
     public function categories(): BelongsToMany
     {
@@ -73,7 +80,7 @@ class Product extends Model
     }
 
     /**
-     * Scope a query to only include the products fitered by a query.
+     * Scope a query to only include the products filtered by a query.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  \App\Filters\ProductFiltersManager  $productFiltersManager
@@ -83,8 +90,10 @@ class Product extends Model
         return $productFiltersManager->apply($query);
     }
 
-
-    public function customers()
+    /**
+     * The users who favorited the product.
+     */
+    public function favoritors(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'user_favorite', 'product_id', 'user_id',);
     }
@@ -96,7 +105,7 @@ class Product extends Model
      */
     public function isFavoritedBy($user): bool
     {
-        return $this->customers->where('id', $user->id)->count();
+        return $this->favoritors->where('id', $user->id)->count();
     }
 
 }

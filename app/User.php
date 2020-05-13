@@ -82,14 +82,39 @@ class User extends Authenticatable
         return$this->products->load('currentPromotions')->count();
     }
 
-    public function favorites()
+    /**
+     * The user's favorite products.
+     */
+    public function favorites(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'user_favorite', 'user_id', 'product_id');
     }
 
-    public function hasFavorited($product)
+    /**
+     * The user has any favorite product.
+     */
+    public function hasAnyFavorite(): bool
+    {
+        return $this->favorites->count();
+    }
+
+    /**
+     * Determine if the user favorited the given product.
+     *
+     * @param  \App\Product  $product
+     */
+    public function hasFavorited($product): bool
     {
         return $this->favorites->load('currentPromotions')->where('id', $product->id)->first();
+    }
 
+    /**
+     * The user toggles favoriting the product.
+     *
+     * @param  \App\Product $product
+     */
+    public function togglesFavoriting($product)
+    {
+        $this->favorites()->toggle($product->id);
     }
 }

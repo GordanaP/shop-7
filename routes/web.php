@@ -92,15 +92,15 @@ Route::middleware('auth')->put('users/{user}/products/{product}/ratings', 'User\
 /**
  * User Product Favorite
  */
-Route::middleware('auth')->get('users/{user}/products/favorites',
-    'User\UserProductFavoriteController@index')
-    ->name('users.products.favorites.index');
-// Route::middleware('auth')->get('users/{user}/products/favorites/list',
-//     'User\UserProductFavoriteAjaxController')
-//     ->name('users.products.favorites.list');
+Route::middleware('auth')->get('users/{user}/favorites',
+    'User\UserFavoriteController@index')
+    ->name('users.favorites.index');
+Route::middleware('auth')->get('users/{user}/favorites/list',
+    'User\UserFavoriteAjaxController')
+    ->name('users.favorites.list');
 Route::middleware('auth')->put('users/{user}/products/{product}/favorites',
-    'User\UserProductFavoriteController@update')
-    ->name('users.products.favorites.update');
+    'User\UserFavoriteController@update')
+    ->name('users.favorites.update');
 
 /**
  * Coupon

@@ -72,6 +72,11 @@ border-b border-yellow-300">
                                 My orders
                             </a>
 
+                            <a href="{{ route('users.favorites.index', Auth::user()) }}"
+                            class="dropdown-item">
+                                My favorites
+                            </a>
+
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">
