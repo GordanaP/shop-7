@@ -15,14 +15,11 @@
 
                         @foreach ($user->shippings->chunk(4) as $chunk)
                         <div class="row mb-4">
-                                @foreach ($chunk as $address)
-                                    <div class="col-md-3">
-                                        <div class="bg-white text-lg
-                                        text-center py-12 px-4 border border-gray-200 shadow-sm">
-
-                                            Address 1
-
-                                        </div>
+                                @foreach ($chunk as $shipping)
+                                    <div class="col-md-3 mb-4">
+                                        <x-shipping.card
+                                            :shipping="$shipping"
+                                        />
                                     </div>
                                 @endforeach
                         </div> <!-- /.row -->
