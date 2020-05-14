@@ -106,6 +106,12 @@ Route::middleware('auth')->put('users/{user}/products/{product}/favorites',
     ->name('users.favorites.update');
 
 /**
+ * User Shipping
+ */
+Route::middleware('auth')->resource('users.shippings', 'User\UserShippingController');
+
+
+/**
  * Coupon
  */
 Route::get('coupons/destroy', 'Coupon\CouponController@destroy')

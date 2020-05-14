@@ -15,6 +15,7 @@
             <x-home.card
                 title="Address Book"
                 icon="fa-map-marked"
+                :route="route('users.shippings.index', Auth::user())"
             />
 
             <x-home.card
