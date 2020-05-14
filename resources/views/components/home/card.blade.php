@@ -1,9 +1,9 @@
-<div class="col-md-4">
-    <div class="box-part bg-white text-center py-16 px-4 shadow-sm">
+<div class="col-md-3">
+    <div class="bg-white text-lg text-center py-12 px-4">
         <i class="fa {{ $icon }} fa-4x text-teal-400"
         aria-hidden="true"></i>
 
-        <h4 class="text-2xl font-semibold mt-2">
+        <h4 class="text-2xl font-semibold mt-4">
             {{ $title }}
         </h4>
 

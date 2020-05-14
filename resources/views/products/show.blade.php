@@ -5,9 +5,7 @@
 </x-main.page-header>
 
 <div class="mx-4 p-4 mt-1 bg-custom-gray">
-
     <div class="card card-body p-12">
-
         <div class="row">
             <div class="col-md-5">
                 <x-product.card.image
@@ -32,10 +30,12 @@
                                 />
                             </div>
 
-                            <x-product.card.favorite
-                                :user="Auth::user()"
-                                :product="$product"
-                            />
+                            @auth
+                                <x-product.card.favorite
+                                    :user="Auth::user()"
+                                    :product="$product"
+                                />
+                            @endauth
                         </div>
 
                         <h4 class="font-light mb-2 text-2xl">

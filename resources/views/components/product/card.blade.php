@@ -10,10 +10,12 @@
                         :product="$product"
                     />
 
-                    <x-product.card.favorite
-                        :user="Auth::user()"
-                        :product="$product"
-                    />
+                    @auth
+                        <x-product.card.favorite
+                            :user="Auth::user()"
+                            :product="$product"
+                        />
+                    @endauth
                 </div>
 
                 <x-product.card.title :product="$product" />
