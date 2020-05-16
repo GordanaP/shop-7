@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Shipping extends Model
 {
+    protected $fillable = [
+        'name', 'street_address', 'postal_code', 'city', 'country', 'phone'
+    ];
+
     /**
      * Get the user who owns the shipping address.
      */

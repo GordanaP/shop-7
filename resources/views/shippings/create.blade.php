@@ -1,6 +1,13 @@
 <x-layouts.app>
 
-    <x-main.page-header title="New shipping address" />
+    @section('links')
+        <style>
+            .invalid-feedback { display: inline-block; }
+        </style>
+    @endsection
+    <x-main.page-header title="New shipping address">
+        <x-alert.success />
+    </x-main.page-header>
 
     <main>
         <div class="mx-4 p-4 bg-custom-gray">
@@ -23,7 +30,8 @@
 
                                 <div class="form-group">
                                     <label for="name">Name<x-misc.asterisks /></label>
-                                    <input type="text" name="name" id="name"
+                                    <input type="text"
+                                    name="name" id="name"
                                     class="form-control"
                                     placeholder="Enter name"
                                     value="{{ old('name') }}" />
@@ -33,7 +41,8 @@
 
                                 <div class="form-group">
                                     <label for="streetAddress">Street Address<x-misc.asterisks /></label>
-                                    <input type="text" name="street_address" id="streetAddress"
+                                    <input type="text"
+                                    name="street_address" id="streetAddress"
                                     class="form-control"
                                     placeholder="Enter street address"
                                     value="{{ old('street_address') }}" />
@@ -45,7 +54,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="postalCode">Postal code<x-misc.asterisks /></label>
-                                            <input type="text" name="postal_code" id="postalCode"
+                                            <input type="text"
+                                            name="postal_code" id="postalCode"
                                             class="form-control"
                                             placeholder="Enter postal code"
                                             value="{{ old('postal_code') }}" />
@@ -57,7 +67,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="city">City<x-misc.asterisks /></label>
-                                            <input type="text" name="city" id="city"
+                                            <input type="text"
+                                            name="city" id="city"
                                             class="form-control"
                                             placeholder="Enter city"
                                             value="{{ old('city') }}" />
@@ -69,7 +80,8 @@
 
                                 <div class="form-group">
                                     <label for="country">Country<x-misc.asterisks /></label>
-                                    <select name="country" id="country" class="form-control">
+                                    <select class="form-control"
+                                        name="country" id="country">
                                         <option value="">Select a country</option>
                                         @foreach (App::make("country-list")->all as $name => $code)
                                             <option value="{{ $code }}">
@@ -85,7 +97,8 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="phone">Phone<x-misc.asterisks /></label>
-                                            <input type="text" name="phone" id="phone"
+                                            <input type="text"
+                                            name="phone" id="phone"
                                             class="form-control"
                                             placeholder="Enter phone"
                                             value="{{ old('phone`') }}" />
@@ -93,7 +106,7 @@
                                             <x-error field="phone" />
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    {{-- <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="email">Email<x-misc.asterisks /></label>
                                             <input type="text" name="email" id="email"
@@ -103,7 +116,7 @@
 
                                             <x-error field="email" />
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
 
                                 <div class="form-group mt-2">
@@ -124,4 +137,11 @@
         </div>
     </main>
 
+    @section('scripts')
+        <script>
+
+            clearErrorOnTriggeringAnEvent()
+
+        </script>
+    @endsection
 </x-layouts.app>

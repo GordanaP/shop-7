@@ -8,6 +8,18 @@ use Illuminate\Database\Eloquent\Collection;
 trait HasAddress
 {
     /**
+     * Create a new shipping address.
+     *
+     * @param array $data
+     */
+    public function addNewShipping($data): Shipping
+    {
+        $shipping = new Shipping($data);
+
+        return $this->shippings()->save($shipping);
+    }
+
+    /**
      * Get all the user's addresses.
      */
     public function allAddresses(): Collection

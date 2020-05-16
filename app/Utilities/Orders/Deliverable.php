@@ -25,19 +25,15 @@ class Deliverable
     }
 
     /**
-     * Handle the payment id.
+     * Create a new shipping address for the registered user.
      *
      * @param  string $pi
      */
     public function handle($pi)
     {
         $registered_user = $this->gateway->retrieveRegisteredUser($pi);
-        $shipping_data = $this->gateway->retrieveShippingData($pi);
+        $data = $this->gateway->retrieveShippingData($pi);
 
-        if($registered_user && $shipping_data) {
-
-            return Shipping::new($shipping_data, $registered_user);
-
-        }
+        $data ? optional($registered_user)->addNewShipping($data) : '';
     }
 }

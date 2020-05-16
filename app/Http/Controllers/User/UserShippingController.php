@@ -7,7 +7,9 @@ use App\Shipping;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AddressRequest;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\CheckoutRequest;
 
 class UserShippingController extends Controller
 {
@@ -34,11 +36,11 @@ class UserShippingController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      */
-    public function store(Request $request, User $user): RedirectResponse
+    public function store(AddressRequest $request, User $user)
     {
-        //
+        $user->addNewShipping($request->validated());
 
-        return back();
+        return back()->with('success', 'The new shipping address has been added to your address book');
     }
 
     /**
