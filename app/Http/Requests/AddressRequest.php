@@ -34,7 +34,10 @@ class AddressRequest extends FormRequest
             'country' => [
                 'required',
                 Rule::in(App::make('country-list')->values())
-            ]
+            ],
+            'is_default' => [
+                'sometimes', 'required', 'boolean'
+            ],
         ];
     }
 }

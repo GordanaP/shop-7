@@ -111,13 +111,14 @@ Route::middleware('auth')->put('users/{user}/products/{product}/favorites',
 Route::middleware('auth')->put('users/{user}/shippings/{shipping?}',
     'User\UserShippingController@update')
     ->name('users.shippings.update');
-
-// Route::middleware('auth')->get('users/{user}/shippings',
-//     'User\UserShippingController@index')
-//     ->name('users.shippings.index');
-
 Route::middleware('auth')->resource('users.shippings', 'User\UserShippingController')
     ->except('update');
+
+/**
+ * Shipping
+ */
+Route::resource('shippings', 'Shipping\ShippingController')->only('update','destroy');
+
 
 
 /**

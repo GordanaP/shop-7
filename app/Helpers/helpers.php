@@ -19,7 +19,7 @@ function checked($value_1, $value_2)
  * @param  string $value_2
  * @return string
  */
-function select($value_1, $value_2)
+function selected($value_1, $value_2)
 {
     return $value_1 == $value_2 ? 'selected' : '';
 }

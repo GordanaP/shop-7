@@ -11,8 +11,14 @@
             </div>
         @endif
 
-        <div class="float-right py-2 mr-2 text-gray-500>
-            <form action="#" method="POST" class="form-inline">
+        <div class="float-right py-2 mr-2 text-gray-500">
+            <form action="{{ ! Auth::user()->isBillingAddress($address)
+                ? route('shippings.destroy', $address)
+                : '' }}"
+                method="POST"
+                class="form-inline"
+            >
+
                 @csrf
                 @method('DELETE')
 
@@ -20,7 +26,12 @@
                     <i class="far fa-trash-alt mr-1" aria-hidden="hidden"></i>
                 </button>
             </form>
-            <a href="#" class="hover:text-red-dark hover:no-underline">
+
+            <a href="{{ ! Auth::user()->isBillingAddress($address)
+                ? route('users.shippings.edit', [Auth::user(), $address])
+                : ''}}"
+                class="hover:text-red-dark hover:no-underline"
+            >
                 <i class="far fa-edit" aria-hidden="hidden"></i>
             </a>
         </div>

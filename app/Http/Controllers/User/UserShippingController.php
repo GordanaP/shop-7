@@ -58,9 +58,9 @@ class UserShippingController extends Controller
      *
      * @param  \App\User  $user
      */
-    public function edit(User $user): View
+    public function edit(User $user, Shipping $shipping): View
     {
-        //
+        return view('shippings.edit', compact('shipping'));
     }
 
     /**

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Shipping extends Model
 {
     protected $fillable = [
-        'name', 'street_address', 'postal_code', 'city', 'country', 'phone'
+        'name', 'street_address', 'postal_code', 'city', 'country', 'phone', 'is_default'
     ];
 
     /**
@@ -26,22 +26,22 @@ class Shipping extends Model
      * @param  Stripe\PaymentMethod $data
      * @param  \App\User $user
      */
-    public static function new($data, $user): Shipping
-    {
-        $shipping = new static;
+    // public static function new($data, $user): Shipping
+    // {
+    //     $shipping = new static;
 
-        $shipping->name = $data['name'];
-        $shipping->phone = $data['phone'];
-        $shipping->street_address = $data['street_address'];
-        $shipping->postal_code = $data['postal_code'];
-        $shipping->city = $data['city'];
-        $shipping->country = $data['country'];
-        $shipping->user_id = $user->id;
+    //     $shipping->name = $data['name'];
+    //     $shipping->phone = $data['phone'];
+    //     $shipping->street_address = $data['street_address'];
+    //     $shipping->postal_code = $data['postal_code'];
+    //     $shipping->city = $data['city'];
+    //     $shipping->country = $data['country'];
+    //     $shipping->user_id = $user->id;
 
-        $shipping->save();
+    //     $shipping->save();
 
-        return $shipping;
-    }
+    //     return $shipping;
+    // }
 
     /**
      * The shipping address is same as the billing address.
