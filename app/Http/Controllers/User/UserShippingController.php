@@ -26,7 +26,7 @@ class UserShippingController extends Controller
      */
     public function create(): View
     {
-        //
+        return view('shippings.create');
     }
 
     /**
@@ -34,9 +34,11 @@ class UserShippingController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request, User $user): RedirectResponse
     {
         //
+
+        return back();
     }
 
     /**

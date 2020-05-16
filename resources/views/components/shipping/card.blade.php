@@ -11,12 +11,20 @@
             </div>
         @endif
 
-        <div class="float-right py-2 mr-2 text-gray-500">
-            <i class="far fa-trash-alt mr-1" aria-hidden="hidden"></i>
-            <i class="far fa-edit" aria-hidden="hidden"></i>
+        <div class="float-right py-2 mr-2 text-gray-500>
+            <form action="#" method="POST" class="form-inline">
+                @csrf
+                @method('DELETE')
+
+                <button type="submit">
+                    <i class="far fa-trash-alt mr-1" aria-hidden="hidden"></i>
+                </button>
+            </form>
+            <a href="#" class="hover:text-red-dark hover:no-underline">
+                <i class="far fa-edit" aria-hidden="hidden"></i>
+            </a>
         </div>
     </div>
-
 
     <div class="px-3 mb-6
         @if (Auth::user()->isBillingAddress($address))
