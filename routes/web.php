@@ -108,8 +108,13 @@ Route::middleware('auth')->put('users/{user}/products/{product}/favorites',
 /**
  * User Shipping
  */
-Route::middleware('auth')->resource('users.shippings', 'User\UserShippingController');
+Route::middleware('auth')->put('users/{user}/shippings/{shipping?}',
+    'User\UserShippingController@update')
+    ->name('users.shippings.update');
 
+Route::middleware('auth')->get('users/{user}/shippings',
+    'User\UserShippingController@index')
+    ->name('users.shippings.index');
 
 /**
  * Coupon

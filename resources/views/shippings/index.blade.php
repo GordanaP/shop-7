@@ -10,19 +10,20 @@
                         <x-sidebar.profile.card />
                     </div>
                 </div>
+
                 <div class="col-md-9">
                     <div class="bg-white p-4 h-full">
 
-                        @foreach ($user->shippings->chunk(4) as $chunk)
-                        <div class="row mb-4">
-                                @foreach ($chunk as $shipping)
+                        @foreach (Auth::user()->allAddresses()->chunk(4) as $chunk)
+                            <div class="row mb-4">
+                                @foreach ($chunk as $address)
                                     <div class="col-md-3 mb-4">
                                         <x-shipping.card
-                                            :shipping="$shipping"
+                                            :address="$address"
                                         />
                                     </div>
                                 @endforeach
-                        </div> <!-- /.row -->
+                            </div>
                         @endforeach
 
                     </div>

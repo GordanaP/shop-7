@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-md-9">
                     <div class="bg-white p-4 h-full">
-                        @if ($user->hasRatedAnyProduct())
+                        @if (Auth::user()->hasRatedAnyProduct())
                             <table class="table text-gray-600 mb-3 ordered-items"
                             id="tableRatings">
                                 <thead class="bg-bs-gray">

@@ -11,6 +11,25 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Customer extends Model
 {
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'is_billing'
+    ];
+
+    /**
+     * Indicate that the address is a billing address.
+     *
+     * @return string
+     */
+    public function getIsBillingAttribute()
+    {
+        return $this->is_billing = 1;
+    }
+
+    /**
      * The customer's user account.
      */
     public function user(): BelongsTo
@@ -48,5 +67,13 @@ class Customer extends Model
         $customer->save();
 
         return $customer;
+    }
+
+    /**
+     * The shipping country name.
+     */
+    public function countryName(): string
+    {
+        return \App::make('country-list')->key(strtolower($this->country));
     }
 }

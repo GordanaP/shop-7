@@ -4,9 +4,18 @@ namespace App;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Shipping extends Model
 {
+    /**
+     * Get the user who owns the shipping address.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     /**
      * Create a new shipping.
      *
@@ -54,4 +63,25 @@ class Shipping extends Model
     {
         return App::make('country-list')->key(strtolower($this->country));
     }
+
+    /**
+     * Set the shipping as default.
+     */
+    public function setAsDefault()
+    {
+        $this->is_default = true;
+
+        $this->save();
+    }
+
+    /**
+     * Set the shipping as non default.
+     */
+    public function removeDefault()
+    {
+        $this->is_default = false;
+
+        $this->save();
+    }
+
 }

@@ -3,13 +3,12 @@
 namespace App\Providers;
 
 use App\Utilities\General\Present;
+use App\Utilities\Shippings\Address;
 use App\Utilities\General\CountryList;
 use App\Utilities\Images\ImageManager;
 use App\Utilities\General\QueryManager;
 use Illuminate\Support\ServiceProvider;
 use App\Utilities\Products\ShoppingCart;
-use App\Utilities\Payments\StripeGateway;
-use App\Utilities\Payments\AmountCollected;
 
 class UtilityServiceProvider extends ServiceProvider
 {
@@ -22,6 +21,10 @@ class UtilityServiceProvider extends ServiceProvider
     {
         $this->app->instance('country-list', new CountryList);
         $this->app->instance('image-manager', new ImageManager);
+
+        $this->app->bind('Address', function($app) {
+            return new Address;
+        });
 
         $this->app->bind('Present', function($app) {
             return new Present;

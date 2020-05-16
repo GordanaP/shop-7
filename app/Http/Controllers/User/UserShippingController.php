@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\User;
+use App\Shipping;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -15,7 +16,9 @@ class UserShippingController extends Controller
      */
     public function index(User $user): View
     {
-        return view('shippings.index', compact('user'));
+        return view('shippings.index')->with([
+            'user' => $user ?? Auth::user()
+        ]);
     }
 
     /**
@@ -62,9 +65,11 @@ class UserShippingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\User  $user
      */
-    public function update(Request $request, User $user): RedirectResponse
+    public function update(Request $request, User $user, Shipping $shipping = null)
     {
-        //
+        $user->manageDefaultShipping($shipping);
+
+        return back();
     }
 
     /**

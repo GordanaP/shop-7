@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-md-9">
                     <div class="bg-white p-4 h-full">
-                        @if ($user->hasAnyFavorite())
+                        @if (Auth::user()->hasAnyFavorite())
                             <table class="table text-gray-600 mb-3 ordered-items"
                             id="tableFavorites">
                                 <thead class="bg-bs-gray">

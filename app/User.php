@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\User\HasAddress;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasAddress, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -45,7 +46,9 @@ class User extends Authenticatable
      */
     public function customer(): HasOne
     {
-        return $this->hasOne(Customer::class);
+        return $this->hasOne(Customer::class)->withDefault(function ($customer) {
+            $customer->name = 'Customer';
+        });
     }
 
     /**

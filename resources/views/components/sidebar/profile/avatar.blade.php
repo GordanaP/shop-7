@@ -6,7 +6,8 @@
 
     @auth
         <h3 class="text-center font-medium text-gray-600">
-            {{ optional(Auth::user()->customer)->name ?? Auth::user()->name }}
+            {{-- {{ optional(Auth::user()->c->nameustomer)->name ?? Auth::user()->name }} --}}
+            {{ Auth::user()->customer->name }}
         </h3>
     @else
         <h3 class="text-center font-medium text-gray-600">Guest</h3>
