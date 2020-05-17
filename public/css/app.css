@@ -11182,9 +11182,30 @@ h6 {
   letter-spacing: 0.025em;
 }
 
+.uppercase-xs-wider {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
 .text-error {
   font-size: 0.75rem;
   color: #f56565;
+}
+
+.btn-red-dark-r {
+  border-radius: 9999px;
+  background-color: #924049;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.flex-between-center {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .container{

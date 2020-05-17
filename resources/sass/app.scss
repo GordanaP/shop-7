@@ -20,7 +20,10 @@ h6 { @apply text-sm; }
 .custom-badge { @apply font-semibold rounded-full text-xs px-2; }
 .uppercase-semibold { @apply uppercase font-semibold tracking-wide; }
 .uppercase-medium { @apply uppercase font-medium tracking-wide; }
+.uppercase-xs-wider { @apply uppercase text-xs tracking-wider; }
 .text-error { @apply text-xs text-red-500; }
+.btn-red-dark-r { @apply rounded-full bg-red-dark px-4 py-2; }
+.flex-between-center { @apply flex justify-between items-center; }
 
 @tailwind components;
 

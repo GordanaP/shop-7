@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\Facades\ShoppingCart;
+use Illuminate\Support\Facades\Auth;
 
 class EnsureUserHasProfile
 {
@@ -16,10 +17,10 @@ class EnsureUserHasProfile
      */
     public function handle($request, Closure $next)
     {
-        if($request->user->customer) {
+        if(Auth::user()->customer) {
             return $next($request);
         } else {
-            return redirect()->route('users.customers.create', $request->user);
+            return redirect()->route('users.customers.create', Auth::user());
         }
     }
 }

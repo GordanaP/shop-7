@@ -75,52 +75,52 @@ Route::middleware('auth')->resource('users.customers', 'User\UserCustomerControl
 /**
  * User Order
  */
-Route::middleware('profile.exists')
+Route::middleware(['auth', 'profile.exists'])
     ->get('users/{user}/orders/list',  'User\UserOrderAjaxController@index')
     ->name('users.orders.list');
-Route::middleware('profile.exists')
+Route::middleware(['auth', 'profile.exists'])
     ->resource('users.orders', 'User\UserOrderController');
 
 /**
  * User Product Rating
  */
-Route::middleware('profile.exists')
+Route::middleware(['auth', 'profile.exists'])
     ->get('users/{user}/ratings', 'User\UserRatingController@index')
     ->name('users.ratings.index');
-Route::middleware('profile.exists')
+Route::middleware(['auth', 'profile.exists'])
     ->get('users/{user}/ratings/list', 'User\UserRatingAjaxController')
     ->name('users.ratings.list');
-Route::middleware('profile.exists')
+Route::middleware(['auth', 'profile.exists'])
     ->put('users/{user}/products/{product}/ratings', 'User\UserRatingController@update')
     ->name('users.ratings.update');
 
 /**
  * User Product Favorite
  */
-Route::middleware('profile.exists')
+Route::middleware(['auth', 'profile.exists'])
     ->get('users/{user}/favorites', 'User\UserFavoriteController@index')
     ->name('users.favorites.index');
-Route::middleware('profile.exists')
+Route::middleware(['auth', 'profile.exists'])
     ->get('users/{user}/favorites/list', 'User\UserFavoriteAjaxController')
     ->name('users.favorites.list');
-Route::middleware('profile.exists')
+Route::middleware(['auth', 'profile.exists'])
     ->put('users/{user}/products/{product}/favorites', 'User\UserFavoriteController@update')
     ->name('users.favorites.update');
 
 /**
  * User Shipping
  */
-Route::middleware('profile.exists')
+Route::middleware(['auth', 'profile.exists'])
     ->put('users/{user}/shippings/{shipping?}', 'User\UserShippingController@update')
     ->name('users.shippings.update');
-Route::middleware('profile.exists')
+Route::middleware(['auth', 'profile.exists'])
     ->resource('users.shippings', 'User\UserShippingController')
     ->except('update');
 
 /**
  * Shipping
  */
-Route::middleware('profile.exists')
+Route::middleware(['auth', 'profile.exists'])
     ->resource('shippings', 'Shipping\ShippingController')
     ->only('update','destroy');
 

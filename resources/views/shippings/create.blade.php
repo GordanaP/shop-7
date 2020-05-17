@@ -15,19 +15,10 @@
 
                 <div class="col-md-9">
                     <div class="bg-white p-4 h-full">
-                        <p class="text-sm mb-4 ml-24 text-gray-600">All fields marked with * are required.</p>
-                        <div class="w-4/5 mx-auto py-4 px-12 bg-bs-gray">
-
-                            <form action="{{ route('users.shippings.store', Auth::user()) }}"
-                            method="POST">
-
-                                @csrf
-
-                                <x-shipping.form buttonTitle="Submit"/>
-
-                            </form>
-                        </div>
-
+                        <x-address.save-form
+                            :route="route('users.shippings.store', Auth::user())"
+                            buttonTitle="Submit"
+                        />
                     </div>
                 </div>
             </div>

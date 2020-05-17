@@ -19,7 +19,7 @@ text-lg tracking-tight mt-8">
 
         <x-sidebar.profile.usermenu-list-item
             :route="route('users.customers.edit', [Auth::user(), Auth::user()->customer])"
-            request="users/*/customers/edit"
+            request="users/*/customers/*/edit"
             title="My profile"
         />
 

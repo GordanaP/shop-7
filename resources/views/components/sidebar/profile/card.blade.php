@@ -1,14 +1,18 @@
-<div class="profile-card bg-white rounded-t-lg
-rounded-b-lg flex flex-col justify-between">
+<div class="profile-sidebar">
 
-    <x-sidebar.profile.avatar />
+    <div class="profile-card bg-white rounded-t-lg
+    rounded-b-lg flex flex-col justify-between">
 
-    @auth
-        <x-sidebar.profile.usermenu-list />
-    @endauth
+        <x-sidebar.profile.avatar />
 
-    @guest
-        <x-sidebar.profile.auth-links />
-    @endguest
+        @auth
+            <x-sidebar.profile.usermenu-list />
+        @endauth
+
+        @guest
+            <x-sidebar.profile.auth-links />
+        @endguest
+
+    </div>
 
 </div>
