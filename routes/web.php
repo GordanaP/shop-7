@@ -57,11 +57,6 @@ Route::get('checkout/payment/error','Checkout\CheckoutErrorController')
     ->name('checkouts.error');
 
 /**
- * Order
- */
-Route::resource('orders', 'Order\OrderController');
-
-/**
  * Payment Collected
  */
 Route::post('payment-collected', 'Payment\PaymentCollectedController');
@@ -73,52 +68,61 @@ Route::get('invoice/{order}', 'Invoice\InvoiceController')
     ->name('invoices.pdf');
 
 /**
+ * User Customer
+ */
+Route::middleware('auth')->resource('users.customers', 'User\UserCustomerController');
+
+/**
  * User Order
  */
-Route::get('users/{user}/orders/list',  'User\UserOrderAjaxController@index')
+Route::middleware('profile.exists')
+    ->get('users/{user}/orders/list',  'User\UserOrderAjaxController@index')
     ->name('users.orders.list');
-Route::middleware('auth')->resource('users.orders', 'User\UserOrderController');
+Route::middleware('profile.exists')
+    ->resource('users.orders', 'User\UserOrderController');
 
 /**
  * User Product Rating
  */
-Route::middleware('auth')->get('users/{user}/ratings',
-    'User\UserRatingController@index')
+Route::middleware('profile.exists')
+    ->get('users/{user}/ratings', 'User\UserRatingController@index')
     ->name('users.ratings.index');
-Route::middleware('auth')->get('users/{user}/ratings/list',
-    'User\UserRatingAjaxController')
+Route::middleware('profile.exists')
+    ->get('users/{user}/ratings/list', 'User\UserRatingAjaxController')
     ->name('users.ratings.list');
-Route::middleware('auth')->put('users/{user}/products/{product}/ratings',
-    'User\UserRatingController@update')
+Route::middleware('profile.exists')
+    ->put('users/{user}/products/{product}/ratings', 'User\UserRatingController@update')
     ->name('users.ratings.update');
 
 /**
  * User Product Favorite
  */
-Route::middleware('auth')->get('users/{user}/favorites',
-    'User\UserFavoriteController@index')
+Route::middleware('profile.exists')
+    ->get('users/{user}/favorites', 'User\UserFavoriteController@index')
     ->name('users.favorites.index');
-Route::middleware('auth')->get('users/{user}/favorites/list',
-    'User\UserFavoriteAjaxController')
+Route::middleware('profile.exists')
+    ->get('users/{user}/favorites/list', 'User\UserFavoriteAjaxController')
     ->name('users.favorites.list');
-Route::middleware('auth')->put('users/{user}/products/{product}/favorites',
-    'User\UserFavoriteController@update')
+Route::middleware('profile.exists')
+    ->put('users/{user}/products/{product}/favorites', 'User\UserFavoriteController@update')
     ->name('users.favorites.update');
 
 /**
  * User Shipping
  */
-Route::middleware('auth')->put('users/{user}/shippings/{shipping?}',
-    'User\UserShippingController@update')
+Route::middleware('profile.exists')
+    ->put('users/{user}/shippings/{shipping?}', 'User\UserShippingController@update')
     ->name('users.shippings.update');
-Route::middleware('auth')->resource('users.shippings', 'User\UserShippingController')
+Route::middleware('profile.exists')
+    ->resource('users.shippings', 'User\UserShippingController')
     ->except('update');
 
 /**
  * Shipping
  */
-Route::resource('shippings', 'Shipping\ShippingController')->only('update','destroy');
-
+Route::middleware('profile.exists')
+    ->resource('shippings', 'Shipping\ShippingController')
+    ->only('update','destroy');
 
 
 /**

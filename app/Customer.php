@@ -11,6 +11,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Customer extends Model
 {
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'street_address', 'postal_code', 'city', 'country',
+        'phone', 'email'
+    ];
+
+    /**
      * The accessors to append to the model's array form.
      *
      * @var array

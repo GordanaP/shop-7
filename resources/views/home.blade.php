@@ -1,15 +1,13 @@
 <x-layouts.app>
-    @section('links')
-        <style>
-            span { font-size:15px; }
-        </style>
-    @endsection
+
+    <x-main.page-header title="Home" />
 
     <div class="mx-4 p-4 mt-8 bg-custom-gray"">
         <div class="row mb-4">
             <x-home.card
                 title="My Profile"
                 icon="fa-user-alt"
+                type="profile"
             />
 
             <x-home.card

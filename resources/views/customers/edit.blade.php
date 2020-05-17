@@ -1,6 +1,6 @@
 <x-layouts.app>
 
-    <x-main.page-header title="New shipping address">
+    <x-main.page-header title="edit profile">
         <x-alert.success />
     </x-main.page-header>
 
@@ -18,12 +18,17 @@
                         <p class="text-sm mb-4 ml-24 text-gray-600">All fields marked with * are required.</p>
                         <div class="w-4/5 mx-auto py-4 px-12 bg-bs-gray">
 
-                            <form action="{{ route('users.shippings.store', Auth::user()) }}"
+                            <form action="{{ route('users.customers.update',
+                            [Auth::user(), Auth::user()->customer]) }}"
                             method="POST">
 
                                 @csrf
+                                @method('PUT')
 
-                                <x-shipping.form buttonTitle="Submit"/>
+                                <x-shipping.form
+                                    :address="$customer"
+                                    buttonTitle="Save changes"
+                                />
 
                             </form>
                         </div>

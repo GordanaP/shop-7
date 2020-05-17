@@ -8,8 +8,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Shipping extends Model
 {
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = [
-        'name', 'street_address', 'postal_code', 'city', 'country', 'phone', 'is_default'
+        'name', 'street_address', 'postal_code', 'city', 'country',
+        'phone', 'is_default'
     ];
 
     /**

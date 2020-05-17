@@ -34,6 +34,6 @@ class Deliverable
         $registered_user = $this->gateway->retrieveRegisteredUser($pi);
         $data = $this->gateway->retrieveShippingData($pi);
 
-        $data ? optional($registered_user)->addNewShipping($data) : '';
+        $data ? optional($registered_user)->addShippingAddress($data) : '';
     }
 }

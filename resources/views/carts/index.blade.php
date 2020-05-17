@@ -1,4 +1,3 @@
-
 <x-layouts.app>
     <x-main.page-header title="My shopping cart">
         <x-alert.message />

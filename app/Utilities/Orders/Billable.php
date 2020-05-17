@@ -32,11 +32,8 @@ class Billable
     public function handle($pi)
     {
         $registered_user = $this->gateway->retrieveRegisteredUser($pi);
-        $billing_data = $this->gateway->retrieveBillingData($pi);
+        $data = $this->gateway->retrieveBillingData($pi);
 
-        if($registered_user && ! $registered_user->customer) {
-
-            Customer::new($billing_data, $registered_user);
-        }
+        $data ? optional($registered_user)->addBillableAddress($data) : '';
     }
 }

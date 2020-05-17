@@ -2,6 +2,7 @@
 
 namespace App\Traits\User;
 
+use App\Customer;
 use App\Shipping;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -12,11 +13,23 @@ trait HasAddress
      *
      * @param array $data
      */
-    public function addNewShipping($data): Shipping
+    public function addShippingAddress($data): Shipping
     {
         $shipping = new Shipping($data);
 
         return $this->shippings()->save($shipping);
+    }
+
+    /**
+     * Create a new customer profile.
+     *
+     * @param array $data
+     */
+    public function addBillableAddress($data): Customer
+    {
+        $profile = new Customer($data);
+
+        return $this->customer()->save($profile);
     }
 
     /**

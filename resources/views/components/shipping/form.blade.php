@@ -79,38 +79,44 @@
         </div>
     </div>
 
-    {{-- <div class="col-md-6">
-        <div class="form-group">
-            <label for="email">Email<x-misc.asterisks /></label>
-            <input type="text" name="email" id="email"
-            class="form-control"
-            placeholder="example@domain.com"
-            value="{{ old('email') }}" />
+    @if (Route::currentRouteName() == 'users.customers.create'
+    || Route::currentRouteName() == 'users.customers.edit')
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="email">Email<x-misc.asterisks /></label>
+                <input type="text" name="email" id="email"
+                class="form-control"
+                placeholder="example@domain.com"
+                value="{{ old('email', optional($address ?? null)->email) }}" />
 
-            <x-error field="email" />
+                <x-error field="email" />
+            </div>
         </div>
-    </div> --}}
+    @endif
 </div>
 
+@if (Route::currentRouteName() == 'users.shippings.create'
+|| Route::currentRouteName() == 'users.shippings.edit')
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">Set as default address:</label>
+    </div>
 
-<div class="form-check form-check-inline">
-  <label class="form-check-label">Set as default address:</label>
-</div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="is_default" value="1"
+        {{ checked(1, old('is_default', optional($address ?? null)->is_default)) }}
+      >
+      <label class="form-check-label">Yes</label>
+    </div>
 
-<div class="form-check form-check-inline">
-  <input class="form-check-input" type="radio" name="is_default" value="1"
-    {{ checked(1, old('is_default', optional($address ?? null)->is_default)) }}
-  >
-  <label class="form-check-label">Yes</label>
-</div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="is_default" value="0"
+        {{ checked(0, old('is_default', optional($address ?? null)->is_default)) }}
+      >
+      <label class="form-check-label">No</label>
+    </div>
 
-<div class="form-check form-check-inline">
-  <input class="form-check-input" type="radio" name="is_default" value="0"
-    {{ checked(0, old('is_default', optional($address ?? null)->is_default)) }}
-  >
-  <label class="form-check-label">No</label>
-</div>
-<x-error field="is_default" />
+    <x-error field="is_default" />
+@endif
 
 <div class="form-group mt-2">
     <button type="submit"

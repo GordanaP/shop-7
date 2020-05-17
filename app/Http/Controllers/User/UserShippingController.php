@@ -38,7 +38,7 @@ class UserShippingController extends Controller
      */
     public function store(AddressRequest $request, User $user)
     {
-        $user->addNewShipping($request->validated());
+        $user->addShippingAddress($request->validated());
 
         return back()->with('success', 'The new shipping address has been added to your address book');
     }

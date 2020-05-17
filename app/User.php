@@ -46,9 +46,7 @@ class User extends Authenticatable
      */
     public function customer(): HasOne
     {
-        return $this->hasOne(Customer::class)->withDefault(function ($customer) {
-            $customer->name = 'Customer';
-        });
+        return $this->hasOne(Customer::class);
     }
 
     /**
