@@ -14,7 +14,7 @@
         <div class="float-right py-2 mr-2 text-gray-500">
             <form action="{{ ! Auth::user()->isBillingAddress($address)
                 ? route('shippings.destroy', $address)
-                : '' }}"
+                : route('users.customers.destroy', [Auth::user(), $address]) }}"
                 method="POST"
                 class="form-inline"
             >
@@ -29,7 +29,7 @@
 
             <a href="{{ ! Auth::user()->isBillingAddress($address)
                 ? route('users.shippings.edit', [Auth::user(), $address])
-                : ''}}"
+                : route('users.customers.edit', [Auth::user(), $address])}}"
                 class="hover:text-red-dark hover:no-underline"
             >
                 <i class="far fa-edit" aria-hidden="hidden"></i>

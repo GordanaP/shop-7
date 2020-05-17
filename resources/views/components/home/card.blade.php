@@ -16,7 +16,8 @@
                 </a>
             @else
                 <a href="{{ route('users.customers.edit', [Auth::user(), Auth::user()->customer]) }}"
-                class="px-2 py-1 border border-text-petroleum rounded-none mt-2">
+                class="btn px-8 py-1 bg-red-dark hover:bg-red-dark-h text-lg
+                text-white rounded-none">
                     Edit
                 </a>
             @endif

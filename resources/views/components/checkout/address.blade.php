@@ -77,7 +77,7 @@
                     @foreach (App::make("country-list")->all as $name => $code)
                         <option value="{{ $code }}"
                             @if ($type == 'billing')
-                                {{ select($code, strtolower($customer->country)) }}
+                                {{ selected($code, strtolower($customer->country)) }}
                             @endif
                         >
                             {{ $name }}

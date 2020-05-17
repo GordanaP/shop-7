@@ -7,6 +7,7 @@ use App\Customer;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\AddressRequest;
 use Illuminate\Http\RedirectResponse;
 
@@ -38,9 +39,10 @@ class UserCustomerController extends Controller
      */
     public function store(AddressRequest $request, User $user): RedirectResponse
     {
-        $user->addBillableAddress($request->validated());
+        $customer = $user->addBillableAddress($request->all());
 
-        return back()->with('success', 'The profile has been created');
+        return redirect()->route('users.customers.edit', [Auth::user(), $customer])
+            ->with('success', 'The profile has been created');
     }
 
     /**
@@ -85,8 +87,12 @@ class UserCustomerController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(User $user, Customer $customer)
     {
-        //
+        $customer->delete();
+
+        return redirect()->route('home')
+            ->with('success', 'The profile has been deleted.');
+
     }
 }

@@ -81,7 +81,7 @@ class UserShippingController extends Controller
      *
      * @param  \App\User  $user
      */
-    public function destroy(User $user): RedirectResponse
+    public function destroy(User $user, Shipping $shipping): RedirectResponse
     {
         //
     }
