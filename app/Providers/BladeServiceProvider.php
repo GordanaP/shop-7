@@ -28,5 +28,14 @@ class BladeServiceProvider extends ServiceProvider
         Blade::if('authNotRated', function ($product) {
             return Auth::check() && ! $product->isRatedByUser(Auth::user());
         });
+
+        Blade::if('hasDefault', function () {
+            return Auth::check() && Auth::user()->findDefaultShipping()->isNotEmpty();
+        });
+
+        Blade::if('hasNoDefault', function(){
+            return (Auth::check() && Auth::user()->findDefaultShipping()->isEmpty()) || Auth::guest();
+        });
+
     }
 }

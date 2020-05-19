@@ -8,7 +8,7 @@
                 <input type="text" class="form-control-plaintext text-gray-800"
                 id="{{ $type }}Name"
                 placeholder="Name"
-                value="{{ $type == 'billing' ? $customer->name : '' }}">
+                value="{{ optional($address)->name }}">
 
                 <p class="{{ $type }}-name invalid-feedback text-error"></p>
             </div>
@@ -24,7 +24,7 @@
                 <input type="text" class="form-control-plaintext text-gray-800"
                 id="{{ $type }}Line1"
                 placeholder="Street address"
-                value="{{ $type == 'billing' ? $customer->street_address : '' }}">
+                value="{{ optional($address)->street_address }}">
 
                 <p class="{{ $type }}-address-line1 invalid-feedback text-error"></p>
             </div>
@@ -41,7 +41,7 @@
                     <input type="text" class="form-control-plaintext text-gray-800"
                     id="{{ $type }}City"
                     placeholder="City"
-                    value="{{ $type == 'billing' ? $customer->city : '' }}">
+                    value="{{ optional($address)->city ?? null }}">
 
                     <p class="{{ $type }}-address-city invalid-feedback text-error"></p>
                 </div>
@@ -56,7 +56,7 @@
                     <input type="text" class="form-control-plaintext text-gray-800"
                     id="{{ $type }}Postal_code"
                     placeholder="Postal code"
-                    value="{{ $type == 'billing' ? $customer->postal_code : '' }}">
+                    value="{{ optional($address)->postal_code ?? null }}">
 
                     <p class="{{ $type }}-address-postal_code invalid-feedback text-error"></p>
                 </div>
@@ -76,9 +76,7 @@
                     <option value="">Select a country</option>
                     @foreach (App::make("country-list")->all as $name => $code)
                         <option value="{{ $code }}"
-                            @if ($type == 'billing')
-                                {{ selected($code, strtolower($customer->country)) }}
-                            @endif
+                            {{ selected($code, strtolower(optional($address)->country)) }}
                         >
                             {{ $name }}
                         </option>
@@ -99,7 +97,7 @@
                 <input type="text" class="form-control-plaintext text-gray-800"
                 id="{{ $type }}Phone"
                 placeholder="Phone"
-                value="{{ $type == 'billing' ? $customer->phone : '' }}">
+                value="{{ optional($address)->phone ?? null }}">
 
                 <p class="{{ $type }}-phone invalid-feedback text-error"></p>
             </div>
@@ -116,7 +114,7 @@
                     <input type="text" class="form-control-plaintext text-gray-800"
                     id="{{ $type }}Email"
                     placeholder="example@domain.com"
-                    value="{{ $type == 'billing' ? $customer->email : '' }}">
+                    value="{{ optional($address)->email ?? null }}">
 
                     <p class="{{ $type }}-email invalid-feedback text-error"></p>
                 </div>

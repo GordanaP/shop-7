@@ -2,7 +2,6 @@
 
 namespace App\Utilities\Orders;
 
-use App\Shipping;
 use App\Utilities\Payments\StripeGateway;
 
 class Deliverable

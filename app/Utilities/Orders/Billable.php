@@ -2,7 +2,6 @@
 
 namespace App\Utilities\Orders;
 
-use App\Customer;
 use App\Utilities\Payments\StripeGateway;
 
 class Billable

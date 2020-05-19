@@ -233,7 +233,6 @@ return [
         'ShoppingCart' => App\Facades\ShoppingCart::class,
         'QueryManager' => App\Facades\QueryManager::class,
         'Present' => App\Facades\Present::class,
-        'Address' => App\Facades\Address::class,
 
     ],
 
