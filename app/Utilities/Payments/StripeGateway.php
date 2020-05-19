@@ -67,7 +67,7 @@ class StripeGateway
     {
         $this->stripe_secret_key = Stripe::setApiKey(config('services.stripe.secret'));
         $this->currency = config('services.stripe.currency');
-        $this->user_id = Auth::id() ?? null;
+        $this->user = Auth::user() ?? null;
         $this->subtotal = ShoppingCart::subtotalInCents();
         $this->coupon_id = ShoppingCart::coupon()['id'] ?? null;
         $this->discount = ShoppingCart::coupon()['discount'] ?? null;
@@ -89,7 +89,8 @@ class StripeGateway
             'currency' => $this->currency,
             'metadata' => [
                 'order_number' => random_int(10000, 99000),
-                'user_id' => $this->user_id,
+                'user_id' => optional($this->user)->id,
+                'shipping_id' => optional($this->user)->shippingId(),
                 'subtotal' => $this->subtotal,
                 'tax_amount' => $this->amount['tax'],
                 'shipping_costs' => $this->amount['shipping_costs'],
@@ -125,6 +126,7 @@ class StripeGateway
             'stripe_payment_id' => $payment['id'],
             'total_in_cents' => $payment['amount'],
             'user_id' => $metadata['user_id'] ?? null,
+            'shipping_id' => $metadata['shipping_id'] ?? null,
             'subtotal_in_cents' => $metadata['subtotal'],
             'tax_amount_in_cents' => $metadata['tax_amount'],
             'shipping_costs_in_cents' => $metadata['shipping_costs'],

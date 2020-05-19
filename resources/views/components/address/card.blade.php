@@ -33,14 +33,29 @@
         :address="$address"
     />
 
-    @if (! Auth::user()->isDefaultShipping($address))
+    @if (Request::get('select') == 1)
         <div class="text-center">
-            <x-address.default-form
-                :address="$address"
-                :updateShipping="route('users.shippings.update', [Auth::user(),
-                    ! Auth::user()->isBillingAddress($address) ? $address : ''])"
-            />
+            <form action="{{ route('shippings.store', ! Auth::user()->isBillingAddress($address) ? $address : '') }}" method="POST">
+
+                @csrf
+
+                <button class="btn btn-sm px-4 rounded-full bg-petroleum
+                hover:bg-petroleum-h text-white text-base">
+                    Select
+                </button>
+
+            </form>
         </div>
+    @else
+        @if (! Auth::user()->isDefaultShipping($address))
+            <div class="text-center">
+                <x-address.default-form
+                    :address="$address"
+                    :updateShipping="route('users.shippings.update', [Auth::user(),
+                        ! Auth::user()->isBillingAddress($address) ? $address : ''])"
+                />
+            </div>
+        @endif
     @endif
 
 </div>

@@ -25,7 +25,7 @@ function getById(id)
  * @param  string address
  * @return JS\Object
  */
-function getAddress(address)
+function guestAddress(address)
 {
     return {
         name : $('#'+address + 'Name').val(),
@@ -40,6 +40,27 @@ function getAddress(address)
         email: $('#'+address + 'Email').val()
     }
 }
+
+function authAddress(address)
+{
+    var authAddress =  {
+        name : address.name,
+        address : {
+        line1 : address.street_address,
+        line2 : ' ',
+        city : address.city,
+        postal_code : address.postal_code,
+        country : address.country,
+         },
+        phone: address.phone,
+        email: address.email ?? null
+    }
+
+
+    return authAddress;
+}
+
+
 
 /**
  * Toggle hidden field visibility.

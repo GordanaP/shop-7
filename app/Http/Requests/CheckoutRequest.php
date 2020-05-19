@@ -25,28 +25,28 @@ class CheckoutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'billing.name' => 'required',
-            'billing.email' => 'required|email',
-            'billing.phone' => 'required',
-            'billing.address.line1' => 'required',
-            'billing.address.city' => 'required',
-            'billing.address.postal_code' => 'required',
+            'billing.name' => 'sometimes|required',
+            'billing.email' => 'sometimes|required|email',
+            'billing.phone' => 'sometimes|required',
+            'billing.address.line1' => 'sometimes|required',
+            'billing.address.city' => 'sometimes|required',
+            'billing.address.postal_code' => 'sometimes|required',
             'billing.address.country' => [
-                'required',
+                'sometimes','required',
                 Rule::in(App::make('country-list')->values())
             ],
             'displayShipping' => [
-                'required',
+                'sometimes','required',
                 Rule::in(['on', 'off'])
             ],
-            'shipping.name' => 'required_if:displayShipping,on',
-            'shipping.phone' => 'required_if:displayShipping,on',
-            'shipping.address.line1' => 'required_if:displayShipping,on',
-            'shipping.address.city' => 'required_if:displayShipping,on',
-            'shipping.address.postal_code' => 'required_if:displayShipping,on',
-            'shipping.address.country' => 'required_if:displayShipping,on',
+            'shipping.name' => 'sometimes|required_if:displayShipping,on',
+            'shipping.phone' => 'sometimes|required_if:displayShipping,on',
+            'shipping.address.line1' => 'sometimes|required_if:displayShipping,on',
+            'shipping.address.city' => 'sometimes|required_if:displayShipping,on',
+            'shipping.address.postal_code' => 'sometimes|required_if:displayShipping,on',
+            'shipping.address.country' => 'sometimes|required_if:displayShipping,on',
             'shipping.address.country' => [
-                'required_if:displayShipping,on',
+                'sometimes', 'required_if:displayShipping,on',
                 ($this->shipping['address']['country'] !== null && $this->displayShipping == 'on')
                 ? Rule::in(App::make('country-list')->values()) : ''
             ],

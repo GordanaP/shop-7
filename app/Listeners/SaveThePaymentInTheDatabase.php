@@ -2,8 +2,11 @@
 
 namespace App\Listeners;
 
+use App\Facades\ShoppingCart;
 use App\Events\PaymentCollected;
 use App\Utilities\Orders\Payable;
+use App\Utilities\Orders\Orderable;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -14,16 +17,16 @@ class SaveThePaymentInTheDatabase
      *
      * @var \App\Utilities\Orders\Payable
      */
-    public $payable;
+    public $orderable;
 
     /**
      * Create the event listener.
      *
      * @param \App\Utilities\Orders\Payable $payable
      */
-    public function __construct(Payable $payable)
+    public function __construct(Orderable $orderable)
     {
-        $this->payable = $payable;
+        $this->orderable = $orderable;
     }
 
     /**
@@ -33,6 +36,6 @@ class SaveThePaymentInTheDatabase
      */
     public function handle(PaymentCollected $event)
     {
-        $this->payable->handle($event->payment_intent_id);
+        $this->orderable->handle($event->payment_intent_id);
     }
 }

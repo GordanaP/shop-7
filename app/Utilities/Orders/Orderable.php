@@ -4,6 +4,7 @@ namespace App\Utilities\Orders;
 
 use App\Order;
 use App\Facades\ShoppingCart;
+use Illuminate\Support\Facades\Session;
 use App\Utilities\Payments\StripeGateway;
 
 class Orderable
@@ -39,13 +40,19 @@ class Orderable
      * @param  string $pi
      * @param  \App\Shipping|null $shipping
      */
-    public function handle($pi, $shipping = null)
+    public function handle($pi)
     {
-        $order_data = $this->gateway->retrieveOrderData($pi);
+        $data = $this->gateway->retrieveOrderData($pi);
 
-        $order = Order::place($order_data, $shipping ?? null);
+        $order = Order::place($data);
 
         $this->attachItemsToOrder($this->items, $order);
+
+        ShoppingCart::empty();
+
+        Session::forget('shipping_id');
+
+        Session::forget('is_billing');
     }
 
     /**

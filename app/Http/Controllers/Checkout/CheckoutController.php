@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Checkout;
 
 use Illuminate\View\View;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CheckoutRequest;
 use Stripe\Exception\ApiErrorException;
 use App\Utilities\Payments\StripeGateway;
@@ -24,7 +26,7 @@ class CheckoutController extends Controller
      *
      * @param  \App\Http\Requests\CheckoutRequest  $request
      */
-    public function store(CheckoutRequest $request, StripeGateway $gateway): Response
+    public function store(CheckoutRequest $request, StripeGateway $gateway)
     {
         try {
             $billing = $request->validated()['billing'];

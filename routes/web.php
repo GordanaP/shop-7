@@ -121,6 +121,9 @@ Route::middleware(['auth', 'profile.exists'])
  * Shipping
  */
 Route::middleware(['auth', 'profile.exists'])
+    ->post('/shippings/{shipping?}', 'Shipping\ShippingController@store')
+    ->name('shippings.store');
+Route::middleware(['auth', 'profile.exists'])
     ->resource('shippings', 'Shipping\ShippingController')
     ->only('update','destroy');
 

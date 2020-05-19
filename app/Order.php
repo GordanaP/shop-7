@@ -74,12 +74,11 @@ class Order extends Model
      *
      * @param  Stripe\PaymentIntent $data
      */
-    public static function place($data, $shipping = null): Order
+    public static function place($data): Order
     {
         $order = new static;
-
         $order->user_id = $data['user_id'];
-        $order->shipping_id = optional($shipping)->id ?? null;
+        $order->shipping_id = $data['shipping_id'];
         $order->order_number = $data['order_number'];
         $order->stripe_payment_id = $data['stripe_payment_id'];
         $order->total_in_cents = $data['total_in_cents'];

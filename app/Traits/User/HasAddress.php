@@ -4,10 +4,36 @@ namespace App\Traits\User;
 
 use App\Customer;
 use App\Shipping;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\Collection;
 
 trait HasAddress
 {
+    public function shippingId()
+    {
+        $address = $this->shippingOnCheckout();
+
+        return ! $this->isBillingAddress($address) ? $address->id : null;
+    }
+
+    public function shippingOnCheckout()
+    {
+        if(Session::has('shipping_id')) {
+            $address = Shipping::find(Session::get('shipping_id'));
+        } elseif (Session::has('is_billing')) {
+            $address = $this->customer;
+        } else {
+            $address = $this->getDefaultShipping();
+        }
+
+        return $address;
+    }
+
+    public function getDefaultShipping()
+    {
+        return $this->findDefaultShipping()->first() ?? $this->customer;
+    }
+
     /**
      * Create a new shipping address.
      *
