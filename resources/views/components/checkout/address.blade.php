@@ -26,7 +26,8 @@
                 placeholder="Street address"
                 value="{{ optional($address)->street_address }}">
 
-                <p class="{{ $type }}-address-line1 invalid-feedback text-error"></p>
+                {{-- <p class="{{ $type }}-address-line1 invalid-feedback text-error"></p> --}}
+                <p class="{{ $type }}-line1 invalid-feedback text-error"></p>
             </div>
         </div>
     </div>
@@ -43,7 +44,8 @@
                     placeholder="City"
                     value="{{ optional($address)->city ?? null }}">
 
-                    <p class="{{ $type }}-address-city invalid-feedback text-error"></p>
+                    {{-- <p class="{{ $type }}-address-city invalid-feedback text-error"></p> --}}
+                    <p class="{{ $type }}-city invalid-feedback text-error"></p>
                 </div>
             </div>
         </div>
@@ -58,7 +60,8 @@
                     placeholder="Postal code"
                     value="{{ optional($address)->postal_code ?? null }}">
 
-                    <p class="{{ $type }}-address-postal_code invalid-feedback text-error"></p>
+                    {{-- <p class="{{ $type }}-address-postal_code invalid-feedback text-error"></p> --}}
+                    <p class="{{ $type }}-postal_code invalid-feedback text-error"></p>
                 </div>
             </div>
         </div>
@@ -83,7 +86,8 @@
                     @endforeach
                 </select>
 
-                <p class="{{ $type }}-address-country invalid-feedback text-error"></p>
+                {{-- <p class="{{ $type }}-address-country invalid-feedback text-error"></p> --}}
+                <p class="{{ $type }}-country invalid-feedback text-error"></p>
             </div>
         </div>
     </div>

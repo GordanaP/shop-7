@@ -20,49 +20,6 @@ function getById(id)
 }
 
 /**
- * Get the customer's address.
- *
- * @param  string address
- * @return JS\Object
- */
-function guestAddress(address)
-{
-    return {
-        name : $('#'+address + 'Name').val(),
-        address : {
-            line1 : $('#'+address + 'Line1').val(),
-            line2 : ' ',
-            city : $('#'+address + 'City').val(),
-            postal_code : $('#'+address + 'Postal_code').val(),
-            country : $('#'+address + 'Country').val(),
-        },
-        phone: $('#'+address + 'Phone').val(),
-        email: $('#'+address + 'Email').val()
-    }
-}
-
-function authAddress(address)
-{
-    var authAddress =  {
-        name : address.name,
-        address : {
-        line1 : address.street_address,
-        line2 : ' ',
-        city : address.city,
-        postal_code : address.postal_code,
-        country : address.country,
-         },
-        phone: address.phone,
-        email: address.email ?? null
-    }
-
-
-    return authAddress;
-}
-
-
-
-/**
  * Toggle hidden field visibility.
  *
  * @param  string field

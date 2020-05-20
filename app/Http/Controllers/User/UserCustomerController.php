@@ -39,7 +39,7 @@ class UserCustomerController extends Controller
      */
     public function store(AddressRequest $request, User $user): RedirectResponse
     {
-        $customer = $user->addBillableAddress($request->all());
+        $customer = $user->addBillingAddress($request->all());
 
         return redirect()->route('users.customers.edit', [Auth::user(), $customer])
             ->with('success', 'The profile has been created');

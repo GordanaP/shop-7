@@ -35,7 +35,8 @@
 
     @if (Request::get('select') == 1)
         <div class="text-center">
-            <form action="{{ route('shippings.store', ! Auth::user()->isBillingAddress($address) ? $address : '') }}" method="POST">
+            <form action="{{ route('shippings.store', Auth::user()->selectedAddress($address)) }}"
+                method="POST">
 
                 @csrf
 
@@ -52,7 +53,7 @@
                 <x-address.default-form
                     :address="$address"
                     :updateShipping="route('users.shippings.update', [Auth::user(),
-                        ! Auth::user()->isBillingAddress($address) ? $address : ''])"
+                        Auth::user()->selectedAddress($address)])"
                 />
             </div>
         @endif

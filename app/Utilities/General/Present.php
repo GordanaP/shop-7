@@ -3,6 +3,7 @@
 namespace App\Utilities\General;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
 
 class Present
 {
@@ -45,7 +46,12 @@ class Present
         .' '. optional($product->currentPromotion())->code;
     }
 
-    public function rating($rating)
+    /**
+     * The product rating.
+     *
+     * @param  int $rating
+     */
+    public function rating($rating): string
     {
         return $rating.'/5';
     }

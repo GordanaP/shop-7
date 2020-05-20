@@ -7,4 +7,5 @@
     <p>{{ $address->country }}</p>
     <p>{{ $address->phone }}</p>
     <p>{{ $address->email }}</p>
+
 </div>

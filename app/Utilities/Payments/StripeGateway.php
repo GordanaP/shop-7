@@ -90,7 +90,7 @@ class StripeGateway
             'metadata' => [
                 'order_number' => random_int(10000, 99000),
                 'user_id' => optional($this->user)->id,
-                'shipping_id' => optional($this->user)->shippingId(),
+                'shipping_id' => optional($this->user)->selectedShippingId(),
                 'subtotal' => $this->subtotal,
                 'tax_amount' => $this->amount['tax'],
                 'shipping_costs' => $this->amount['shipping_costs'],

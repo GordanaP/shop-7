@@ -4,22 +4,40 @@ namespace App\Http\Controllers\Shipping;
 
 use App\Shipping;
 use Illuminate\Http\Request;
+use App\Utilities\Orders\Address;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddressRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Session;
 
 class ShippingController extends Controller
 {
-    public function store(Request $request, Shipping $shipping = null)
+    /**
+     * The address.
+     *
+     * @var App\Utilities\Orders\Address
+     */
+    private $address;
+
+    /**
+     * Make a new class instance.
+     *
+     * @param App\Utilities\Orders\Address $address
+     */
+    public function __construct(Address $address)
     {
-        // return $shipping;
-        if($shipping) {
-            \Session::forget('is_billing');
-            \Session::put('shipping_id', $shipping->id);
-        } else {
-            \Session::forget('shipping_id');
-            \Session::put('is_billing', 1);
-        }
+        $this->address = $address;
+
+    }
+
+    /**
+     * Store the address into the session.
+     *
+     * @param  App\Shipping|null $shipping
+     */
+    public function store(Shipping $shipping = null): RedirectResponse
+    {
+        //
 
         return redirect()->route('checkouts.index');
     }
@@ -30,7 +48,7 @@ class ShippingController extends Controller
      * @param  \App\Http\Requests\AddressRequest  $request
      * @param  \App\Shipping  $shipping
      */
-    public function update(AddressRequest $request, Shipping $shipping)
+    public function update(AddressRequest $request, Shipping $shipping): RedirectResponse
     {
         $shipping->update($request->validated());
 

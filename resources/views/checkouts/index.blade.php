@@ -66,10 +66,6 @@
             var billingPostalCodeField = $('#billingPostal_code');
             updateCardBillingPostalCodeField(card, billingPostalCodeField);
 
-            var auth = @json(Auth::user());
-            var authBilling = @json(Auth::check() ? Auth::user()->customer : '');
-            var authShipping = @json(Auth::check() ? Auth::user()->shippingOnCheckout() : '');
-
             var displayShipping = $("#displayShipping");
             var hiddenField = $('#shippingAddress');
             displayShipping.switchStatus();
@@ -89,20 +85,13 @@
                 var submitMethod = $(this).attr("method");
                 var submitButton = $(this).find("button").attr("disabled", true);
 
-                var billingAddress = auth ? authAddress(authBilling) : guestAddress(billing);
-                var shippingAddress = auth ? authAddress(authShipping) : guestAddress(shipping);
-                delete shippingAddress.email;
-
                 $.ajax({
                     url: submitUrl,
                     type: submitMethod,
                     data: {
-                        billing: billingAddress,
+                        billing: getAddress(billing),
                         displayShipping: displayShipping.val(),
-                        shipping: shippingAddress,
-                    },
-                    success : function(response) {
-                        console.log(response)
+                        shipping: getAddress(shipping),
                     },
                     error : function(response) {
                         var errors = response.responseJSON.errors;

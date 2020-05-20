@@ -20,7 +20,7 @@
                         class="h-full"
                         :link="route('users.shippings.index',
                             [Auth::user()] + ['select' => true])"
-                        :address="Auth::user()->shippingOnCheckout()"
+                        :address="Auth::user()->selectedShipping()"
                     />
                 </div>
             </div>

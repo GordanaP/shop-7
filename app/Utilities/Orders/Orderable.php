@@ -38,21 +38,13 @@ class Orderable
      * Handle the payment id and shipping data.
      *
      * @param  string $pi
-     * @param  \App\Shipping|null $shipping
      */
     public function handle($pi)
     {
-        $data = $this->gateway->retrieveOrderData($pi);
-
-        $order = Order::place($data);
+        $order = Order::place($this->data($pi));
 
         $this->attachItemsToOrder($this->items, $order);
 
-        ShoppingCart::empty();
-
-        Session::forget('shipping_id');
-
-        Session::forget('is_billing');
     }
 
     /**
@@ -71,5 +63,24 @@ class Orderable
                 'promotion_id' => $item->promotion_id
             ]);
         });
+    }
+
+    /**
+     * Retrieve the order data.
+     *
+     * @param  string $pi [description]
+     */
+    private function data($pi): array
+    {
+        return $this->gateway->retrieveOrderData($pi);
+    }
+
+    /**
+     * Empty the sessions.
+     */
+    private function emptySessions()
+    {
+
+        Session::forget(['cart', 'shipping_id', 'is_billing']);
     }
 }
