@@ -25,30 +25,53 @@ class CheckoutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'billing.name' => 'required',
-            'billing.email' => 'required|email',
-            'billing.phone' => 'required',
-            'billing.address.line1' => 'required',
-            'billing.address.city' => 'required',
-            'billing.address.postal_code' => 'required',
-            'billing.address.country' => [
-                'required',
+            'billing.city' => [
+                'sometimes', 'required'
+            ],
+            'billing.country' => [
+                'sometimes', 'required',
                 Rule::in(App::make('country-list')->values())
             ],
+            'billing.street_address' => [
+                'sometimes', 'required'
+            ],
+            'billing.email' => [
+                'sometimes', 'required', 'email'
+            ],
+            'billing.name' => [
+                'sometimes', 'required'
+            ],
+            'billing.phone' => [
+                'sometimes', 'required'
+            ],
+            'billing.postal_code' => [
+                'sometimes', 'required'
+            ],
             'displayShipping' => [
-                'required',
+                'sometimes', 'required',
                 Rule::in(['on', 'off'])
             ],
-            'shipping.name' => 'required_if:displayShipping,on',
-            'shipping.phone' => 'required_if:displayShipping,on',
-            'shipping.address.line1' => 'required_if:displayShipping,on',
-            'shipping.address.city' => 'required_if:displayShipping,on',
-            'shipping.address.postal_code' => 'required_if:displayShipping,on',
-            'shipping.address.country' => 'required_if:displayShipping,on',
-            'shipping.address.country' => [
-                'required_if:displayShipping,on',
-                ($this->shipping['address']['country'] !== null && $this->displayShipping == 'on')
-                ? Rule::in(App::make('country-list')->values()) : ''
+            'shipping.city' => [
+                'sometimes', 'required_if:displayShipping,on'
+            ],
+            'shipping.country' => [
+                'sometimes', 'required_if:displayShipping,on',
+                $this->displayShipping == 'on' ? Rule::in(App::make('country-list')->values()) : ''
+            ],
+            'shipping.street_address' => [
+                'sometimes', 'required_if:displayShipping,on'
+            ],
+            'shipping.email' => [
+                'sometimes', 'required_if:displayShipping,on', 'email'
+            ],
+            'shipping.name' => [
+                'sometimes', 'required_if:displayShipping,on'
+            ],
+            'shipping.phone' => [
+                'sometimes', 'required_if:displayShipping,on'
+            ],
+            'shipping.postal_code' => [
+                'sometimes', 'required_if:displayShipping,on'
             ],
         ];
     }
@@ -66,20 +89,20 @@ class CheckoutRequest extends FormRequest
             'billing.email.required'  => $required_field,
             'billing.email.email'  => $invalid_field,
             'billing.phone.required'  => $required_field,
-            'billing.address.line1.required'  => $required_field,
-            'billing.address.city.required'  => $required_field,
-            'billing.address.postal_code.required'  => $required_field,
-            'billing.address.country.required'  => $required_field,
-            'billing.address.country.in'  => $invalid_field,
+            'billing.street_address.required'  => $required_field,
+            'billing.city.required'  => $required_field,
+            'billing.postal_code.required'  => $required_field,
+            'billing.country.required'  => $required_field,
+            'billing.country.in'  => $invalid_field,
             'displayShipping.required'  => $required_field,
             'displayShipping.in'  => $invalid_field,
             'shipping.name.required_if'  => $required_field,
             'shipping.phone.required_if'  => $required_field,
-            'shipping.address.line1.required_if'  => $required_field,
-            'shipping.address.city.required_if'  => $required_field,
-            'shipping.address.postal_code.required_if'  => $required_field,
-            'shipping.address.country.required_if'  => $required_field,
-            'shipping.address.country.in'  => $invalid_field,
+            'shipping.street_address.required_if'  => $required_field,
+            'shipping.city.required_if'  => $required_field,
+            'shipping.postal_code.required_if'  => $required_field,
+            'shipping.country.required_if'  => $required_field,
+            'shipping.country.in'  => $invalid_field,
         ];
     }
 }

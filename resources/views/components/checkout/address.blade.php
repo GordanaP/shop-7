@@ -10,23 +10,23 @@
                 placeholder="Name"
                 value="{{ optional($address)->name }}">
 
-                <p class="{{ $type }}-name invalid-feedback text-error"></p>
+                <x-errors.client :type="$type" field="name" />
             </div>
         </div>
     </div>
 
     <div class="form-group mb-0">
         <div class="row px-4">
-            <label for="{{ $type }}Line1" class="col-sm-2 col-form-label text-gray-600">
+            <label for="{{ $type }}StreetAddress" class="col-sm-2 col-form-label text-gray-600">
                 <span class="lg:float-right">Address</span>
             </label>
             <div class="col-sm-10 mb-0">
                 <input type="text" class="form-control-plaintext text-gray-800"
-                id="{{ $type }}Line1"
+                id="{{ $type }}StreetAddress"
                 placeholder="Street address"
                 value="{{ optional($address)->street_address }}">
 
-                <p class="{{ $type }}-address-line1 invalid-feedback text-error"></p>
+                <x-errors.client :type="$type" field="street_address" />
             </div>
         </div>
     </div>
@@ -43,22 +43,22 @@
                     placeholder="City"
                     value="{{ optional($address)->city ?? null }}">
 
-                    <p class="{{ $type }}-address-city invalid-feedback text-error"></p>
+                    <x-errors.client :type="$type" field="city" />
                 </div>
             </div>
         </div>
         <div class="form-group col-md-6 mb-0">
             <div class="row px-4">
-                <label for="{{ $type }}Postal_code" class="col-sm-2 col-form-label text-gray-600">
+                <label for="{{ $type }}PostalCode" class="col-sm-2 col-form-label text-gray-600">
                     <span class="lg:float-right">ZIP</span>
                 </label>
                 <div class="col-sm-10 mb-0">
                     <input type="text" class="form-control-plaintext text-gray-800"
-                    id="{{ $type }}Postal_code"
+                    id="{{ $type }}PostalCode"
                     placeholder="Postal code"
                     value="{{ optional($address)->postal_code ?? null }}">
 
-                    <p class="{{ $type }}-address-postal_code invalid-feedback text-error"></p>
+                    <x-errors.client :type="$type" field="postal_code" />
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@
                     @endforeach
                 </select>
 
-                <p class="{{ $type }}-address-country invalid-feedback text-error"></p>
+                <x-errors.client :type="$type" field="country" />
             </div>
         </div>
     </div>
@@ -99,7 +99,7 @@
                 placeholder="Phone"
                 value="{{ optional($address)->phone ?? null }}">
 
-                <p class="{{ $type }}-phone invalid-feedback text-error"></p>
+                <x-errors.client :type="$type" field="phone" />
             </div>
         </div>
     </div>
@@ -116,7 +116,7 @@
                     placeholder="example@domain.com"
                     value="{{ optional($address)->email ?? null }}">
 
-                    <p class="{{ $type }}-email invalid-feedback text-error"></p>
+                    <x-errors.client :type="$type" field="email" />
                 </div>
             </div>
         </div>

@@ -60,7 +60,7 @@ trait HasAddress
      */
     public function manageDefaultShipping($shipping = null)
     {
-        $old_default = $this->findDefaultShipping()->first();
+        $old_default = $this->definedDefault();
 
         optional($old_default)->removeDefault();
 
@@ -73,17 +73,38 @@ trait HasAddress
      * @param mixed $address
      * @return bool
      */
-    public function isDefaultShipping($address)
+    public function isAssignedDefault($address)
     {
-        return $this->findDefaultShipping()->isEmpty()
+        return $this->hasNoDefinedDefault()
             ? $address->is_billing : $address->is_default;
     }
+
+    // public function isDefaultShipping($address)
+    // {
+    //     return $this->hasNoDefinedDefault()
+    //         ? $address->is_billing : $address->is_default;
+    // }
 
     /**
      * Find the default shipping.
      */
-    public function findDefaultShipping(): Collection
+    // public function findDefaultShipping(): Collection
+    // {
+    //     return $this->shippings->where('is_default', 1);
+    // }
+
+    public function hasNoDefinedDefault()
     {
-        return $this->shippings->where('is_default', 1);
+        return $this->shippings->where('is_default', 1)->isEmpty();
+    }
+
+    public function hasDefinedDefault()
+    {
+        return $this->shippings->where('is_default', 1)->isNotEmpty();
+    }
+
+    public function definedDefault()
+    {
+        return $this->shippings->where('is_default', 1)->first();
     }
 }

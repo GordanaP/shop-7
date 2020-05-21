@@ -1,11 +1,10 @@
+<p class="text-center instruction px-2 absolute">Complete your details below</p>
+
 <div class="border border-gray-400 px-4 pb-4 pt-8">
     <form id="paymentForm" action="{{ $route }}" method="POST">
-
         @csrf
 
-        <p class="uppercase-semibold text-gray-700 mb-2">
-            Billing & Shipping Information
-        </p>
+        <p class="uppercase-semibold text-gray-700 mb-2">Billing & Shipping Information</p>
 
         <div id="billingAddress" class="mb-4">
             <x-checkout.address
@@ -13,34 +12,19 @@
                 :address="optional(Auth::user())->customer"
             />
 
-            <div class="mt-2">
-                <div class="form-check form-check-inline mt-2">
-                    <input class="form-check-input" type="checkbox"
-                        id="displayShipping"
-                        value="@hasDefault on @else off @endhasDefault"
-                        onclick="toggleVisibility('#shippingAddress')"
-                        @hasDefault checked @endhasDefault
-                    >
-                    <label class="form-check-label" for="displayShipping">
-                        Different shipping address
-                    </label>
-                </div>
-            </div>
+            <x-checkout.toggle-btn />
 
-            <p class="displayShipping invalid-feedback text-error"></p>
         </div>
 
         <div id="shippingAddress" class="@hasNoDefault hidden @endhasNoDefault mb-6">
             <x-checkout.address
                 type="shipping"
-                :address="Auth::check() ? Auth::user()->findDefaultShipping()->first() : ''"
+                :address="optional(Auth::user())->definedDefault()"
             />
         </div>
 
         <div id="paymentInfo">
-            <p class="uppercase-semibold text-gray-700 mb-2">
-                Payment Information
-            </p>
+            <p class="uppercase-semibold text-gray-700 mb-2">Payment Information</p>
 
             <x-checkout.stripe-elem
                 :total="Present::price(ShoppingCart::totalInCents())"

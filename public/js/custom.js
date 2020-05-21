@@ -20,28 +20,6 @@ function getById(id)
 }
 
 /**
- * Get the customer's address.
- *
- * @param  string address
- * @return JS\Object
- */
-function getAddress(address)
-{
-    return {
-        name : $('#'+address + 'Name').val(),
-        address : {
-            line1 : $('#'+address + 'Line1').val(),
-            line2 : ' ',
-            city : $('#'+address + 'City').val(),
-            postal_code : $('#'+address + 'Postal_code').val(),
-            country : $('#'+address + 'Country').val(),
-        },
-        phone: $('#'+address + 'Phone').val(),
-        email: $('#'+address + 'Email').val()
-    }
-}
-
-/**
  * Toggle hidden field visibility.
  *
  * @param  string field

@@ -1,3 +1,8 @@
+<div class="bg-white p-4 border-b border-b-gray-100 text-2xl"
+style="margin-top: 3px">
+    <p class="my-2">Order Summary</p>
+</div>
+
 <!-- Order items -->
 <div class="bg-white px-4">
     <x-checkout.order-items :items="$items"/>

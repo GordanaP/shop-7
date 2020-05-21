@@ -1,0 +1,1 @@
+<p class="{{ $type ?? null }}{{ isset($type) ? '-' : '' }}{{ $field }} invalid-feedback text-error"></p>

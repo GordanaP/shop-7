@@ -14,24 +14,17 @@
     <div class="row">
         <div class="col-md-7">
             <div class="lg:w-3/4 mx-auto mt-20">
-                <p class="text-center instruction px-2 absolute">
-                    Complete your details below
-                </p>
 
                 <x-checkout.payment-form
                     :route="route('checkouts.store')"
                 />
-            </div>
 
-            <div class="alert alert-danger text-center hidden mx-auto
-            lg:w-3/4 mt-2"></div>
+                <x-alert.client />
+
+            </div>
         </div>
 
         <div class="col-md-5 lg:pr-0">
-            <div class="bg-white p-4 border-b border-b-gray-100 text-2xl"
-            style="margin-top: 3px">
-                <p class="my-2">Order Summary</p>
-            </div>
             <x-checkout.order-summary
                 :items="ShoppingCart::content()"
                 :subtotal="Present::price(ShoppingCart::subtotalInCents()+ShoppingCart::getDiscountInCents())"
@@ -76,24 +69,27 @@
 
             var form = $('#paymentForm');
 
-            form.on('submit', function(ev) {
-                ev.preventDefault();
+            form.on('submit', function(e) {
+                e.preventDefault();
 
-                var billingAddress = 'billing';
-                var shippingAddress = 'shipping';
                 var submitUrl = $(this).attr("action");
                 var submitMethod = $(this).attr("method");
                 var submitButton = $(this).find("button").attr("disabled", true);
+                var billing = 'billing';
+                var shipping = 'shipping';
 
                 $.ajax({
                     url: submitUrl,
                     type: submitMethod,
                     data: {
-                        billing: getAddress(billingAddress),
+                        billing: getAddress(billing),
                         displayShipping: displayShipping.val(),
-                        shipping: getAddress(shippingAddress),
+                        shipping: getAddress(shipping),
                     },
-                    error : function(response) {
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(response) {
                         var errors = response.responseJSON.errors;
                         if(errors) {
                             displayErrors(errors);

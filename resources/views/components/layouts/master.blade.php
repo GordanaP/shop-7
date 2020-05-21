@@ -39,6 +39,7 @@
     <script src="{{ asset('js/custom.js') }}"></script>
     <script src="{{ asset('js/form_helpers.js') }}"></script>
     <script src="{{ asset('js/modal_helpers.js') }}"></script>
+    <script src="{{ asset('js/checkout_helpers.js') }}"></script>
     <script src="{{ asset('js/stripe_helpers.js') }}"></script>
 
     <script>
